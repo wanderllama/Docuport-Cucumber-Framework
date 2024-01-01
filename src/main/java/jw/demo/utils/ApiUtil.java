@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
 public class ApiUtil {
 
     private static final Logger LOG = LogManager.getLogger(ApiUtil.class);

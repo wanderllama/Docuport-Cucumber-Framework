@@ -14,6 +14,9 @@ import static java.lang.String.format;
 @SuppressWarnings("CallToPrintStackTrace")
 public class LogException {
 
+    public LogException() {
+        throw new IllegalStateException("Class is not designed for object creation");
+    }
 
     public static void errorMessage(Logger log, Exception e) {
         ArrayList<String> lines = new ArrayList<>();

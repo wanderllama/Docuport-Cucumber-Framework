@@ -1,6 +1,5 @@
 package jw.demo.managers;
 
-
 import jw.demo.config.ConfigReader;
 import jw.demo.config.ValidationDataReader;
 
@@ -23,6 +22,7 @@ public class FileReaderManager {
         return configReader;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public ValidationDataReader getValidationReader() {
         return validationReader;
     }

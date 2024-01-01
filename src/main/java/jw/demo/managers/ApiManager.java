@@ -18,16 +18,16 @@ import org.hamcrest.Matchers;
 
 public class ApiManager {
 
-    private static final int OK_STATUS_CODE = 200;
-
-    private static final Logger LOG = LogManager.getLogger(ApiUtil.class);
-    private static final String DEBUG = System.getProperty("debug");
-    private static final int NO_RESPONSE_STATUS_CODE = 204;
     public ApiManager() {
         throw new IllegalStateException("Class is not designed for object creation");
     }
+
+    private static final Logger LOG = LogManager.getLogger(ApiUtil.class);
     private static ThreadLocal<RequestSpecification> requestSpec = new ThreadLocal<>();
     private static ThreadLocal<ResponseSpecification> responseSpec = new ThreadLocal<>();
+    private static final String DEBUG = System.getProperty("debug");
+    private static final int OK_STATUS_CODE = 200;
+    private static final int NO_RESPONSE_STATUS_CODE = 204;
 
     private static void initRequestSpec() {
         if (StringUtils.equals(DEBUG, "true")) {

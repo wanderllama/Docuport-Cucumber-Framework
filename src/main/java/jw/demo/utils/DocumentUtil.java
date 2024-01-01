@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DocumentUtil {
 
+    private static final Logger LOG = LogManager.getLogger(DocumentUtil.class);
     public static final String FILE_NAME = "fileName";
 //    private static final int TIME_OUT_SECONDS = WaitTime.EXTRA_LONG.amountOfSeconds();
     public static final String FILE_SIZE = "fileSize";
@@ -34,7 +35,6 @@ public class DocumentUtil {
     // TODO remove examples
     public static final String FILE_PATH_ONE = "file1";
     public static final String FILE_PATH_TWO = "path/to/file2";
-    private static final Logger LOG = LogManager.getLogger(DocumentUtil.class);
     private String filePath;
 
     public static String getFullPath(String pathName) {
