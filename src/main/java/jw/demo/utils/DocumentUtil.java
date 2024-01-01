@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import jw.demo.enums.WaitTime;
+import jw.demo.enums.Wait;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.awaitility.Awaitility;
@@ -46,13 +46,13 @@ public class DocumentUtil {
     }
 
     public static void uploadFile(URL dataFileURL, By uploadBtn, WebDriver driver) {
-        Awaitility.await().dontCatchUncaughtExceptions().atMost(WaitTime.EXTRA_LONG.amountOfSeconds(), TimeUnit.SECONDS);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WaitTime.EXTRA_LONG.amountOfSeconds()));
+        Awaitility.await().dontCatchUncaughtExceptions().atMost(Wait.EXTRA_LONG.amountOfSeconds(), TimeUnit.SECONDS);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Wait.EXTRA_LONG.amountOfSeconds()));
         wait.until(ExpectedConditions.presenceOfElementLocated(uploadBtn));
         File file = new File(dataFileURL.getFile());
 
         WebElement upload = driver.findElement(uploadBtn);
-        Awaitility.await().dontCatchUncaughtExceptions().atMost(WaitTime.EXTRA_LONG.amountOfSeconds(), TimeUnit.SECONDS);
+        Awaitility.await().dontCatchUncaughtExceptions().atMost(Wait.EXTRA_LONG.amountOfSeconds(), TimeUnit.SECONDS);
         LOG.info("absolute path - {}", file.getAbsolutePath());
         upload.sendKeys(file.getAbsolutePath());
     }

@@ -8,7 +8,7 @@ import io.restassured.response.ResponseBodyExtractionOptions;
 import io.restassured.specification.RequestSpecification;
 import jw.demo.constants.Constants;
 import jw.demo.enums.ApiEndpoint;
-import jw.demo.enums.WaitTime;
+import jw.demo.enums.Wait;
 import jw.demo.managers.ApiManager;
 import jw.demo.managers.FileReaderManager;
 import jw.demo.models.Login;
@@ -149,9 +149,9 @@ public class ApiUtil {
         }
         if (Boolean.TRUE.equals(needNewToken)) {
             try {
-                Awaitility.await().atMost(WaitTime.EXTRA_LONG.waitTime()).with()
-                        .pollInterval(WaitTime.thisAmount.ofMillis(2000))
-                        .pollDelay(WaitTime.thisAmount.waitTime()).untilTrue(tryLoginAndSetToken(userName));
+                Awaitility.await().atMost(Wait.EXTRA_LONG.waitTime()).with()
+                        .pollInterval(Wait.forThisAmount.ofMillis(2000))
+                        .pollDelay(Wait.forThisAmount.waitTime()).untilTrue(tryLoginAndSetToken(userName));
             } catch (ConditionTimeoutException e) {
                 LOG.debug(e);
                 loginAndSetToken(userName);

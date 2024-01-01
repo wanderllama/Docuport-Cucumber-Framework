@@ -1,6 +1,6 @@
 package jw.demo.utils;
 
-import jw.demo.enums.WaitTime;
+import jw.demo.enums.Wait;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -49,13 +49,13 @@ public class LogException {
         log.error(prettyError("\nError: " + customMsg + format("\nLocator Used: %s", element), lines));
     }
 
-    public static void errorMessage(Logger log, Exception e, WaitTime given, By element) {
+    public static void errorMessage(Logger log, Exception e, Wait given, By element) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
         log.error(prettyError(format("\nError: Thrown after %s seconds\nLocator Used: %s", given.amountOfSeconds(), element), lines));
     }
 
-    public static void errorMessage(Logger log, String customMsg, Exception e, WaitTime given, By element) {
+    public static void errorMessage(Logger log, String customMsg, Exception e, Wait given, By element) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
         log.error(prettyError("\nError: " + customMsg + format("\nthrown after %s seconds\nLocator Used: %s", given.amountOfSeconds(), element), lines));

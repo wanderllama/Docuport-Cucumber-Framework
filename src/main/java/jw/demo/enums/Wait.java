@@ -2,18 +2,18 @@ package jw.demo.enums;
 
 import java.time.Duration;
 
-public enum WaitTime {
+public enum Wait {
 
     EXTRA_SHORT(2500),
     SHORT(5000),
     REGULAR(10000),
     LONG(15000),
     EXTRA_LONG(30000),
-    thisAmount(0);
+    forThisAmount(0);
 
     private final Integer millis;
 
-    WaitTime(int milliseconds) {
+    Wait(int milliseconds) {
         millis = milliseconds;
     }
 
@@ -27,6 +27,10 @@ public enum WaitTime {
 
     public Duration ofMillis(int millis) {
         return Duration.ofMillis(millis);
+    }
+
+    public Duration ofSeconds(int seconds) {
+        return Duration.ofSeconds(seconds);
     }
 
 }
