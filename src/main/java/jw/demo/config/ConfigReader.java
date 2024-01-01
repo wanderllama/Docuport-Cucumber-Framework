@@ -121,9 +121,9 @@ public class ConfigReader {
     }
 
     public String getTrustStore() {
-        String trustStore = getProperty("truststore");
+        String trustStore = getProperty("trustStore");
         if (trustStore == null)
-            throw new RuntimeException("truststore has not be assigned a value in driver.properties");
+            throw new RuntimeException("trustStore has not be assigned a value in driver.properties");
         return trustStore;
     }
 
@@ -183,4 +183,13 @@ public class ConfigReader {
             throw new RuntimeException("driver.noProxy.list has not be assigned a value in driver.properties");
         return driverNoProxyList;
     }
+
+    public String getDriverResolution() {
+        String driverResolution = getProperty("driver.resolution");
+        if (driverResolution == null)
+            throw new RuntimeException("driver.resolution has not be assigned a value in driver.properties");
+        return driverResolution;
+    }
+
+
 }

@@ -11,6 +11,7 @@ import jw.demo.enums.ApiEndpoint;
 import jw.demo.enums.WaitTime;
 import jw.demo.managers.ApiManager;
 import jw.demo.managers.FileReaderManager;
+import jw.demo.models.Login;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.awaitility.Awaitility;
@@ -20,16 +21,19 @@ import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class ApiUtil {
 
-    public static final String TOKENS = "tokens";
     private static final Logger LOG = LogManager.getLogger(ApiUtil.class);
     private static final String baseUrl = FileReaderManager.getInstance().getConfigReader().getBaseUrl();
     private static final String envPasswd = FileReaderManager.getInstance().getConfigReader().getEnvPasswd();
+    public static final String TOKENS = "tokens";
     // TODO update to reflect the frequency the token needs to be refreshed in milliseconds
-    private static final long TOKEN_REFRESH_MS = 900_000;
+    public static final long TOKEN_REFRESH_MS = 900_000;
+
+    public static final String BEARER = "Bearer ";
 
     /**
      * <p>
@@ -140,7 +144,7 @@ public class ApiUtil {
             TestContext
                     .logToScenario(String.format(
                             "tokenTimeStamp: [%s], timeDiffsMs: [%s], needNewToken for [%s]: [%b]",
-                            tokenTimeStamp.toLocalDateTime().atZone(ZoneId.of(Constants.EASTERN_TIME_ZONE_ID)).toString(),
+                            tokenTimeStamp.toLocalDateTime().atZone(ZoneId.of(Constants.EASTERN_TIME_ZONE_ID)),
                             timeDiffInMillis, userName, needNewToken
                     ));
         }
@@ -159,10 +163,20 @@ public class ApiUtil {
         return TestContext.getScenarioCtx().getToken();
     }
 
+    private static AtomicBoolean tryLoginAndSetToken(String userName) {
+        try {
+            loginAndSetToken(userName);
+            return new AtomicBoolean(Boolean.TRUE);
+        } catch (AssertionError e) {
+            LogException.errorMessage(LOG, String.format("POST login has failed for [%s]", userName), e);
+        }
+        throw new AssertionError();
+    }
+
     // TODO update method
     private static void loginAndSetToken(String userName) {
         TestContext.logToScenario(String.format("POST login started for [%s]", userName));
-        var loginObject = Login.builder().username(userName).password(System.getenv(envPasswd)).build();
+        var loginObject = Login.builder().username(userName).passwd(System.getenv(envPasswd)).build();
         var tokenString = run(ApiEndpoint.AUTH, loginObject).as(JsonObject.class).get(Constants.TOKEN).getAsString();
         TestContext.setToken(userName, tokenString);
         TestContext.logToScenario(String.format("POST login completed for [%s]", userName));

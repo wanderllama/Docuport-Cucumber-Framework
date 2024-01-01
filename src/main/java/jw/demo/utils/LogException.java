@@ -1,6 +1,7 @@
 package jw.demo.utils;
 
 import jw.demo.enums.WaitTime;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
@@ -17,6 +18,13 @@ public class LogException {
     public static void errorMessage(Logger log, Exception e) {
         ArrayList<String> lines = new ArrayList<>();
         log.error(prettyError("\nError: ", lines));
+        e.printStackTrace();
+    }
+
+    @SuppressWarnings("rawtypes")
+    public static void errorMessage(Class caller, Exception e) {
+        ArrayList<String> lines = new ArrayList<>();
+        LogManager.getLogger(caller).error(prettyError("\nError: ", lines));
         e.printStackTrace();
     }
 

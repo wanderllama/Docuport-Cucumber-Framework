@@ -15,13 +15,13 @@ import org.testng.asserts.SoftAssert;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
 
 public final class TestContext {
 
@@ -77,7 +77,6 @@ public final class TestContext {
         scenarioCtx.set(new ScenarioContext());
         getScenarioCtx().setScenarioData(getInitScenarioData(getScenario().getName()));
         getScenarioCtx().setOrganizations(new ArrayList<>());
-        ;
         getScenarioCtx().setSoftAssert(new SoftAssert());
         if (SCENARIO_NAME_MATCHER.matcher(currentScenario.getName()).matches()) {
             // TODO check if you need to handle parameterization in scenario name
@@ -106,9 +105,16 @@ public final class TestContext {
         return globalData;
     }
 
-    public static void setToken(String token) {
+    public static synchronized JsonObject setToken(String userName, String token) {
+        var currentToken = new JsonObject();
+        currentToken.addProperty(Constants.TOKEN, token);
+        currentToken.addProperty(Constants.AUTHORIZATION, ApiUtil.BEARER + token);
+        currentToken.addProperty(Constants.TIMESTAMP, new Timestamp(System.currentTimeMillis()).toString());
+        getData().getAsJsonObject(ApiUtil.TOKENS).add(userName, currentToken);
+
         getScenarioCtx().setToken(token);
-        getScenarioCtx().setAuthorization("Bearer " + getScenarioCtx().getToken());
+        getScenarioCtx().setAuthorization(ApiUtil.BEARER + getScenarioCtx().getToken());
+        return currentToken;
     }
 
     public static JsonObject getInitScenarioData(String scenarioName) {
@@ -143,5 +149,12 @@ public final class TestContext {
         } catch (NullPointerException e) {
             LogException.errorMessage(LOG, "Can not get scenario with TestContext.getScenario() in the logToscenario() lambda, so logging here\n" + log, e);
         }
+    }
+
+    public static JsonObject switchToken(String userName) {
+        JsonObject tokenForUserName = getData().getAsJsonObject(ApiUtil.TOKENS).getAsJsonObject(userName).deepCopy();
+        getScenarioCtx().setToken(tokenForUserName.get(Constants.TOKEN).getAsString());
+        getScenarioCtx().setAuthorization(ApiUtil.BEARER + getScenarioCtx().getToken());
+        return tokenForUserName;
     }
 }

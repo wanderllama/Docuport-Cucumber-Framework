@@ -70,7 +70,6 @@ public class DocumentUtil {
         }
     }
 
-    @SuppressWarnings("CallToPrintStackTrace")
     public static JsonObject getJsonObjectFromFile(String filePath) throws IOException {
         LOG.info("Attempting to load Json Object from file {}", filePath);
         JsonObject jsonObj = new JsonObject();
@@ -87,7 +86,6 @@ public class DocumentUtil {
         return jsonObj;
     }
 
-    @SuppressWarnings("CallToPrintStackTrace")
     public static JsonArray getJsonArrayFromFile(String filePath) {
         JsonArray jsonArray = new JsonArray();
         URL dataFileURL = Thread.currentThread().getContextClassLoader().getResource(filePath);
