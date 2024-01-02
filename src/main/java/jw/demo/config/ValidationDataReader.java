@@ -31,7 +31,7 @@ public class ValidationDataReader {
                 Thread.currentThread().getContextClassLoader());
         LOG.info("Loading Validation Data");
         try {
-            Resource[] resources = resolver.getResources("classpath:validations/**/*.json");
+            Resource[] resources = resolver.getResources("classpath:src/test/resources/validations/*.json");
             for (Resource resource : resources) {
                 InputStream input = resource.getInputStream();
                 Map<String, JsonNode> jsonMap = new ObjectMapper().readValue(input,

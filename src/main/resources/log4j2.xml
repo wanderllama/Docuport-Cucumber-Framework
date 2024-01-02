@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+    <Properties>
+        <Property name="LOG_DIR">target/logs</Property>
+        <Property name="ARCHIVE">${LOG_DIR}/archive</Property>
+        <Property name="PATTERN">%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} %highlight{%-5p}{FATAL-blinking
+            bright red, ERROR=red, WARN=yellow, INFO=green, DEBUG=blue, TRACE=bright black} %style{[%4.4t]
+            %style{%-33.33c{1.}}{cyan} : %m%n%xEx}
+        </Property>
+    </Properties>
+    <Appenders>
+        <RandomAccessFile name="appLog" fileName="target/logs/app.log">
+            <PatternLayout pattern="${PATTERN}"/>
+        </RandomAccessFile>
+        <RandomAccessFile name="uiConsoleLog" fileName="target/logs/uiConsole.log">
+            <PatternLayout pattern="${PATTERN}"/>
+        </RandomAccessFile>
+        <Async name="async">
+            <AppenderRef ref="appLog"/>
+            <!--        </Async>-->
+            <!--        don't know if I need to async tags here or just one with both appenderRef inside????-->
+            <!--        <Async name="async">-->
+            <AppenderRef ref="uiConsoleLog"/>
+        </Async>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="gov.fema.gmm.utils.UIConsoleLogger" additivity="false" level="info">
+            <AppenderRef ref="uiConsoleLog"/>
+            <AppenderRef ref="ConsoleAppender"/>
+        </Logger>
+        <Root level="info" includeLocation="true">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="appLog"/>
+        </Root>
+    </Loggers>
+</Configuration>

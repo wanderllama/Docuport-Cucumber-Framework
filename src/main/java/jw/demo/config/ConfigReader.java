@@ -6,34 +6,46 @@ import jw.demo.utils.LogException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigReader {
 
     private static final Logger LOG = LogManager.getLogger(ConfigReader.class);
-    private static final String DRIVER_PROPERTY_FILE_PATH = "src/test/resources/driver.properties";
+    private static final String DRIVER_PROPERTY_FILE_PATH = "/Users/james/Downloads/Industry-Cucumber-Framework/src/test/resources/driver.properties";
     private static Properties properties;
+    public static boolean isReady;
+    private static FileInputStream file;
 
-    public String getProperty(String key) {
+    public synchronized String getProperty(String key) {
         if (properties == null) {
+            isReady = false;
             loadProperties();
         }
         return properties.getProperty(key);
     }
 
     @SuppressWarnings("CallToPrintStackTrace")
-    private void loadProperties() {
-        LOG.info("Loading Configuration Properties");
-        try {
-            InputStream driverProp = Thread.currentThread().getContextClassLoader().getResourceAsStream(DRIVER_PROPERTY_FILE_PATH);
-            properties = new Properties();
-            properties.load(driverProp);
-        } catch (IOException e) {
-            LogException.errorMessage(LOG, "Loading driver.properties file failed in ConfigReader class", e);
-            e.printStackTrace();
+    private synchronized void loadProperties() {
+        if (!isReady) {
+            LOG.info("Loading Configuration Properties");
+            try {
+                properties = new Properties();
+                file = new FileInputStream(DRIVER_PROPERTY_FILE_PATH);
+                properties.load(file);
+//                file = new FileInputStream("src/main/resources/config/config.properties");
+//                InputStream driverProp = Thread.currentThread().getContextClassLoader().getResourceAsStream(DRIVER_PROPERTY_FILE_PATH);
+//                System.out.println((driverProp == null));
+//                properties = new Properties();
+//                properties.load(driverProp);
+                isReady = true;
+            } catch (IOException e) {
+                LogException.errorMessage(LOG, "Loading driver.properties file failed in ConfigReader class", e);
+                e.printStackTrace();
+            }
         }
+        LOG.info("ready: " + isReady);
     }
 
     public String getBaseUrl() {
@@ -110,14 +122,14 @@ public class ConfigReader {
     }
 
     public WebDriverRunLocation getWebDriverRunLocation() {
-        String webDriverRunLocationProp = getProperty("driver.remote.url");
+        String webDriverRunLocationProp = getProperty("driver.location");
         if (webDriverRunLocationProp == null)
-            throw new RuntimeException("env.passwd has not been assigned a value in driver.properties");
+            throw new RuntimeException("driver.location has not been assigned a value in driver.properties");
         else if (webDriverRunLocationProp.trim().equalsIgnoreCase("remote"))
             return WebDriverRunLocation.REMOTE;
         else if (webDriverRunLocationProp.trim().equalsIgnoreCase("local"))
             return WebDriverRunLocation.LOCAL;
-        throw new RuntimeException("env.passwd has invalid value in driver.properties");
+        throw new RuntimeException("driver.location has invalid value in driver.properties");
     }
 
     public String getTrustStore() {
@@ -190,6 +202,4 @@ public class ConfigReader {
             throw new RuntimeException("driver.resolution has not be assigned a value in driver.properties");
         return driverResolution;
     }
-
-
 }

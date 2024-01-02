@@ -28,6 +28,8 @@ public final class TestContext {
     private static final Logger LOG = LogManager.getLogger(TestContext.class);
     private static final Pattern SCENARIO_NAME_MATCHER = Pattern.compile(".*<-?\\d{4}>.*");
     @Getter
+    private static int[] scenarioOutcome;
+    @Getter
     private static String baseUrl;
     @Getter
     private static String envPass;
@@ -43,7 +45,7 @@ public final class TestContext {
 
     public static void initGlobal() {
         //noinspection ResultOfMethodCallIgnored
-        FileReaderManager.getInstance().getValidationReader();
+//        FileReaderManager.getInstance().getValidationReader();
         if (Boolean.TRUE.equals(FileReaderManager.getInstance().getConfigReader().getTrustStoreEnabled())) {
             System.setProperty("javax.net.ssl.trustStore",
                     FileReaderManager.getInstance().getConfigReader().getTrustStore());
@@ -60,12 +62,13 @@ public final class TestContext {
             datafile = FileReaderManager.getInstance().getConfigReader().getDataFile();
         LOG.info("Loading {} as input data file", datafile);
         try {
-            globalData = DocumentUtil.getJsonObjectFromFile("data/" + datafile);
+            globalData = DocumentUtil.getJsonObjectFromFile("data" + datafile);
         } catch (IOException e) {
             LogException.errorMessage(LOG, e);
         }
         LOG.debug("Test data scenario count [{}]", globalData.size());
         globalData.add(ApiUtil.TOKENS, new JsonObject());
+        scenarioOutcome = new int[3];
     }
 
     public static Scenario getScenario() {

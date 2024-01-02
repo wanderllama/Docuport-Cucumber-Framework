@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@SuppressWarnings("CommentedOutCode")
 @Getter
 @Component
 public class AppConfig {
@@ -132,24 +133,25 @@ public class AppConfig {
     public void setTrustStore(String trustStore) {
         if (StringUtils.isNotBlank(trustStore))
             AppConfig.trustStore = trustStore;
-        else
-            throw new RuntimeException("truststore is not a valid property in driver.properties file");
+//        else
+//            throw new RuntimeException("truststore is not a valid property in driver.properties file");
     }
 
     @Value("${truststore.password:#{null}}")
     public void setTrustStorePasswd(String trustStorePasswd) {
         if (StringUtils.isNotBlank(trustStorePasswd))
             AppConfig.trustStorePasswd = trustStorePasswd;
-        else
-            throw new RuntimeException("trustStore.password is not a valid property in driver.properties file");
+//        else
+//            throw new RuntimeException("trustStore.password is not a valid property in driver.properties file");
     }
 
     @Value("${truststore.isEnabled:#{null}}")
     public void setTrustStoreEnabled(String trustStoreEnabled) {
         if (StringUtils.isNotBlank(trustStoreEnabled))
             AppConfig.trustStoreEnabled = trustStoreEnabled;
-        else
-            throw new RuntimeException("truststore.isEnabled is not a valid property in driver.properties file");
+        AppConfig.trustStorePasswd = "false";
+//        else
+//            throw new RuntimeException("truststore.isEnabled is not a valid property in driver.properties file");
     }
 
     @Value("${extent.config:#{null}}")
@@ -181,23 +183,23 @@ public class AppConfig {
     public void setDriverProxyUrl(String driverProxyUrl) {
         if (StringUtils.isNotBlank(driverProxyUrl))
             AppConfig.driverProxyUrl = driverProxyUrl;
-        else
-            throw new RuntimeException("driver.proxy.url is not a valid property in driver.properties file");
+//        else
+//            throw new RuntimeException("driver.proxy.url is not a valid property in driver.properties file");
     }
 
     @Value("${driver.noProxy.url:#{null}}")
     public void setDriverNoProxyUrl(String driverNoProxyUrl) {
         if (StringUtils.isNotBlank(driverNoProxyUrl))
             AppConfig.driverNoProxyUrl = driverNoProxyUrl;
-        else
-            throw new RuntimeException("driver.noProxy.url is not a valid property in driver.properties file");
+//        else
+//            throw new RuntimeException("driver.noProxy.url is not a valid property in driver.properties file");
     }
 
     @Value("${driver.noProxy.list:#{null}}")
     public void setDriverNoProxyList(String driverNoProxyList) {
         if (StringUtils.isNotBlank(driverNoProxyList))
             AppConfig.driverNoProxyList = driverNoProxyList;
-        else
-            throw new RuntimeException("driver.noProxy.list is not a valid property in driver.properties file");
+//        else
+//            throw new RuntimeException("driver.noProxy.list is not a valid property in driver.properties file");
     }
 }

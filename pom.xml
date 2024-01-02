@@ -166,6 +166,8 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefire.v}</version>
                     <configuration>
+                        <parallel>methods</parallel>
+                        <threadCount>4</threadCount>
                         <testFailureIgnore>false</testFailureIgnore>
                         <properties>
                             <property>
@@ -185,33 +187,31 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+                <plugin>
+                    <groupId>net.masterthought</groupId>
+                    <artifactId>cucumber-reporting</artifactId>
+                    <version>5.7.7</version>
+                    <executions>
+                        <execution>
+                            <id>execution</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <configuration>
+                                <projectName>${project.artifactId} ${project.version}</projectName>
+                                <skip>false</skip>
+                                <outputDirectory>${project.build.directory}/cucumber-report-html</outputDirectory>
+                                <inputDirectory>${project.build.directory}/cucumber.json</inputDirectory>
+                                <jsonFiles>
+                                    <param>*.json</param>
+                                </jsonFiles>
+                                <checkBuildResult>false</checkBuildResult>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>net.masterthought</groupId>
-                <artifactId>cucumber-reporting</artifactId>
-                <version>5.7.7</version>
-                <executions>
-                    <execution>
-                        <id>execution</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <projectName>${project.artifactId} ${project.version}</projectName>
-                            <skip>false</skip>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <inputDirectory>${project.build.directory}</inputDirectory>
-                            <jsonFiles>
-                                <param>*.json</param>
-                            </jsonFiles>
-                            <checkBuildResult>false</checkBuildResult>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 </project>

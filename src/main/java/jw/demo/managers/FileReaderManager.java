@@ -1,7 +1,6 @@
 package jw.demo.managers;
 
 import jw.demo.config.ConfigReader;
-import jw.demo.config.ValidationDataReader;
 
 /**
  * Manages Resource File Readers
@@ -12,7 +11,7 @@ public class FileReaderManager {
 
     private static FileReaderManager fileReaderManager = new FileReaderManager();
     private static ConfigReader configReader = new ConfigReader();
-    private static ValidationDataReader validationReader = new ValidationDataReader();
+//    private static ValidationDataReader validationReader = new ValidationDataReader();
 
     public static FileReaderManager getInstance() {
         return fileReaderManager;
@@ -22,8 +21,8 @@ public class FileReaderManager {
         return configReader;
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public ValidationDataReader getValidationReader() {
-        return validationReader;
-    }
+//    @SuppressWarnings("UnusedReturnValue")
+//    public ValidationDataReader getValidationReader() {
+//        return validationReader;
+//    }
 }
