@@ -15,6 +15,7 @@ import jw.demo.managers.DriverManager;
 import jw.demo.managers.FileReaderManager;
 import jw.demo.pages.POM;
 import jw.demo.utils.DocumentUtil;
+import jw.demo.utils.HttpDownloadUtility;
 import jw.demo.utils.TestContext;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,8 +24,6 @@ import org.apache.logging.log4j.Logger;
 import org.awaitility.core.ConditionTimeoutException;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -35,19 +34,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static org.awaitility.Awaitility.await;
 
+//@SuppressWarnings("Convert2Lambda")
 public class BaseStep extends AbstractTestNGCucumberTests {
 
     protected static final String ENV_PASS = FileReaderManager.getInstance().getConfigReader().getEnvPasswd();
@@ -103,9 +102,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     protected static final int POLL_NO_INIT_DELAY = 0;
     protected static final String EST = "EST";
     protected static final String UTC = "UTC";
-    protected static final DateTimeFormatter DATE_FORMAT_WITH_TIME_ZONE = ISODateTimeFormat.basicDate().withZoneUTC();
-    protected static final DateTimeFormatter DATE_TIME_FORMATTER_EAST_TIME_ZONE = DATE_FORMAT_WITH_TIME_ZONE
-            .withZone(DateTimeZone.forID(EST));
+
     // Locators
     @FindBy
     protected static final By LOADER_ICON = By.xpath("");
@@ -115,20 +112,12 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     protected static final By DELETE_BUTTON = By.xpath("");
     private static final Logger LOG = LogManager.getLogger(BaseStep.class);
     protected final String attachmentTableCommon = "";
-    protected final String attachmentTableDataRows = attachmentTableCommon + "";
+    protected final String attachmentTableDataRows = attachmentTableCommon;
     private final ObjectMapper objectMapper = new ObjectMapper();
     protected POM pom = new POM();
 
     protected static String getCurrentDate(String zone) {
-        switch (zone) {
-            case EST -> {
-                return DATE_TIME_FORMATTER_EAST_TIME_ZONE.parseLocalDate(DateTime.now().toString()).toString();
-            }
-            case UTC -> {
-                return DATE_FORMAT_WITH_TIME_ZONE.parseLocalDate(DateTime.now().toString()).toString();
-            }
-            default -> throw new IllegalStateException("Unexpected value: [{}] is not a valid zone" + zone);
-        }
+        return DateTime.now().withZone(DateTimeZone.forID(zone)).toString();
     }
 
     protected static WebDriver getDriver() {
@@ -141,7 +130,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         LOG.info("Waiting for download to exist in {}", file.getAbsolutePath());
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSeconds),
                 Duration.ofMillis(POLL_WAIT_MS));
-        ExpectedCondition<Boolean> fileDownloaded = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> fileDownloaded = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 if (file.exists()) {
@@ -232,11 +221,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         new WebDriverWait(getDriver(), Wait.REGULAR.waitTime())
                 .until(new ExpectedCondition<Cookie>() {
                     public Cookie apply(WebDriver driver) {
-                        Cookie tokenCookie = driver.manage().getCookieNamed(cookieName);
-                        if (tokenCookie != null) {
-                            return tokenCookie;
-                        }
-                        return null;
+                        return driver.manage().getCookieNamed(cookieName);
                     }
                 });
         return getDriver().manage().getCookieNamed(cookieName).getValue();
@@ -247,8 +232,8 @@ public class BaseStep extends AbstractTestNGCucumberTests {
      * and visible. Visibility means that the element is not only displayed but also
      * has a height and width that is greater than 0.
      * <p>
-     * A default timeout of 10 seconds is provided and a
-     * TimeoutException/ConditionTimeoutException will be thrown once the time out
+     * A default timeout of 10 seconds is provided, and a
+     * TimeoutException/ConditionTimeoutException will be thrown once the time-out
      * is passed.
      *
      * @param by - locator used to find the element
@@ -261,8 +246,8 @@ public class BaseStep extends AbstractTestNGCucumberTests {
      * An expectation for checking that an element is either invisible or not
      * present on the DOM.
      * <p>
-     * A default timeout of 10 seconds is provided and a
-     * TimeoutException/ConditionTimeoutException will be thrown once the time out
+     * A default timeout of 10 seconds is provided, and a
+     * TimeoutException/ConditionTimeoutException will be thrown once the time-out
      * is passed.
      *
      * @param by - locator used to find the element
@@ -275,8 +260,8 @@ public class BaseStep extends AbstractTestNGCucumberTests {
      * An expectation for checking that an element is present on the DOM of a page.
      * This does not necessarily mean that the element is visible.
      * <p>
-     * A default timeout of 10 seconds is provided and a
-     * TimeoutException/ConditionTimeoutException will be thrown once the time out
+     * A default timeout of 10 seconds is provided, and a
+     * TimeoutException/ConditionTimeoutException will be thrown once the time-out
      * is passed.
      *
      * @param by - locator used to find the element
@@ -289,8 +274,8 @@ public class BaseStep extends AbstractTestNGCucumberTests {
      * An expectation for checking an element is visible and enabled such that you
      * can click it.
      * <p>
-     * A default timeout of 10 seconds is provided and a
-     * TimeoutException/ConditionTimeoutException will be thrown once the time out
+     * A default timeout of 10 seconds is provided, and a
+     * TimeoutException/ConditionTimeoutException will be thrown once the time-out
      * is passed.
      *
      * @param by - locator used to find the element
@@ -304,7 +289,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
      * and visible. Visibility means that the element is not only displayed but also
      * has a height and width that is greater than 0.
      * <p>
-     * A TimeoutException/ConditionTimeoutException will be thrown once the time out
+     * A TimeoutException/ConditionTimeoutException will be thrown once the time-out
      * is passed.
      *
      * @param by            - locator used to find the element
@@ -350,7 +335,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
      * An expectation for checking an element is visible and enabled such that you
      * can click it.
      * <p>
-     * A TimeoutException/ConditionTimeoutException will be thrown once the time out
+     * A TimeoutException/ConditionTimeoutException will be thrown once the time-out
      * is passed.
      *
      * @param by            - locator used to find the element
@@ -461,7 +446,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
 
     public void waitForElementToContainAttribute(WebElement element, String attribute, String attributeValue,
                                                  int timeOutInSecs) {
-        ExpectedCondition<Boolean> attributeContains = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> attributeContains = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 try {
@@ -491,6 +476,10 @@ public class BaseStep extends AbstractTestNGCucumberTests {
 
     public void scrollIntoView(By by) {
         scrollIntoView(by, TIME_OUT_SECONDS);
+    }
+
+    public void scrollIntoView(By by, Duration duration) {
+        scrollIntoView(by, (int) duration.getSeconds());
     }
 
     public void scrollIntoView(By by, int timeOutInSecs) {
@@ -629,6 +618,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
      * @param by - locator used to find the element
      * @returns The result is returned or false is returned if 10 seconds to pass
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isInvisible(By by) {
         return isInvisible(by, TIME_OUT_SECONDS);
     }
@@ -697,7 +687,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
      * An expectation for checking that an element is present on the DOM of a page
      * is visible and isDisplayed
      * <p>
-     * isVisible returns the result of driver.findElement(by) but isDisplayed goes
+     * isVisible returns the result of driver.findElement(by), but isDisplayed goes
      * further and checks for getDriver().findElement(by).isDisplayed()
      *
      * @param by            - locator used to find the element
@@ -730,7 +720,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
      *
      * @param by            - locator used to find the element
      * @param timeOutInSecs - time limit to wait before throwing an Exception
-     * @returns The result is returned or false is returned if the time out passes
+     * @returns The result is returned or false is returned if the time-out passes
      */
     public boolean isPresent(By by, int timeOutInSecs) {
         try {
@@ -823,7 +813,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
 
     public void waitForLoaderIconToDisappear(int timeOut) {
         acceptAlertForOutdatedBrowser();
-        ExpectedCondition<Boolean> pageLoadCondition = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> pageLoadCondition = new ExpectedCondition<>() {
             public Boolean apply(WebDriver driver) {
                 Boolean pageLoadComplete = ((JavascriptExecutor) driver).executeScript("return document.readyState")
                         .equals("complete");
@@ -906,7 +896,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         LOG.info("Waiting for element to be enabled: {}", by.toString());
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(maxTime),
                 Duration.ofMillis(pollInterval));
-        ExpectedCondition<Boolean> elementToBeEnabled = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> elementToBeEnabled = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 try {
@@ -927,7 +917,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         LOG.info("Waiting for element to be enabled: {}", by.toString());
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(maxTime),
                 Duration.ofMillis(pollInterval));
-        ExpectedCondition<Boolean> elementTextToBeUpdated = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> elementTextToBeUpdated = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 try {
@@ -945,7 +935,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     }
 
     /**
-     * Enhanced click, waits for WebElemnt to be visible, click, and then wait for
+     * Enhanced click, waits for WebElement to be visible, click, and then wait for
      * document readystate is complete. Refreshes if errorModal is detected
      *
      * @param by      - A By element, usually By.xpath(xpathString)
@@ -955,7 +945,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut),
                 Duration.ofMillis(POLL_WAIT_MS));
-        ExpectedCondition<Boolean> clickedButton = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> clickedButton = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 LOG.info("Attempting to Click {}", by.toString());
@@ -995,7 +985,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     public void click(WebElement element, int timeOut) {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut),
                 Duration.ofMillis(POLL_WAIT_MS));
-        ExpectedCondition<Boolean> clickedButton = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> clickedButton = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 LOG.info("Attempting to Click {}", element.toString());
@@ -1016,7 +1006,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
                 } catch (ElementClickInterceptedException e) {
                     LOG.warn("Element Click Intercepted. Retrying in {} seconds", POLL_WAIT_MS / 1000);
                 } catch (ElementNotInteractableException e) {
-                    LOG.warn("Element Not Interactable. Retrying in {} seconds", POLL_WAIT_MS / 1000);
+                    LOG.warn("Element Not Intractable. Retrying in {} seconds", POLL_WAIT_MS / 1000);
                 }
                 return Boolean.FALSE;
             }
@@ -1120,20 +1110,20 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     }
 
     protected void mouseOver(By by) {
-        mouseOver(by, TIME_OUT_SECONDS);
+        mouseOver(by, Duration.ofSeconds(TIME_OUT_SECONDS));
     }
 
-    protected void mouseOver(By by, int timeOutInSecs) {
+    protected void mouseOver(By by, Duration duration) {
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs),
+        WebDriverWait wait = new WebDriverWait(getDriver(), duration,
                 Duration.ofMillis(POLL_WAIT_MS));
-        ExpectedCondition<Boolean> mousedOver = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> mousedOver = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 LOG.info("Attempting to Mouse Over {}", by.toString());
                 try {
-                    scrollIntoView(by, timeOutInSecs);
-                    WebElement element = getElement(by, timeOutInSecs);
+                    scrollIntoView(by, duration);
+                    WebElement element = getElement(by, (int) duration.getSeconds());
                     Actions action = new Actions(driver);
                     action.moveToElement(element).build().perform();
                     return true;
@@ -1150,7 +1140,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         wait.until(mousedOver);
     }
 
-    public void downloadDocument(JsonObject docObj, String authorization) throws MalformedURLException, IOException {
+    public void downloadDocument(JsonObject docObj, String authorization) {
         String fileName = docObj.get("fileName").getAsString();
         File downloadDir = DriverManager.getDownloadDir();
         String linkAttribute = getElement(By.linkText(fileName), TIME_OUT_SECONDS).getAttribute("href");
@@ -1175,7 +1165,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         final int origAttachmentCount = getElements(By.xpath(attachmentTableDataRows)).size();
         click(By.xpath("//a[contains(@id,'" + fileName + "') and @class='remove-attachment']"));
         ddClick(DELETE_BUTTON);
-        ExpectedCondition<Boolean> attachmentsTableReady = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> attachmentsTableReady = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 int attachmentsSize = getElements(By.xpath(attachmentTableDataRows)).size();
@@ -1188,8 +1178,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT_COMPLETE_TASK),
                 Duration.ofSeconds(TIME_OUT_FOR_PAGE_LOAD));
         wait.until(attachmentsTableReady);
-        Assert.assertTrue(getElements(By.xpath(attachmentTableDataRows)).size() == (origAttachmentCount - 1),
-                "Expected attachment count to be " + (origAttachmentCount - 1));
+        Assert.assertEquals((origAttachmentCount - 1), getElements(By.xpath(attachmentTableDataRows)).size(), "Expected attachment count to be " + (origAttachmentCount - 1));
         List<String> rows = getElements(By.xpath(attachmentTableDataRows)).stream().map(WebElement::getText)
                 .collect(Collectors.toList());
         validateAttachmentDetails(deleteObj.getAsJsonArray("documentList"), rows);
@@ -1201,7 +1190,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT_COMPLETE_TASK),
                 Duration.ofMillis(LONGEST_POLL_WAIT_MS));
-        ExpectedCondition<Boolean> expandedSection = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> expandedSection = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 if (isDisplayed(expandLocator)) {
@@ -1223,7 +1212,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT_COMPLETE_TASK),
                 Duration.ofMillis(LONGEST_POLL_WAIT_MS));
-        ExpectedCondition<Boolean> collapsedSection = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> collapsedSection = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 if (isDisplayed(collapseLocator)) {
@@ -1245,7 +1234,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
 
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT_COMPLETE_TASK),
                 Duration.ofMillis(LONGEST_POLL_WAIT_MS));
-        ExpectedCondition<Boolean> collapsedSection = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> collapsedSection = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 if (isDisplayed(collapseLocator)) {
@@ -1255,7 +1244,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
                 } else if (isDisplayed(expandLocator)) {
                     LOG.info("{} section is already collapsed", sectionName);
                 } else {
-                    LOG.info("{} section expander/collapser not displaying. Refreshing page.....", sectionName);
+                    LOG.info("{} section including expand/collapse behavior not displaying. Refreshing page.....", sectionName);
                     getDriver().navigate().refresh();
                     waitForLoaderIconToDisappear();
                     clickIfDisplayed(collapseLocator);
@@ -1287,8 +1276,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     public void searchBy(By searchBy, By searchResult, String searchType, String input) {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(LONGER_TIME_OUT_SECONDS),
                 Duration.ofMillis(LONGEST_POLL_WAIT_MS));
-        ;
-        ExpectedCondition<Boolean> foundSearchOutcome = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> foundSearchOutcome = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 LOG.info("Searching for {} ID [{}]", searchType, input);
@@ -1308,7 +1296,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
                 } catch (ElementClickInterceptedException e) {
                     LOG.warn("Element Click Intercepted. Retrying in {} seconds", POLL_WAIT_MS / 1000);
                 } catch (ElementNotInteractableException e) {
-                    LOG.warn("Element Not Interactable. Retrying in {} seconds", POLL_WAIT_MS / 1000);
+                    LOG.warn("Element Not Intractable. Retrying in {} seconds", POLL_WAIT_MS / 1000);
                 }
                 return false;
             }
@@ -1322,7 +1310,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
             URL dataFileURL = this.getClass().getClassLoader().getResource("data/documents/" + fileName);
             LOG.info("Attaching a document " + dataFileURL);
             waitForElementToBePresent(uploadButton, TIME_OUT_SECONDS_DOWNLOAD);
-            File file = new File(dataFileURL.getFile());
+            File file = new File(Objects.requireNonNull(dataFileURL).getFile());
             WebElement upload = getDriver().findElement(uploadButton);
             LOG.info("absolute path - " + file.getAbsolutePath());
             upload.sendKeys(file.getAbsolutePath());
@@ -1347,11 +1335,11 @@ public class BaseStep extends AbstractTestNGCucumberTests {
             URL dataFileURL = this.getClass().getClassLoader().getResource("data/documents/" + fileName);
             LOG.info("Attaching a document " + dataFileURL);
 
-            DocumentUtil.uploadFile(dataFileURL, attachDocumentBtn, getDriver());
+            DocumentUtil.uploadFile(Objects.requireNonNull(dataFileURL), attachDocumentBtn, getDriver());
             WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT_COMPLETE_TASK));
             By attachmentRows = By.xpath(attachmentTable + "/tbody/tr");
             wait.until(ExpectedConditions.numberOfElementsToBe(attachmentRows, attachmentIndex));
-            By attachmentCols = By.xpath(attachmentTable + "/tbody/tr[" + Integer.toString(attachmentIndex) + "]/td["
+            By attachmentCols = By.xpath(attachmentTable + "/tbody/tr[" + attachmentIndex + "]/td["
                     + getAttachmentTableColumnIndex(attachmentTable, "Date uploaded") + "]");
             wait.until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(attachmentCols), getCurrentDate(EST)));
 
@@ -1375,9 +1363,9 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     }
 
     public String getHeaderIndex(By headers, String headerTitle) {
-        List<String> listofHeaders = getElements(headers, TIME_OUT_SECONDS).stream().map(WebElement::getText)
-                .collect(Collectors.toList());
-        int index = listofHeaders.indexOf(headerTitle) + 1;
+        List<String> headerList = getElements(headers, TIME_OUT_SECONDS)
+                .stream().map(WebElement::getText).toList();
+        int index = headerList.indexOf(headerTitle) + 1;
         return Integer.toString(index);
     }
 
@@ -1385,7 +1373,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         LOG.info("Waiting for options to be populated in {}", by.toString());
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIME_OUT_AWAIT_SECONDS),
                 Duration.ofMillis(POLL_WAIT_MS));
-        ExpectedCondition<Boolean> optionsPopulated = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> optionsPopulated = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 try {
@@ -1402,7 +1390,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
 
     public void verifyTableElements(JsonArray arrayList, By element) {
         List<WebElement> rowHeader = getElements(element, TIME_OUT_SECONDS);
-        List<String> stringArray = rowHeader.stream().map(WebElement::getText).collect(Collectors.toList());
+        List<String> stringArray = rowHeader.stream().map(WebElement::getText).toList();
         LOG.info(stringArray.toString());
         for (int i = 0; i < arrayList.size(); i++)
             Assert.assertTrue((stringArray.toString()).contains(arrayList.get(i).getAsString()),
@@ -1417,26 +1405,18 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         String dateSubStr = dateStrArray[0].substring((dateStrArray[0].indexOf('/') + 1),
                 dateStrArray[0].lastIndexOf('/'));
         int dateInt = Integer.parseInt(dateSubStr);
-        String yearSubStr = dateStrArray[0].substring((dateStrArray[0].lastIndexOf('/') + 1), dateStrArray[0].length());
+        String yearSubStr = dateStrArray[0].substring((dateStrArray[0].lastIndexOf('/') + 1));
         int yearInt = Integer.parseInt(yearSubStr);
-        if ((monthInt >= 1 && monthInt <= 12) && (dateInt >= 1 && dateInt <= 31)
-                && (yearInt >= 1900 && yearInt <= 2050)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (monthInt >= 1 && monthInt <= 12) && (dateInt >= 1 && dateInt <= 31)
+                && (yearInt >= 1900 && yearInt <= 2050);
     }
 
     public boolean timeFormatBoolean(String timeInput) {
         String[] dateStrArray = timeInput.split(" ");
         String hoursSubStr = dateStrArray[1].substring(0, dateStrArray[1].indexOf(':'));
         String amOrPmSubStr = dateStrArray[2];
-        int hoursInt = Integer.parseInt(hoursSubStr);
-        if ((hoursInt > 0 && hoursInt < 13) && (amOrPmSubStr.equals("am") || amOrPmSubStr.equals("pm"))) {
-            return true;
-        } else {
-            return false;
-        }
+        int numHours = Integer.parseInt(hoursSubStr);
+        return (numHours > 0 && numHours < 13) && (amOrPmSubStr.equals("am") || amOrPmSubStr.equals("pm"));
     }
 
     public String getAttribute(By by, String attribute) {
@@ -1474,10 +1454,10 @@ public class BaseStep extends AbstractTestNGCucumberTests {
                         + "']/following-sibling::div//strong[contains(text(),'" + expectedValue + "')]");
                 List<WebElement> rowHeaderScore = getElements(scoreElement, TIME_OUT_SECONDS);
                 List<String> stringArrayScore = rowHeaderScore.stream().map(WebElement::getText)
-                        .collect(Collectors.toList());
+                        .toList();
                 LOG.info(stringArrayScore.toString());
-                for (int i = 0; i < stringArrayScore.size(); i++) {
-                    Assert.assertEquals(expectedValue, stringArrayScore.get(i));
+                for (String string : stringArrayScore) {
+                    Assert.assertEquals(expectedValue, string);
                 }
                 break;
             case "Comments":
@@ -1485,10 +1465,10 @@ public class BaseStep extends AbstractTestNGCucumberTests {
                         + "']/following-sibling::div//strong[contains(text(),'" + expectedValue + "')]");
                 List<WebElement> rowHeaderComment = getElements(commentElement, TIME_OUT_SECONDS);
                 List<String> stringArrayComment = rowHeaderComment.stream().map(WebElement::getText)
-                        .collect(Collectors.toList());
+                        .toList();
                 LOG.info(stringArrayComment.toString());
-                for (int i = 0; i < stringArrayComment.size(); i++) {
-                    Assert.assertEquals(expectedValue, stringArrayComment.get(i));
+                for (String s : stringArrayComment) {
+                    Assert.assertEquals(expectedValue, s);
                 }
         }
 
@@ -1515,8 +1495,26 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         return getVersionId(Constants.CURRENT_TASK_VERSION_ID);
     }
 
+    public String getVersionId(WebDriver driver) {
+        return getVersionId(driver, Constants.CURRENT_TASK_VERSION_ID);
+    }
+
+    public String getVersionId(WebDriver driver, String script) {
+        try {
+            String versionId = ((JavascriptExecutor) driver).executeScript(script).toString();
+            if (StringUtils.equals(versionId, "undefined")) {
+                return null;
+            }
+            return versionId;
+        } catch (JavascriptException | NullPointerException e) {
+            LOG.info("Returning a null version ID because object does not exist yet for [{}]", script);
+            return null;
+        }
+    }
+
+
     public String getVersionId(String script) {
-        return getVersionId(script);
+        return getVersionId(getDriver(), script);
     }
 
     public Boolean waitForVersionIdUpdate(String origVersionId, int timeOutInSecs) {
@@ -1527,7 +1525,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         LOG.info("Waiting for versionId Update [{}]", script);
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs),
                 Duration.ofMillis(POLL_WAIT_MS));
-        ExpectedCondition<Boolean> versionIdUpdated = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> versionIdUpdated = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 String currVersionId = getVersionId(script);
@@ -1576,7 +1574,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     public void selectByValue(By by, String value, int timeOutInSecs) {
         WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs),
                 Duration.ofMillis(POLL_WAIT_MS));
-        ExpectedCondition<Boolean> optionSelected = new ExpectedCondition<Boolean>() {
+        ExpectedCondition<Boolean> optionSelected = new ExpectedCondition<>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 LOG.info("Attempting to Select by Value {} {}", by.toString(), value);
@@ -1593,7 +1591,7 @@ public class BaseStep extends AbstractTestNGCucumberTests {
                 } catch (ElementClickInterceptedException e) {
                     LOG.warn("Element Click Intercepted. Retrying in {} seconds", POLL_WAIT_MS / 1000);
                 } catch (ElementNotInteractableException e) {
-                    LOG.warn("Element Not Interactable. Retrying in {} seconds", POLL_WAIT_MS / 1000);
+                    LOG.warn("Element Not Intractable. Retrying in {} seconds", POLL_WAIT_MS / 1000);
                 }
                 return false;
             }
