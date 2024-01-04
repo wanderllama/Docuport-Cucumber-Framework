@@ -16,7 +16,7 @@ public class BaseCucumberRunner extends AbstractTestNGCucumberTests {
 
     @BeforeSuite(alwaysRun = true)
     public void setUp() {
-        LOG.warn("====================Before Suite Global Setup");
+        LOG.warn("====== Before Suite Global Setup ======");
         ConfigReader ready = new ConfigReader();
         DriverManager.init();
         ExtentManager.init();

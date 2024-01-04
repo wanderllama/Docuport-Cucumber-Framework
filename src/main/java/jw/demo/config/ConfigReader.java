@@ -18,7 +18,7 @@ public class ConfigReader {
     public static boolean isReady;
     private static FileInputStream file;
 
-    public synchronized String getProperty(String key) {
+    public static synchronized String getProperty(String key) {
         if (properties == null) {
             isReady = false;
             loadProperties();
@@ -27,7 +27,7 @@ public class ConfigReader {
     }
 
     @SuppressWarnings("CallToPrintStackTrace")
-    private synchronized void loadProperties() {
+    public static synchronized void loadProperties() {
         if (!isReady) {
             LOG.info("Loading Configuration Properties");
             try {
@@ -41,7 +41,7 @@ public class ConfigReader {
 //                properties.load(driverProp);
                 isReady = true;
             } catch (IOException e) {
-                LogException.errorMessage(LOG, "Loading driver.properties file failed in ConfigReader class", e);
+                LOG.error(LogException.errorMessage("Loading driver.properties file failed in ConfigReader class", e));
                 e.printStackTrace();
             }
         }

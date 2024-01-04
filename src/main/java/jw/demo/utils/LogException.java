@@ -1,8 +1,6 @@
 package jw.demo.utils;
 
 import jw.demo.enums.Wait;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -18,47 +16,47 @@ public class LogException {
         throw new IllegalStateException("Class is not designed for object creation");
     }
 
-    public static void errorMessage(Logger log, Exception e) {
+    public static String errorMessage(Exception e) {
         ArrayList<String> lines = new ArrayList<>();
-        log.error(prettyError("\nError: ", lines));
         e.printStackTrace();
+        return prettyError("\nError: ", lines);
     }
 
     @SuppressWarnings("rawtypes")
-    public static void errorMessage(Class caller, Exception e) {
+    public static String errorMessage(Class caller, Exception e) {
         ArrayList<String> lines = new ArrayList<>();
-        LogManager.getLogger(caller).error(prettyError("\nError: ", lines));
         e.printStackTrace();
+        return prettyError("\nError: ", lines);
     }
 
-    public static void errorMessage(Logger log, String customMessage, Exception e) {
+    public static String errorMessage(String customMessage, Exception e) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
-        log.error(prettyError("\nError: " + customMessage, lines));
+        return prettyError("\nError: " + customMessage, lines);
     }
 
-    public static void errorMessage(Logger log, Exception e, By element) {
+    public static String errorMessage(Exception e, By element) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
-        log.error(prettyError(format("\nError: Locator Used: %s", element), lines));
+        return prettyError(format("\nError: Locator Used: %s", element), lines);
     }
 
-    public static void errorMessage(Logger log, String customMsg, Exception e, By element) {
+    public static String errorMessage(String customMsg, Exception e, By element) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
-        log.error(prettyError("\nError: " + customMsg + format("\nLocator Used: %s", element), lines));
+        return prettyError("\nError: " + customMsg + format("\nLocator Used: %s", element), lines);
     }
 
-    public static void errorMessage(Logger log, Exception e, Wait given, By element) {
+    public static String errorMessage(Exception e, Wait given, By element) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
-        log.error(prettyError(format("\nError: Thrown after %s seconds\nLocator Used: %s", given.amountOfSeconds(), element), lines));
+        return prettyError(format("\nError: Thrown after %s seconds\nLocator Used: %s", given.amountOfSeconds(), element), lines);
     }
 
-    public static void errorMessage(Logger log, String customMsg, Exception e, Wait given, By element) {
+    public static String errorMessage(String customMsg, Exception e, Wait given, By element) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
-        log.error(prettyError("\nError: " + customMsg + format("\nthrown after %s seconds\nLocator Used: %s", given.amountOfSeconds(), element), lines));
+        return prettyError("\nError: " + customMsg + format("\nthrown after %s seconds\nLocator Used: %s", given.amountOfSeconds(), element), lines);
     }
 
     // not the best but working
@@ -81,9 +79,9 @@ public class LogException {
         return msg.append(star).append("\n").toString();
     }
 
-    public static void errorMessage(Logger log, String customMessage, Error e) {
+    public static String errorMessage(String customMessage, Error e) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
-        log.error(prettyError("Error: " + customMessage, lines));
+        return prettyError("Error: " + customMessage, lines);
     }
 }

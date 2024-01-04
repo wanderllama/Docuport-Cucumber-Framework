@@ -20,6 +20,7 @@
         <log4j.v>2.21.1</log4j.v>
         <surefire.v>3.0.0-M9</surefire.v>
         <maven.compiler.v>3.11.0</maven.compiler.v>
+        <browser>edge</browser>
     </properties>
 
     <dependencies>
@@ -215,6 +216,55 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>download-WebDriver</id>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="bash">
+                                    <arg value="-c"/>
+                                    <arg value="source downloadDriver.sh; downloadWebDriver ${browser}"
+                                    />
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-antrun-plugin -->
+                    <dependency>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.codehaus.mojo</groupId>-->
+            <!--                <artifactId>exec-maven-plugin</artifactId>-->
+            <!--                <version>3.1.1</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>my-exec</id>-->
+            <!--                        <phase>pre-integration-test</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>exec</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--                <configuration>-->
+            <!--                    <executable>bash</executable>-->
+            <!--                    <commandlineArgs>${project.build.directory}/downloadDriver.sh</commandlineArgs>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 </project>

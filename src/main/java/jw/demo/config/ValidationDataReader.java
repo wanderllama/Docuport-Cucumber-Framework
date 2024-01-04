@@ -40,7 +40,7 @@ public class ValidationDataReader {
                 pages.putAll(jsonMap);
             }
         } catch (IOException e) {
-            LogException.errorMessage(LOG, e);
+            LOG.error(LogException.errorMessage(e));
         }
         LOG.info("Validation Data loaded");
     }

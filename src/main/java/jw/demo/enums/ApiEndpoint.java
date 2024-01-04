@@ -5,6 +5,8 @@ import jw.demo.utils.DocumentUtil;
 import jw.demo.utils.LogException;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -19,6 +21,8 @@ public enum ApiEndpoint {
     private final String endpoint;
     private JsonObject payload;
 
+    private final Logger LOG = LogManager.getLogger(ApiEndpoint.class);
+
     ApiEndpoint(ApiMethod method, String endpoint, String payloadPath) {
         this.method = method;
         this.endpoint = endpoint;
@@ -26,7 +30,7 @@ public enum ApiEndpoint {
             try {
                 payload = DocumentUtil.getJsonObjectFromFile(payloadPath);
             } catch (IOException e) {
-                LogException.errorMessage(ApiEndpoint.class, e);
+                LOG.error(LogException.errorMessage(ApiEndpoint.class, e));
             }
         }
     }

@@ -29,7 +29,7 @@ public final class ExtentManager {
         try {
             sparkReporter.loadXMLConfig(FileReaderManager.getInstance().getConfigReader().getExtentConfig());
         } catch (IOException e) {
-            LogException.errorMessage(LOG, e);
+            LOG.error(LogException.errorMessage(e));
         }
         extentReports.attachReporter(sparkReporter);
         return extentReports;

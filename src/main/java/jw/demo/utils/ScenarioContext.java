@@ -15,6 +15,8 @@ import java.util.Map;
 @Data
 public class ScenarioContext {
 
+    private String scenarioName;
+
     // TODO replace demo data
     private String userName;
     private int orgId;

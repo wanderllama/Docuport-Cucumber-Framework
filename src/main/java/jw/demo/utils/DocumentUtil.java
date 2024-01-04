@@ -81,7 +81,7 @@ public class DocumentUtil {
             String content = new String(allContent, StandardCharsets.UTF_8);
             jsonObj = new Gson().fromJson(content, JsonObject.class);
         } catch (FileNotFoundException e) {
-            LogException.errorMessage(LOG, e);
+            LOG.error(LogException.errorMessage(e));
         }
         return jsonObj;
     }
@@ -94,7 +94,7 @@ public class DocumentUtil {
         try (Reader reader = new FileReader(path.toString())) {
             jsonArray = new Gson().fromJson(reader, JsonArray.class);
         } catch (IOException | IllegalStateException | JsonSyntaxException e) {
-            LogException.errorMessage(LOG, e);
+            LOG.error(LogException.errorMessage(e));
         }
         return jsonArray;
     }
