@@ -4,7 +4,7 @@ HOME='/Users/jw'
 PERSONAL_TAG='@jw'
 
 DEV_URL=''
-EST_URL=''
+TEST_URL=''
 REGRESSION_URL=''
 
 run() {
@@ -70,15 +70,15 @@ environment() {
 
     if [[ $env == d ]]
         then
-            SPRING_DATASOURCE_URL=$DEV_URL
+            export SPRING_DATASOURCE_URL=$DEV_URL
             mvn_function $t $r $m $tag
     elif [[ $env == t ]]
         then
-            SPRING_DATASOURCE_URL=$TEST_URL
+            export SPRING_DATASOURCE_URL=$TEST_URL
             mvn_function $t $r $m $tag
     elif [[ $env == r ]]
         then
-            SPRING_DATASOURCE_URL=$REGRESSION_URL
+            export SPRING_DATASOURCE_URL=$REGRESSION_URL
             mvn_function $t $r $m $tag
     else
             echo "invalid environment. select from the following: dev, test, regression"
@@ -89,7 +89,7 @@ environment() {
                     environment $1 $t $r $m $tag
             elif [[ $w -eq 1 ]]
                 then
-                    SPRING_DATASOURCE_URL=$w
+                    export SPRING_DATASOURCE_URL=$w
                     mvn_function $t $r $m $tag
             fi
     fi
