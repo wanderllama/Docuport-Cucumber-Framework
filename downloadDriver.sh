@@ -64,7 +64,8 @@ function downloadWebDriver() {
 
     FILE="driver.${DOWNLOAD_EXTENSION}"
 
-    if [ ! -f "${ABSPATH}/${OS}/${WEBDRIVER}${FILE_EXTENSION}" ]; then
+# checks to see if driver exists in project path or exists as defined in pom.xml property
+    if [[ (! -f ${ABSPATH}/${OS}/${WEBDRIVER}${FILE_EXTENSION}) && (! -f "${2}") ]]; then
         cd /etc/.. && cd "${ABSPATH}" &&
         mkdir "temp" &&
         cd "temp" && echo $URL
