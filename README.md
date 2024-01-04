@@ -16,7 +16,7 @@ run from CLI using:
   * <tag name<l>>=scenario tag you wish to include in test execution, Multiple tags can be added (@<tag name<l>>
     or @<another tag name<l>>
 
-* bash -c "source mvnFlags.sh; start -h"
+* bash -c "source mvnFlags.sh; start -h" (requires assigning value to variables line 2-8)
   * will show you flag options and arguments to trigger a maven execution
   * ex:  bash -c "source mvnFlags.sh; start -t 2 -r 1 -env dev -m test -tag @jw"
     * will trigger parrallel execution with 2 threads, will retry failed test once, testing will occur in dev env, the scenarios with @jw tag will run using mvn test
