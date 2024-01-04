@@ -21,6 +21,7 @@
         <surefire.v>3.0.0-M9</surefire.v>
         <maven.compiler.v>3.11.0</maven.compiler.v>
         <browser>edge</browser>
+        <driver.path>src/test/resources/msedgedriver</driver.path>
     </properties>
 
     <dependencies>
@@ -228,7 +229,7 @@
                             <target>
                                 <exec executable="bash">
                                     <arg value="-c"/>
-                                    <arg value="source downloadDriver.sh; downloadWebDriver ${browser}"
+                                    <arg value="source downloadDriver.sh; downloadWebDriver ${browser} ${driver.path}"
                                     />
                                 </exec>
                             </target>
