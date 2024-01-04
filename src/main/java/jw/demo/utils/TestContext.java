@@ -64,7 +64,7 @@ public final class TestContext {
         try {
             globalData = DocumentUtil.getJsonObjectFromFile("data" + datafile);
         } catch (IOException e) {
-            LogException.errorMessage(LOG, e);
+            LOG.error(LogException.errorMessage(e));
         }
         LOG.debug("Test data scenario count [{}]", globalData.size());
         globalData.add(ApiUtil.TOKENS, new JsonObject());
@@ -150,7 +150,7 @@ public final class TestContext {
                             .format(DateTimeFormatter.ofPattern(Constants.MODIFY_DATETIME)),
                     log));
         } catch (NullPointerException e) {
-            LogException.errorMessage(LOG, "Can not get scenario with TestContext.getScenario() in the logToscenario() lambda, so logging here\n" + log, e);
+            LOG.error(LogException.errorMessage("Can not get scenario with TestContext.getScenario() in the logToscenario() lambda, so logging here\n" + log, e));
         }
     }
 

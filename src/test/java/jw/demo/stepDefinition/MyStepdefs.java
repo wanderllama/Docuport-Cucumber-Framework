@@ -1,6 +1,5 @@
 package jw.demo.stepDefinition;
 
-import io.cucumber.java.ParameterType;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -13,7 +12,7 @@ public class MyStepdefs {
         System.out.println(scenario.getName());
     }
 
-    @ParameterType("skip | pass | fail}")
+    //    @ParameterType("skip | pass | fail}")
     @And("test {string}")
     public void test(String result) {
         switch (result) {

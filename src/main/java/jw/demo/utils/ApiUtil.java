@@ -80,7 +80,7 @@ public class ApiUtil {
                 var gson = new GsonBuilder().setPrettyPrinting().create();
                 exceptionMessage.append(String.format("%n%nPayload:%n%s%n", gson.toJson(payload)));
             }
-            LogException.errorMessage(LOG, exceptionMessage.toString(), e);
+            LOG.error(LogException.errorMessage(exceptionMessage.toString(), e));
             throw new AssertionError();
         }
     }
@@ -167,7 +167,7 @@ public class ApiUtil {
             loginAndSetToken(userName);
             return new AtomicBoolean(Boolean.TRUE);
         } catch (AssertionError e) {
-            LogException.errorMessage(LOG, String.format("POST login has failed for [%s]", userName), e);
+            LOG.error(LogException.errorMessage(String.format("POST login has failed for [%s]", userName), e));
         }
         throw new AssertionError();
     }

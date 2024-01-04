@@ -41,7 +41,7 @@ public class ConfigReader {
 //                properties.load(driverProp);
                 isReady = true;
             } catch (IOException e) {
-                LogException.errorMessage(LOG, "Loading driver.properties file failed in ConfigReader class", e);
+                LOG.error(LogException.errorMessage("Loading driver.properties file failed in ConfigReader class", e));
                 e.printStackTrace();
             }
         }

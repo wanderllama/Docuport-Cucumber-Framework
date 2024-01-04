@@ -49,8 +49,6 @@ import static org.awaitility.Awaitility.await;
 //@SuppressWarnings("Convert2Lambda")
 public class BaseStep extends AbstractTestNGCucumberTests {
 
-    protected static final String ENV_PASS = FileReaderManager.getInstance().getConfigReader().getEnvPasswd();
-
     // jdbc template can be used alongside spring repositories for DB testing
     // can use @Autowired annotation or use CDI
 //    protected JdbcTemplate jdbcTemplate;
@@ -58,7 +56,11 @@ public class BaseStep extends AbstractTestNGCucumberTests {
 //    public BaseStep(JdbcTemplate jdbcTemplate) {
 //        this.jdbcTemplate = jdbcTemplate;
 //    }
-    protected static final String BASE_URL = FileReaderManager.getInstance().getConfigReader().getEnvPasswd();
+    protected static final String ENV_PASS = FileReaderManager.getInstance().getConfigReader().getEnvPasswd();
+    protected static final String BASE_URL = FileReaderManager.getInstance().getConfigReader().getBaseUrl();
+    private static final Logger LOG = LogManager.getLogger(BaseStep.class);
+    protected final String attachmentTableCommon = "";
+    protected final String attachmentTableDataRows = attachmentTableCommon;
     protected static final String BAD_PAGE_SOURCE = "<html><head></head><body></body></html>";
     protected static final int TIME_OUT_QUICK = 1;
     protected static final int TIME_OUT_SHORT = 2;
@@ -102,6 +104,8 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     protected static final int POLL_NO_INIT_DELAY = 0;
     protected static final String EST = "EST";
     protected static final String UTC = "UTC";
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    protected POM pom = new POM();
 
     // Locators
     @FindBy
@@ -110,12 +114,8 @@ public class BaseStep extends AbstractTestNGCucumberTests {
     protected static final By errorModalMessage = By.xpath("");
     @FindBy
     protected static final By DELETE_BUTTON = By.xpath("");
-    private static final Logger LOG = LogManager.getLogger(BaseStep.class);
-    protected final String attachmentTableCommon = "";
-    protected final String attachmentTableDataRows = attachmentTableCommon;
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    protected POM pom = new POM();
 
+    // Methods
     protected static String getCurrentDate(String zone) {
         return DateTime.now().withZone(DateTimeZone.forID(zone)).toString();
     }
@@ -165,30 +165,30 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         }
     }
 
-    public static boolean getTextContainsToVerify(WebElement locator, String text) {
-        return getTextContainsToVerify(locator, text, TIME_OUT_SECONDS);
+    public static boolean getTextContainsToVerify(WebElement element, String text) {
+        return getTextContainsToVerify(element, text, TIME_OUT_SECONDS);
     }
 
-    public static boolean getTextContainsToVerify(WebElement locator, String text, int timeOutInSecs) {
+    public static boolean getTextContainsToVerify(WebElement element, String text, int timeOutInSecs) {
         (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
-                .until(ExpectedConditions.visibilityOfAllElements(locator));
-        return locator.getText().contains(text);
+                .until(ExpectedConditions.visibilityOfAllElements(element));
+        return element.getText().contains(text);
     }
 
-    public static boolean getTextContainsToVerify(By locator, String text) {
-        return getTextContainsToVerify(locator, text, TIME_OUT_SECONDS);
+    public static boolean getTextContainsToVerify(By by, String text) {
+        return getTextContainsToVerify(by, text, TIME_OUT_SECONDS);
     }
 
-    public static boolean getTextContainsToVerify(By locator, String text, int timeOutInSecs) {
+    public static boolean getTextContainsToVerify(By by, String text, int timeOutInSecs) {
         (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
-                .until(ExpectedConditions.visibilityOfElementLocated(locator));
-        return getDriver().findElement(locator).getText().contains(text);
+                .until(ExpectedConditions.visibilityOfElementLocated(by));
+        return getDriver().findElement(by).getText().contains(text);
     }
 
-    public static boolean getAllTextContainsToVerify(By locator, String text, int timeOutInSecs) {
+    public static boolean getAllTextContainsToVerify(By by, String text, int timeOutInSecs) {
         (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
-                .until(ExpectedConditions.visibilityOfElementLocated(locator));
-        List<String> allText = getDriver().findElements(locator).stream().map(WebElement::getText)
+                .until(ExpectedConditions.visibilityOfElementLocated(by));
+        List<String> allText = getDriver().findElements(by).stream().map(WebElement::getText)
                 .collect(Collectors.toList());
         for (String actualTextItem : allText) {
             if (actualTextItem.contains(text)) {
@@ -200,10 +200,10 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         return Boolean.FALSE;
     }
 
-    public static boolean getTextContainsToVerify(By locator, int index, String text, int timeOutInSecs) {
+    public static boolean getTextContainsToVerify(By by, int index, String text, int timeOutInSecs) {
         (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
-                .until(ExpectedConditions.visibilityOfElementLocated(locator));
-        return (getDriver().findElements(locator).get(index)).getText().contains(text);
+                .until(ExpectedConditions.visibilityOfElementLocated(by));
+        return (getDriver().findElements(by).get(index)).getText().contains(text);
     }
 
     @DefaultParameterTransformer
@@ -797,17 +797,17 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         return getText(by, TIME_OUT_SECONDS);
     }
 
-    public String getText(By locator, int timeoutInSecs) {
+    public String getText(By by, int timeoutInSecs) {
         try {
-            waitForElementToBeVisible(locator, timeoutInSecs);
-            LOG.info("Getting text for element {}", locator);
-            return getDriver().findElement(locator).getText();
+            waitForElementToBeVisible(by, timeoutInSecs);
+            LOG.info("Getting text for element {}", by);
+            return getDriver().findElement(by).getText();
         } catch (UnhandledAlertException e) {
             getDriver().navigate().refresh();
             waitForLoaderIconToDisappear();
-            waitForElementToBeVisible(locator, timeoutInSecs);
-            LOG.info("Getting text for element {}", locator);
-            return getDriver().findElement(locator).getText();
+            waitForElementToBeVisible(by, timeoutInSecs);
+            LOG.info("Getting text for element {}", by);
+            return getDriver().findElement(by).getText();
         }
     }
 
@@ -851,9 +851,9 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         }
     }
 
-    public String getText(By locator, int index, int timeoutInSecs) {
-        waitForElementToBeVisible(locator, timeoutInSecs);
-        return getDriver().findElements(locator).get(index).getText();
+    public String getText(By by, int index, int timeoutInSecs) {
+        waitForElementToBeVisible(by, timeoutInSecs);
+        return getDriver().findElements(by).get(index).getText();
     }
 
     public String getText(WebElement we) {
@@ -1036,12 +1036,12 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         click(element, TIME_OUT_FOR_PAGE_LOAD);
     }
 
-    public void refreshIfLocatorNotVisible(By locator) {
-        refreshIfLocatorNotVisible(locator, TIME_OUT_FOR_PAGE_LOAD);
+    public void refreshIfLocatorNotVisible(By by) {
+        refreshIfLocatorNotVisible(by, TIME_OUT_FOR_PAGE_LOAD);
     }
 
-    public void refreshIfLocatorNotVisible(By locator, int timeOutInSecs) {
-        if (!isVisible(locator, timeOutInSecs)) {
+    public void refreshIfLocatorNotVisible(By by, int timeOutInSecs) {
+        if (!isVisible(by, timeOutInSecs)) {
             getDriver().navigate().refresh();
         }
     }
@@ -1479,13 +1479,13 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         Assert.assertEquals(actualText, text);
     }
 
-    public void addText(By locator, String text) {
-        click(locator);
-        getDriver().findElement(locator).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE) + text + Keys.TAB);
+    public void addText(By by, String text) {
+        click(by);
+        getDriver().findElement(by).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE) + text + Keys.TAB);
     }
 
-    public void refreshIfLocatorNotDisplayed(By locator) {
-        if (!isDisplayed(locator, TIME_OUT_FOR_PAGE_LOAD)) {
+    public void refreshIfbyNotDisplayed(By by) {
+        if (!isDisplayed(by, TIME_OUT_FOR_PAGE_LOAD)) {
             LOG.info("Refreshing the page");
             getDriver().navigate().refresh();
         }
