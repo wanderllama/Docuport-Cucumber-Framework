@@ -1,20 +1,36 @@
 Feature: test
 
-  Scenario: test one
+  Scenario Outline: test one
     Given test runs
-    And test "fail"
+    And test <outcome>
+
+    Examples:
+      | outcome |
+      | fail    |
 
 
-  Scenario: test one
+  Scenario Outline: test two
     Given test runs
-    And test "pass"
+    And test <outcome>
+
+    Examples:
+      | outcome |
+      | pass    |
 
 
-  Scenario: test one
+  Scenario Outline: test three
     Given test runs
-    And test "passes"
+    And test <outcome>
+
+    Examples:
+      | outcome |
+      | pass    |
 
 
-  Scenario: test one
+  Scenario Outline: test four
     Given test runs
-    And test "skip"
+    And test <outcome>
+
+    Examples:
+      | outcome |
+      | skip    |
