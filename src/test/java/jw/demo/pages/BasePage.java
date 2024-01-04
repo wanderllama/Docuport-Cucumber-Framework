@@ -39,6 +39,9 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"Convert2Lambda", "CallToPrintStackTrace"})
 public class BasePage {
 
+    private final static Logger LOG = LogManager.getLogger(BasePage.class);
+    protected POM pom = new POM();
+
     protected static final String BASE_URL = FileReaderManager.getInstance().getConfigReader().getBaseUrl();
     protected static final String ENV_PASS = FileReaderManager.getInstance().getConfigReader().getEnvPasswd();
     protected static final String BAD_PAGE_SOURCE = "<html><head></head><body></body></html>";
@@ -84,13 +87,13 @@ public class BasePage {
     protected static final int AWAIT_2_SEC = 20;
     protected static final int AWAIT_5_SEC = 50;
     protected static final int POLL_NO_INIT_DELAY = 0;
-    private static final Logger LOG = LogManager.getLogger(BasePage.class);
     protected final String attachmentTableCommon = "";
+
     // LOCATORS
     protected final By inactiveContinueButton = By.xpath("");
     protected final By errorModalMessage = By.xpath("");
     protected final By loaderIcon = By.xpath("");
-    protected POM pom = new POM();
+
 
     public static WebDriver getDriver() {
         return DriverManager.getDriver();
@@ -1912,36 +1915,4 @@ public class BasePage {
         }
         return texts;
     }
-
-
-//==================================================================================================================================================
-
-
-//    protected final By deleteButton = By.xpath("//button[contains(.,'Delete')]");
-//    protected final By loadingMessage = By.xpath("//*[text()='Loading...']");
-//
-//
-//    protected final By sorryErrorPage = By.xpath(
-//            "//*[contains(text(),'Sorry!') and contains(text(),'There is an error with') and contains(text(),'page')]");
-//    protected final String assertErrorContainsText = "Expected [%s] to contain [%s]";
-//
-//    protected final String attachmentTableDataRows = attachmentTableCommon + "/tbody/tr";
-//    protected final By allItemV3 = By
-//            .xpath("//h4[contains(@class,'apph4-accordiion-label ') and contains(text(),'Item')]");
-//    protected final By allItemV3toExpand = By.xpath(
-//            "//a[contains(@class,'header w-inline')]/h4[contains(@class,'apph4-accordiion-label ') and contains(text(),'Item')]");
-//    protected final By allItemV3ToCollapse = By.xpath(
-//            "//a[contains(@class,'header open w-inline')]/h4[contains(@class,'apph4-accordiion-label ') and contains(text(),'Item')]");
-//    protected final By allCategoryV3toExpand = By.xpath(
-//            "//a[contains(@class,'header w-inline')]/h4[contains(@class,'apph4-accordiion-label ') and contains(text(),'Category')]");
-//    protected final By allCategoryV3ToCollapse = By.xpath(
-//            "//a[contains(@class,'header open w-inline')]/h4[contains(@class,'apph4-accordiion-label ') and contains(text(),'Category')]");
-//    protected final By allSubCategoryV3toExpand = By.xpath(
-//            "//a[contains(@class,'header w-inline')]/h4[contains(@class,'apph4-accordiion-label ') and contains(text(),'Sub-category')]");
-//    protected final By allSubCategoryV3ToCollapse = By.xpath(
-//            "//a[contains(@class,'header open w-inline')]/h4[contains(@class,'apph4-accordiion-label ') and contains(text(),'Sub-category')]");
-//    protected final By closeActivityV3 = By
-//            .xpath("//h4[contains(@class,'apph4-accordiion-label ') and contains(text(),'Activity')]");
-
-
 }

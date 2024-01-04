@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import io.cucumber.java.DefaultDataTableCellTransformer;
-import io.cucumber.java.DefaultDataTableEntryTransformer;
-import io.cucumber.java.DefaultParameterTransformer;
-import io.cucumber.testng.AbstractTestNGCucumberTests;
+import jw.demo.MyApplication;
 import jw.demo.constants.Constants;
 import jw.demo.enums.Wait;
 import jw.demo.enums.WebDriverRunLocation;
@@ -31,10 +28,13 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.boot.test.context.SpringBootContextLoader;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -47,7 +47,9 @@ import java.util.stream.Collectors;
 import static org.awaitility.Awaitility.await;
 
 //@SuppressWarnings("Convert2Lambda")
-public class BaseStep extends AbstractTestNGCucumberTests {
+@SpringBootTest(classes = MyApplication.class)
+@ContextConfiguration(classes = MyApplication.class, loader = SpringBootContextLoader.class)
+public class BaseStep extends AbstractTestNGSpringContextTests {
 
     // jdbc template can be used alongside spring repositories for DB testing
     // can use @Autowired annotation or use CDI
@@ -204,13 +206,6 @@ public class BaseStep extends AbstractTestNGCucumberTests {
         (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
                 .until(ExpectedConditions.visibilityOfElementLocated(by));
         return (getDriver().findElements(by).get(index)).getText().contains(text);
-    }
-
-    @DefaultParameterTransformer
-    @DefaultDataTableEntryTransformer
-    @DefaultDataTableCellTransformer
-    public Object transformer(Object fromValue, Type toValueType) {
-        return objectMapper.convertValue(fromValue, objectMapper.constructType(toValueType));
     }
 
     protected JsonObject getScenarioData() {

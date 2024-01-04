@@ -28,6 +28,8 @@ public final class TestContext {
     private static final Logger LOG = LogManager.getLogger(TestContext.class);
     private static final Pattern SCENARIO_NAME_MATCHER = Pattern.compile(".*<-?\\d{4}>.*");
     @Getter
+    private static boolean globalSetupComplete;
+    @Getter
     private static int[] scenarioOutcome;
     @Getter
     private static String baseUrl;
@@ -46,12 +48,12 @@ public final class TestContext {
     public static void initGlobal() {
         //noinspection ResultOfMethodCallIgnored
 //        FileReaderManager.getInstance().getValidationReader();
-        if (Boolean.TRUE.equals(FileReaderManager.getInstance().getConfigReader().getTrustStoreEnabled())) {
-            System.setProperty("javax.net.ssl.trustStore",
-                    FileReaderManager.getInstance().getConfigReader().getTrustStore());
-            System.setProperty("javax.net.ssl.trustStorePassword",
-                    FileReaderManager.getInstance().getConfigReader().getTrustStorePasswd());
-        }
+//        if (Boolean.TRUE.equals(FileReaderManager.getInstance().getConfigReader().getTrustStoreEnabled())) {
+//            System.setProperty("javax.net.ssl.trustStore",
+//                    FileReaderManager.getInstance().getConfigReader().getTrustStore());
+//            System.setProperty("javax.net.ssl.trustStorePassword",
+//                    FileReaderManager.getInstance().getConfigReader().getTrustStorePasswd());
+//        }
         baseUrl = FileReaderManager.getInstance().getConfigReader().getBaseUrl();
         LOG.info("Using env.pass as: {}", baseUrl);
         envPass = FileReaderManager.getInstance().getConfigReader().getEnvPasswd();
@@ -69,6 +71,7 @@ public final class TestContext {
         LOG.debug("Test data scenario count [{}]", globalData.size());
         globalData.add(ApiUtil.TOKENS, new JsonObject());
         scenarioOutcome = new int[3];
+        globalSetupComplete = true;
     }
 
     public static Scenario getScenario() {
@@ -159,5 +162,9 @@ public final class TestContext {
         getScenarioCtx().setToken(tokenForUserName.get(Constants.TOKEN).getAsString());
         getScenarioCtx().setAuthorization(ApiUtil.BEARER + getScenarioCtx().getToken());
         return tokenForUserName;
+    }
+
+    public static boolean globalSetupComplete() {
+        return globalSetupComplete;
     }
 }

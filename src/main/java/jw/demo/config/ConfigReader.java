@@ -18,7 +18,7 @@ public class ConfigReader {
     public static boolean isReady;
     private static FileInputStream file;
 
-    public synchronized String getProperty(String key) {
+    public static synchronized String getProperty(String key) {
         if (properties == null) {
             isReady = false;
             loadProperties();
@@ -27,7 +27,7 @@ public class ConfigReader {
     }
 
     @SuppressWarnings("CallToPrintStackTrace")
-    private synchronized void loadProperties() {
+    public static synchronized void loadProperties() {
         if (!isReady) {
             LOG.info("Loading Configuration Properties");
             try {
