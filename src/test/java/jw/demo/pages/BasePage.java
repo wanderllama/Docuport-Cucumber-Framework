@@ -90,7 +90,7 @@ public class BasePage {
     protected final String attachmentTableCommon = "";
 
     // TODO adjust rounding mode depending on project AC if currency is involved otherwise remove
-    protected static final RoundingMode currencyRoundingType = RoundingMode.HALF_EVEN;
+    protected static final RoundingMode roundingMode = RoundingMode.HALF_UP;
 
     // LOCATORS
     protected final By inactiveContinueButton = By.xpath("");
@@ -863,7 +863,7 @@ public class BasePage {
     /**
      * Selects an option from a dropdown list by its value.
      *
-     * @param by The selector for the dropdown element.
+     * @param by the locator for the dropdown element.
      * @param value The value of the item to be selected.
      */
     public void selectByValue(By by, String value) {
@@ -1772,9 +1772,28 @@ public class BasePage {
         }
     }
 
+    /*
+      TODO method docs below finished some above are complete but not all REMOVE WHEN STARTING AGAIN
+    */
+
     /**
-     * Performs a click operation on a dropdown element identified by the given locator. 
-     * It uses the default timeout value and current task version ID.
+     * This method performs a double click action on the given WebElement.
+     * Uses the specified timeout to wait for a version ID update after the double click action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before double click.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then double click.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by double clicking
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
      * @param by the locator of the dropdown element to click on
      */
@@ -1783,14 +1802,46 @@ public class BasePage {
     }
 
     /**
+     * This method performs a double click action on the given WebElement.
+     * Uses the specified timeout to wait for a version ID update after the double click action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before double click.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then double click.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by double clicking
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
+     * @param by
+     * @param script
      */
     public void ddClick(By by, String script) {
         ddClick(by, TIME_OUT_DD_SECONDS, script);
     }
 
     /**
-     * Performs a dropdown click action on a web element identified by the given locator.
+     * This method performs a double click action on the given WebElement.
+     * Uses the specified timeout to wait for a version ID update after the double click action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before double click.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then double click.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by double clicking
+     * </p>
      *
      * @param by           the locator strategy (By) used to find the WebElement
      * @param timeOutInSecs the maximum time to wait for the WebElement to be clickable
@@ -1800,8 +1851,20 @@ public class BasePage {
     }
 
     /**
-     * Performs a click operation on the web element specified by the given locator.
-     * Checks for version ID update after the click operation and logs an error message if the update fails.
+     * This method performs a double click action on the given WebElement.
+     * Uses the specified timeout to wait for a version ID update after the double click action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before double click.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then double click.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by double clicking
+     * </p>
      *
      * @param by the locator strategy to find the web element
      * @param timeOutInSecs the maximum time in seconds to wait for version ID update
@@ -1818,8 +1881,23 @@ public class BasePage {
     }
 
     /**
-     * Clicks the given web element for dropdown menu selection.
-     * Waits for the default timeout duration before clicking.
+     * This method performs a double click action on the given WebElement.
+     * Uses the specified timeout to wait for a version ID update after the double click action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before double click.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then double click.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by double clicking
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
      * @param elem the web element to be clicked
      */
@@ -1828,14 +1906,46 @@ public class BasePage {
     }
 
     /**
+     * This method performs a double click action on the given WebElement.
+     * Uses the specified timeout to wait for a version ID update after the double click action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before double click.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then double click.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by double clicking
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
+     * @param elem
+     * @param script
      */
     public void ddClick(WebElement elem, String script) {
         ddClick(elem, TIME_OUT_DD_SECONDS, script);
     }
 
     /**
-     * Clicks on a WebElement with a specified timeout in seconds.
+     * This method performs a double click action on the given WebElement.
+     * Uses the specified timeout to wait for a version ID update after the double click action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before double click.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then double click.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by double clicking
+     * </p>
      *
      * @param elem           the WebElement to click on
      * @param timeOutInSecs  the timeout in seconds for the click operation
@@ -1846,12 +1956,24 @@ public class BasePage {
     }
 
     /**
-     * This method performs a double-click action on the given WebElement. It uses the specified timeout
-     * in seconds to wait for a version ID update after the double-click action.
+     * This method performs a double click action on the given WebElement.
+     * Uses the specified timeout to wait for a version ID update after the double click action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before double click.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then double click.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by double clicking
+     * </p>
      *
-     * @param elem           The WebElement on which the double-click action should be performed.
-     * @param timeOutInSecs  The timeout in seconds to wait for a version ID update after the double-click action.
-     * @param script         The script to execute in order to obtain the original version ID.
+     * @param elem           The WebElement on which the double click action should be performed.
+     * @param timeOutInSecs  The timeout in seconds to wait for a version ID update after the double click action.
+     * @param script         The script to execute to obtain the original version ID.
      * @see #getVersionId(WebDriver, String)
      * @see #click(WebElement)
      * @see #getJSExecutor()
@@ -1870,8 +1992,22 @@ public class BasePage {
     }
 
     /**
-     * This method is used to send keys to the given element identified by the provided locator
-     * and then perform a blur operation on the WebElement.
+     * Sends keys to a given WebElement and use state change to validate typing action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before simulating typing.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent after simulating typing.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by simulating typing.
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
      * @param by The locator used to identify the WebElement to send keys to.
      * @param input The input value to send to the WebElement.
@@ -1881,9 +2017,24 @@ public class BasePage {
     }
 
     /**
-     * Sends keys to an element specified by the given By object and triggers a blur event on the WebElement using the given script.
+     * Sends keys to a given WebElement and use state change to validate typing action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before simulating typing.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent after simulating typing.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by simulating typing.
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
-     * @param by the selector used to locate the WebElement
+     * @param by the locator used to locate the WebElement
      * @param input the keys to be sent to the WebElement
      * @param script the JavaScript code to trigger the blur event on the WebElement
      */
@@ -1892,7 +2043,19 @@ public class BasePage {
     }
 
     /**
-     * Sends keys to an element identified by the given locator, triggers a blur event, and waits for a specified amount of time.
+     * Sends keys to a given WebElement and use state change to validate typing action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before simulating typing.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent after simulating typing.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by simulating typing.
+     * </p>
      *
      * @param by The locator strategy to find the WebElement.
      * @param input The keys to be sent to the WebElement.
@@ -1903,7 +2066,24 @@ public class BasePage {
     }
 
     /**
+     * Sends keys to a given WebElement and use state change to validate typing action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before simulating typing.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent after simulating typing.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by simulating typing.
+     * </p>
      *
+     * @param by            The WebElement to send keys to.
+     * @param input         The input value to send to the WebElement.
+     * @param timeOutInSecs The timeout in seconds for waiting for version ID update.
+     * @param script        The script to get the original version ID from.
      */
     public void ddSendKeysBlur(By by, String input, int timeOutInSecs, String script) {
         LOG.info("Clearing and ddSending Keys to Element {} with values {} [{}] and then defocusing by sending Blur",
@@ -1917,16 +2097,47 @@ public class BasePage {
     }
 
     /**
+     * Sends keys to a given WebElement and use state change to validate typing action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before simulating typing.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent after simulating typing.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by simulating typing.
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
+     * @param element the web element to send keys to
+     * @param input the text to be entered in the element
      */
     public void ddSendKeysBlur(WebElement element, String input) {
         ddSendKeysBlur(element, input, TIME_OUT_DD_SECONDS, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
-     * Sends keys to a web element and triggers a blur event.
-     * This method is used to simulate sending keys to an input field and then trigger the blur event on the field.
-     * The method internally calls ddSendKeysBlur with a default timeout value of TIME_OUT_DD_SECONDS.
+     * Sends keys to a given WebElement and use state change to validate typing action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before simulating typing.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent after simulating typing.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by simulating typing.
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
      * @param element The web element to which keys need to be sent.
      * @param input The keys or text to be sent to the WebElement.
@@ -1939,7 +2150,19 @@ public class BasePage {
     }
 
     /**
-     * Sends keys to a web element and then triggers a blur event.
+     * Sends keys to a given WebElement and use state change to validate typing action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before simulating typing.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent after simulating typing.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by simulating typing.
+     * </p>
      *
      * @param element       the web element to send keys to
      * @param input         the keys to send to the web element
@@ -1950,10 +2173,27 @@ public class BasePage {
     }
 
     /**
+     * Sends keys to a given WebElement and use state change to validate typing action.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before simulating typing.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent after simulating typing.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by simulating typing.
+     * </p>
      *
+     * @param element       The WebElement to send keys to.
+     * @param input         The input value to send to the WebElement.
+     * @param timeOutInSecs The timeout in seconds for waiting for version ID update.
+     * @param script        The script to get the original version ID from.
      */
     public void ddSendKeysBlur(WebElement element, String input, int timeOutInSecs, String script) {
-        LOG.info("Clearing and ddSending Keys to Element {} with values {} [{}] and then defocusing by sending Blur",
+        LOG.info("Clearing and ddSending Keys to Element {} with values {} [{}] and then remove focus by sending Blur",
                 element, input, script);
         String origVersionId = getVersionId(getDriver(), script);
         LOG.info("origVersionId: {} [{}]", origVersionId, script);
@@ -1964,14 +2204,51 @@ public class BasePage {
     }
 
     /**
+     * Enters a date in a specified input field.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before entering date.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then enters date.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by entering date
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
+     * @param dateEntryLocator The locator of the date entry input field.
+     * @param input The date value to enter.
      */
     public void ddEnterDate(By dateEntryLocator, String input) {
         ddEnterDate(dateEntryLocator, input, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
+     * Enters a date in a specified input field.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before entering date.
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then enters date.
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by entering date
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
+     * @param by The locator used to identify the dropdown element.
+     * @param text The value of the option to be selected.
+     * @param script The JavaScript script to execute.
      */
     public void ddEnterDate(By dateEntryLocator, String input, String script) {
         String origVersionId = getVersionId(getDriver(), script);
@@ -1983,28 +2260,98 @@ public class BasePage {
     }
 
     /**
+     * Selects an option from a dropdown menu by its text.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before selectByText().
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then execute selectByText().
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by selecting an option
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
+     * @param by The locator used to identify the dropdown element.
+     * @param text The value of the option to be selected.
      */
     public void ddSelectByText(By by, String text) {
         ddSelectByText(by, text, TIME_OUT_DD_SECONDS, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
+     * Selects an option from a dropdown menu by its text.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before selectByText().
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then execute selectByText().
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by selecting an option
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
+     * @param by The locator used to identify the dropdown element.
+     * @param text The value of the option to be selected.
+     * @param script The JavaScript script to execute.
      */
     public void ddSelectByText(By by, String text, String script) {
         ddSelectByText(by, text, TIME_OUT_DD_SECONDS, script);
     }
 
     /**
+     * Selects an option from a dropdown menu by its text.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before selectByText().
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then execute selectByText().
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by selecting an option
+     * </p>
      *
+     * @param by The locator used to identify the dropdown element.
+     * @param text The value of the option to be selected.
+     * @param timeOutInSecs The maximum time to wait for the version ID update.
      */
     public void ddSelectByText(By by, String text, int timeOutInSecs) {
         ddSelectByText(by, text, timeOutInSecs, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
+     * Selects an option from a dropdown menu by its text.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before selectByText().
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then execute selectByText().
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by selecting an option
+     * </p>
      *
+     * @param by The locator used to identify the dropdown element.
+     * @param text The value of the option to be selected.
+     * @param timeOutInSecs The maximum time to wait for the version ID update.
+     * @param script The JavaScript script to execute.
      */
     public void ddSelectByText(By by, String text, int timeOutInSecs, String script) {
         String origVersionId = getVersionId(getDriver(), script);
@@ -2016,28 +2363,97 @@ public class BasePage {
     }
 
     /**
+     * Selects an option from a dropdown menu by its value.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before selectByValue().
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then execute selectByValue().
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by selecting an option
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
+     * @param by the locator strategy to identify the dropdown element
+     * @param text the value of the option to be selected
      */
     public void ddSelectByValue(By by, String text) {
         ddSelectByValue(by, text, TIME_OUT_DD_SECONDS, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
+     * Selects an option from a dropdown menu by its value.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before selectByValue().
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then execute selectByValue().
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by selecting an option
+     * </p>
+     * <p>
+     * Given time-out period of 6 seconds
+     * </p>
      *
+     * @param by     The locator strategy to find the drop-down element.
+     * @param text   The value of the option to be selected.
+     * @param script The JavaScript script to execute after selecting the option.
      */
     public void ddSelectByValue(By by, String text, String script) {
         ddSelectByValue(by, text, TIME_OUT_DD_SECONDS, script);
     }
 
     /**
+     * Selects an option from a dropdown menu by its value.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before selectByValue().
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then execute selectByValue().
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by selecting an option
+     * </p>
      *
+     * @param by The locator of the dropdown element.
+     * @param text The value of the option to be selected.
+     * @param timeOutInSecs The maximum time to wait for the option to be selectable, in seconds.
      */
     public void ddSelectByValue(By by, String text, int timeOutInSecs) {
         ddSelectByValue(by, text, timeOutInSecs, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
-     *
+     * Selects an option from a dropdown menu by its value.
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent before selectByValue().
+     * </p>
+     * <p>
+     * Execute JS blur method to remove keyboard focus from WebElement then execute selectByValue().
+     * </p>
+     * <p>
+     * Execute JS script to get versionId of Redux/DynamicComponent.
+     * </p>
+     * <p>
+     * Compare versionIds to establish state change caused by selecting an option
+     * </p>
+     * @param by The locator used to identify the dropdown element.
+     * @param text The value of the option to be selected.
+     * @param timeOutInSecs The maximum time to wait for the version ID update.
+     * @param script The JavaScript script to execute.
      */
     public void ddSelectByValue(By by, String text, int timeOutInSecs, String script) {
         String origVersionId = getVersionId(getDriver(), script);
@@ -2049,14 +2465,27 @@ public class BasePage {
     }
 
     /**
+     * Retrieves the version ID by executing a JavaScript script using JS executor.
+     * <p>
+     * versionId is an attribute of a Redux/Dynamic component that changes value depending on state change after interaction
+     * </p>
      *
+     * @param driver the WebDriver instance to retrieve the version ID for
+     * @return the version ID as a string
      */
     public String getVersionId(WebDriver driver) {
         return getVersionId(driver, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
+     * Retrieves the version ID by executing a JavaScript script using JS executor.
+     * <p>
+     * versionId is an attribute of a Redux/Dynamic component that changes value depending on state change after interaction
+     * </p>
      *
+     * @param driver The WebDriver instance to execute the JavaScript on.
+     * @param script The JavaScript script to execute.
+     * @return The version ID obtained from executing the script, or null if the version ID is "undefined" or if an exception occurs.
      */
     public String getVersionId(WebDriver driver, String script) {
         try {
@@ -2072,7 +2501,16 @@ public class BasePage {
     }
 
     /**
+     * Expands or triggers an action and attempts to locate WebElement before time-out period ends.
+     * <p>
+     * After expandOrTriggerReveal delayClick method used on WebElement locatorIfExpanded.
+     * </p>
+     * <p>
+     *  Given time-out period of 90 seconds
+     * </p>.
      *
+     * @param listBoxLocator   the locator for the list box element
+     * @param locatorIfExpanded   the locator for an element within the list box that indicates it is expanded
      */
     public void expandOrTriggerToClick(By listBoxLocator, By locatorIfExpanded) {
         expandOrTriggerToReveal(listBoxLocator, locatorIfExpanded, Boolean.FALSE);
@@ -2080,7 +2518,17 @@ public class BasePage {
     }
 
     /**
+     * Expands or triggers an action and attempts to locate WebElement before time-out period ends.
+     * <p>
+     * After expandOrTriggerReveal delayClick method used on WebElement locatorIfExpanded.
+     * </p>
+     * <p>
+     *  Given time-out period of 90 seconds
+     * </p>.
      *
+     * @param listBoxLocator   the locator for the list box element
+     * @param locatorIfExpanded   the locator for an element within the list box that indicates it is expanded
+     * @param refreshOption   indicates whether to refresh the page before clicking the element
      */
     public void expandOrTriggerToClick(By listBoxLocator, By locatorIfExpanded, Boolean refreshOption) {
         expandOrTriggerToReveal(listBoxLocator, locatorIfExpanded, refreshOption);
@@ -2088,7 +2536,16 @@ public class BasePage {
     }
 
     /**
-     *
+     * Expands or triggers an action and attempts to locate WebElement before time-out period ends.
+     * <p>
+     * After expandOrTriggerReveal delayClick method used on WebElement locatorIfExpanded then locatorIfExpandedSecond
+     * </p>
+     * <p>
+     *  Given time-out period of 90 seconds
+     * </p>.
+     * @param listBoxLocator
+     * @param locatorIfExpanded
+     * @param locatorIfExpandedSecond
      */
     public void expandOrTriggerToClick(By listBoxLocator, By locatorIfExpanded, By locatorIfExpandedSecond) {
         expandOrTriggerToReveal(listBoxLocator, locatorIfExpanded, Boolean.FALSE);
@@ -2097,14 +2554,27 @@ public class BasePage {
     }
 
     /**
+     * Expands or triggers an action and attempts to locate WebElement before time-out period ends.
+     * <p>
+     * Given time-out period of 90 seconds
+     * </p>.
      *
+     * @param listBoxLocator The locator of the element that needs to be expanded or triggered.
+     * @param locatorIfExpanded The locator of the element that should be revealed when the {@code listBoxLocator} is expanded
      */
     public void expandOrTriggerToReveal(By listBoxLocator, By locatorIfExpanded) {
         expandOrTriggerToReveal(listBoxLocator, locatorIfExpanded, Boolean.FALSE);
     }
 
     /**
+     * Expands or triggers an action and attempts to locate WebElement before time-out period ends.
+     * <p>
+     * Given time-out period of 90 seconds
+     * </p>.
      *
+     * @param listBoxLocator      the locator of the list box element
+     * @param locatorIfExpanded   the locator of the element that should be visible if the list box is expanded
+     * @param refreshOption       a boolean flag indicating whether to refresh the page if the element is not visible
      */
     public void expandOrTriggerToReveal(By listBoxLocator, By locatorIfExpanded, Boolean refreshOption) {
         new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT_COMPLETE_TASK),
@@ -2128,7 +2598,14 @@ public class BasePage {
     }
 
     /**
+     * Adds the specified number of days to the current calendar date.
+     * <p>
+     * Uses provided pattern to format and convert to String
+     * </p>
      *
+     * @param format the format of the date string
+     * @param numberOfDays the number of days to be added to the current date
+     * @return the updated calendar date as a string in the specified format
      */
     public String addCalendarDate(String format, int numberOfDays) {
         String date = new SimpleDateFormat(format).format(new Date());
@@ -2144,7 +2621,13 @@ public class BasePage {
     }
 
     /**
+     * Adds the specified number of days to the current calendar date and time.
+     * <p>
+     * Converts the TimeStamp object to UTC time zone and then formats to String
+     * </p>
      *
+     * @param numberOfDays the number of days to add
+     * @return the updated calendar date and time as a string formatted in "MM/dd/yyyy hh:mm a" format
      */
     public String addCalendarDateTime(int numberOfDays) {
         String timeStamp = new SimpleDateFormat("MM/dd/yyyy hh:mm a").format(new Timestamp(new Date().getTime()));
@@ -2160,14 +2643,21 @@ public class BasePage {
     }
 
     /**
+     * Expects the loader icon to disappear within a certain time-out period.
+     * <p>
+     * Time-out period of 90 seconds is given
+     * </p>
      *
+     * @see #expectLoaderIconToDisappear(long)
      */
     public void expectLoaderIconToDisappear() {
         expectLoaderIconToDisappear(TIMEOUT_COMPLETE_TASK);
     }
 
     /**
+     * Waits for the loader icon to disappear from the UI before a given time-out period ends..
      *
+     * @param timeOut the maximum time to wait in seconds
      */
     public void expectLoaderIconToDisappear(int timeOut) {
         acceptAlertForOutdatedBrowser();
@@ -2199,21 +2689,32 @@ public class BasePage {
     }
 
     /**
+     * Converts a given String representation of a date to a LocalDate object.
      *
+     * @param inputDate the string representation of the date
+     * @return the LocalDate representation of the given input date
      */
     public LocalDate convertToLocalDate(String inputDate) {
         return OffsetDateTime.parse(inputDate).atZoneSameInstant(ZoneId.systemDefault()).toLocalDate();
     }
 
     /**
+     * Adds the specified number of years to the given LocalDate.
      *
+     * @param date The LocalDate to which the years need to be added. Must not be null.
+     * @param years The number of years to add to the LocalDate. Must be a positive or negative integer.
+     * @return A new LocalDate object that represents the resulting date after adding the years.
      */
     public LocalDate addYearsToLocalDate(LocalDate date, long years) {
         return date.plusYears(years);
     }
 
     /**
+     * Creates a {@link Callable} that waits until the specified maximum interval is reached.
      *
+     * @param maxInterval the maximum interval to wait for
+     * @return a {@link Callable} that returns {@code true} when the maximum interval is reached,
+     *      {@code false} otherwise
      */
     private Callable<Boolean> waitInterval(int maxInterval) {
         return new Callable<>() {
@@ -2227,7 +2728,9 @@ public class BasePage {
     }
 
     /**
+     * Waits for a specified delay interval before continuing execution.
      *
+     * @param maxInterval the maximum delay interval in milliseconds
      */
     private void awaitDelay(int maxInterval) {
         try {
@@ -2240,7 +2743,13 @@ public class BasePage {
     }
 
     /**
+     * Waits for a specified period before attempting to click a WebElement before a given time-out period ends.
+     * <p>
+     * Time-out of 10 seconds is given to wait for the WebElement to become available for interaction
+     * </p>
      *
+     * @param by the locator used to identify the web element
+     * @param delayInterval the delay interval in milliseconds before the click action is performed
      */
     public void delayClick(By by, int delayInterval) {
         awaitDelay(delayInterval);
@@ -2248,7 +2757,14 @@ public class BasePage {
     }
 
     /**
+     * Waits for a specified period before attempting to click a WebElement before a given time-out period ends.
+     * <p>
+     * Time-out of 10 seconds is given to wait for the WebElement to become available for interaction
+     * </p>
      *
+     * @param by the locator of the element to be clicked
+     * @param timeOut the maximum amount of time to wait for the element to be clickable, in seconds
+     * @param delayInterval the duration to delay the click action before performing it, in milliseconds
      */
     public void delayClick(WebElement element, int delayInterval) {
         awaitDelay(delayInterval);
@@ -2256,7 +2772,11 @@ public class BasePage {
     }
 
     /**
+     * Waits for a specified period before attempting to click a WebElement before a given time-out period ends.
      *
+     * @param by the locator of the element to be clicked
+     * @param timeOut the maximum amount of time to wait for the element to be clickable, in seconds
+     * @param delayInterval the duration to delay the click action before performing it, in milliseconds
      */
     public void delayClick(By by, int timeOut, int delayInterval) {
         awaitDelay(delayInterval);
@@ -2264,7 +2784,14 @@ public class BasePage {
     }
 
     /**
+     * Waits for a specified period before attempting to click a WebElement before a given time-out period ends.
+     * <p>
+     * Time-out of 10 seconds is given to wait for the WebElement to become available for interaction
+     * </p>
      *
+     * @param element the web element to be clicked
+     * @param timeOut the maximum time to wait for the element to be clickable, in milliseconds
+     * @param delayInterval the interval to wait before clicking the element, in milliseconds
      */
     public void delayClick(WebElement element, int timeOut, int delayInterval) {
         awaitDelay(delayInterval);
@@ -2272,14 +2799,26 @@ public class BasePage {
     }
 
     /**
+     * Waits for a specified period before attempting to send keys to the WebElement before a given time-out period ends.
+     * <p>
+     * Time-out of 10 seconds is given to wait for the WebElement to become available for interaction
+     * </p>
      *
+     * @param by the locator used to identify the element
+     * @param input the character sequence to be sent
+     * @param delayInterval the delay in milliseconds between each character sent
      */
     public void delaySendKeys(By by, String input, int delayInterval) {
         delaySendKeys(by, input, TIME_OUT_SECONDS, delayInterval);
     }
 
     /**
+     * Waits for a specified period before attempting to send keys to the WebElement before a given time-out period ends.
      *
+     * @param by            the locator of the element to send keys to
+     * @param input         the text to be sent to the element
+     * @param timeOutInSecs the maximum time to wait for the element to be visible before sending keys
+     * @param delayInterval the delay interval in milliseconds before sending keys
      */
     public void delaySendKeys(By by, String input, int timeOutInSecs, int delayInterval) {
         awaitDelay(delayInterval);
@@ -2291,14 +2830,32 @@ public class BasePage {
     }
 
     /**
+     * Delays the sending of keys to a WebElement and triggers a blur event after a specified interval.
+     * <p>
+     * Uses JS executor to execute JS blur method to remove keyboard focus from WebElement
+     * </p>
+     * <p>
+     * Time-out of 10 seconds is given to wait for the WebElement to become available for interaction
+     * </p>
      *
+     * @param element          The web element to send keys to.
+     * @param input            The input (keys) to be sent.
+     * @param delayInterval    The delay interval (in milliseconds) before sending the keys and triggering the blur event.
      */
     public void delaySendKeysBlur(By by, String input, int delayInterval) {
         delaySendKeysBlur(by, input, TIME_OUT_SECONDS, delayInterval);
     }
 
     /**
+     * Delays the sending of keys to a WebElement and triggers a blur event after a specified interval.
+     * <p>
+     * Uses JS executor to execute JS blur method to remove keyboard focus from WebElement
+     * </p>
      *
+     * @param element          The web element to send keys to.
+     * @param input            The input (keys) to be sent.
+     * @param timeOutInSecs    The maximum time (in seconds) to wait for the WebElement to become available for interaction
+     * @param delayInterval    The delay interval (in milliseconds) before sending the keys and triggering the blur event.
      */
     public void delaySendKeysBlur(By by, String input, int timeOutInSecs, int delayInterval) {
         awaitDelay(delayInterval);
@@ -2306,14 +2863,32 @@ public class BasePage {
     }
 
     /**
+     * Delays the sending of keys to a WebElement and triggers a blur event after a specified interval.
+     * <p>
+     * Uses JS executor to execute JS blur method to remove keyboard focus from WebElement
+     * </p>
+     * <p>
+     * Time-out of 10 seconds is given to wait for the WebElement to become available for interaction
+     * </p>
      *
+     * @param element          The web element to send keys to.
+     * @param input            The input (keys) to be sent.
+     * @param delayInterval    The delay interval (in milliseconds) before sending the keys and triggering the blur event.
      */
     public void delaySendKeysBlur(WebElement element, String input, int delayInterval) {
         delaySendKeysBlur(element, input, TIME_OUT_SECONDS, delayInterval);
     }
 
     /**
+     * Delays the sending of keys to a WebElement and triggers a blur event after a specified interval.
+     * <p>
+     * Uses JS executor to execute JS blur method to remove keyboard focus from WebElement
+     * </p>
      *
+     * @param element          The web element to send keys to.
+     * @param input            The input (keys) to be sent.
+     * @param timeOutInSecs    The maximum time (in seconds) to wait for the WebElement to become available for interaction
+     * @param delayInterval    The delay interval (in milliseconds) before sending the keys and triggering the blur event.
      */
     public void delaySendKeysBlur(WebElement element, String input, int timeOutInSecs, int delayInterval) {
         awaitDelay(delayInterval);
@@ -2321,7 +2896,11 @@ public class BasePage {
     }
 
     /**
+     * Delays the selection of an option in a dropdown by its value by a specified interval.
      *
+     * @param by            the locating mechanism to find the dropdown element
+     * @param value         the value of the option to be selected
+     * @param delayInterval the delay interval in milliseconds
      */
     public void delaySelectByValue(By by, String value, int delayInterval) {
         awaitDelay(delayInterval);
@@ -2329,7 +2908,11 @@ public class BasePage {
     }
 
     /**
+     * Delays the selection of an option in a dropdown by a specified interval.
      *
+     * @param by The locator strategy used to identify the dropdown element.
+     * @param text The text of the option to be selected.
+     * @param delayInterval The time interval, in milliseconds, to delay the selection.
      */
     public void delaySelectByText(By by, String text, int delayInterval) {
         awaitDelay(delayInterval);
@@ -2337,6 +2920,15 @@ public class BasePage {
     }
 
     /**
+     * Changes the current window to the second window.
+     * <p>
+     * This method retrieves the current window handle, then retrieves all available window handles.
+     * <p>
+     * After removing the current window handle from the list. The driver's focus switches windows using remaining windows handle.
+     * </p>
+     * <p>
+     * ArrayList<String> is used due to slight performance advantage over Set when dealing with small Collections.
+     * </p>
      *
      */
     public void changeWindow() {
@@ -2348,42 +2940,81 @@ public class BasePage {
     }
 
     /**
+     * Returns the current date in the specified format and time zone.
      *
+     * @param dateFormat the format of the date to return
+     * @param zone the time zone to use for the date
+     * @return the current date in the specified format and time zone
      */
     public String getCurrentDate(String dateFormat, ZoneId zone) {
         return OffsetDateTime.now(zone).format(DateTimeFormatter.ofPattern(dateFormat));
     }
 
     /**
+     * Returns the future date based on the given pattern, number of days in the future, and time zone.
+     * <p>
+     * Uses specified number of days and the given time zone to get future date.
+     * </p>
      *
+     * @param pattern the pattern to be used for formatting the date
+     * @param daysInFuture the number of days to add to the current date
+     * @param zone the time zone to be used for the future date
+     * @return the formatted future date as a string
      */
     public String getFutureDate(String pattern, int daysInFuture, ZoneId zone) {
         return getFutureDate(DateTimeFormatter.ofPattern(pattern), daysInFuture, zone);
     }
 
     /**
+     * Returns a future date as a string representation formatted according to the provided pattern,
+     * <p>
+     * Uses specified number of days and the given time zone to get future date.
+     * </p>
      *
+     * @param pattern the pattern to be used for formatting the future date (e.g. "yyyy-MM-dd")
+     * @param daysInFuture the number of days in the future from the current date
+     * @param zone the time zone to be used for calculating the future date
+     * @return a string representation of the future date formatted according to the provided pattern
      */
     public String getFutureDate(DateTimeFormatter pattern, int daysInFuture, ZoneId zone) {
         return ZonedDateTime.now(zone).plusDays(daysInFuture).format(pattern);
     }
 
     /**
-     *
+     * Retrieves the date in the past based on the specified pattern, number of days, and time zone.
+     * <p>
+     * Uses specified number of days and the given time zone to get past date.
+     * </p>
+     * @param pattern the pattern used to format the date
+     * @param daysInPast the number of days to go back in the past
+     * @param zone the time zone to use for the date calculation
+     * @return the formatted date in the past as a string
      */
     public String getPastDate(String pattern, int daysInPast, ZoneId zone) {
         return getPastDate(DateTimeFormatter.ofPattern(pattern), daysInPast, zone);
     }
 
     /**
+     * Returns a past date as a string formatted according to the provided pattern.
+     * <p>
+     * Uses specified number of days and the given time zone to get past date.
+     * </p>
      *
+     * @param pattern the date and time format pattern to be used
+     * @param daysInPast the number of days in the past from the current date
+     * @param zone the time zone to apply when calculating the past date
+     * @return a string representation of the past date formatted according to the pattern
      */
     public String getPastDate(DateTimeFormatter pattern, int daysInPast, ZoneId zone) {
         return ZonedDateTime.now(zone).minusDays(daysInPast).format(pattern);
     }
 
     /**
+     * Continuously refreshes the page until the element becomes visible or the maximum time is reached.
      *
+     * @param by the locator strategy used to identify the element
+     * @param maxTime the maximum time (in seconds) to wait for the element to become visible
+     * @param pollInterval the time interval (in milliseconds) between each refresh attempt
      */
     public void refreshUntilElementVisible(final By by, int maxTime, int pollInterval) {
         LOG.info("Waiting for element to be enabled: {}", by.toString());
@@ -2409,7 +3040,12 @@ public class BasePage {
     }
 
     /**
+     * Refreshes the page until the specified element is visible.
      *
+     * @param by The locator strategy to find the element.
+     * @param navigateBy The locator strategy to navigate to the page containing the element.
+     * @param maxTime The maximum time, in seconds, to wait for the element to become visible.
+     * @param pollInterval The time, in milliseconds, to wait between each check for the element's visibility.
      */
     public void refreshUntilElementVisible(final By by, final By navigateBy, int maxTime, int pollInterval) {
         LOG.info("Waiting for element to be enabled: {}", by.toString());
@@ -2436,14 +3072,23 @@ public class BasePage {
     }
 
     /**
+     * Returns the specified attribute of a WebElement within a given time-out period.
      *
+     * @param by the locator used to locate the element.
+     * @param attribute The name of the attribute whose value is to be retrieved.
+     * @return The value of the specified attribute as a string.
      */
     public String getAttribute(By by, String attribute) {
         return getAttribute(by, TIME_OUT_SECONDS, attribute);
     }
 
     /**
+     * Returns the specified attribute of a WebElement within a given time-out period.
      *
+     * @param by the locator to locate the element
+     * @param timeOutInSecs the maximum time to wait for the element to be visible, in seconds
+     * @param attribute the name of the attribute to retrieve
+     * @return The value of the specified attribute as a string.
      */
     public String getAttribute(By by, int timeOutInSecs, String attribute) {
         expectElementToBeVisible(by, timeOutInSecs);
@@ -2451,14 +3096,27 @@ public class BasePage {
     }
 
     /**
+     * Returns the specified attribute of a WebElement within a given time-out period.
+     * <p>
+     * Time-out period of 10 seconds is given
+     * </p>
      *
+     * @param element The web element from which to retrieve the attribute value.
+     * @param attribute The name of the attribute to retrieve.
+     * @return The value of the specified attribute as a string.
      */
     public String getAttribute(WebElement element, String attribute) {
         return getAttribute(element, TIME_OUT_SECONDS, attribute);
     }
 
     /**
+     * Returns the specified attribute of a WebElement within a given time-out period.
      *
+     * @param element The WebElement from which to retrieve the attribute value.
+     * @param timeOutInSecs The maximum number of seconds to wait for the WebElement to be visible.
+     * @param attribute The name of the attribute whose value is to be retrieved.
+     * @return The value of the specified attribute as a string.
+     * @throws TimeoutException If the WebElement is not visible within the specified time-out duration.
      */
     public String getAttribute(WebElement element, int timeOutInSecs, String attribute) {
         expectElementToBeVisible(element, timeOutInSecs);
@@ -2466,14 +3124,25 @@ public class BasePage {
     }
 
     /**
-     *
+     * Checks if a WebElement has the specified attribute.
+     * <p>
+     * Time-out period of 10 seconds is given
+     * </p>
+     * @param by       the locator strategy used to find the element
+     * @param attribute the name of the attribute to check
+     * @return true if the element has the specified attribute, false otherwise
      */
     public boolean hasAttribute(By by, String attribute) {
         return getAttribute(by, TIME_OUT_SECONDS, attribute) != null;
     }
 
     /**
+     * Checks if the WebElement has the specified attribute within a given time-out period.
      *
+     * @param by The locator strategy to find the element.
+     * @param timeOutInSecs The maximum time in seconds to wait until the element is visible.
+     * @param attribute The attribute to check for.
+     * @return true if the element has the specified attribute, false otherwise.
      */
     public boolean hasAttribute(By by, int timeOutInSecs, String attribute) {
         expectElementToBeVisible(by, timeOutInSecs);
@@ -2481,14 +3150,26 @@ public class BasePage {
     }
 
     /**
+     * This method checks whether the given WebElement has the specified attribute.
+     * <p>
+     * Time-out period of 10 seconds is given
+     * </p>
      *
+     * @param element The WebElement to check for the attribute.
+     * @param attribute The attribute to check for.
+     * @return true if the WebElement has the attribute, false otherwise.
      */
     public boolean hasAttribute(WebElement element, String attribute) {
         return getAttribute(element, TIME_OUT_SECONDS, attribute) != null;
     }
 
     /**
+     * Checks if the given WebElement has the specified attribute within the given time-out period.
      *
+     * @param element The WebElement to check the attribute for.
+     * @param timeOutInSecs The time out period in seconds within which to wait for the element to be visible.
+     * @param attribute The attribute to check for.
+     * @return true if the element has the specified attribute, false otherwise.
      */
     public boolean hasAttribute(WebElement element, int timeOutInSecs, String attribute) {
         expectElementToBeVisible(element, timeOutInSecs);
@@ -2496,47 +3177,138 @@ public class BasePage {
     }
 
     /**
-     *
+     * Calculates the added amount between two amounts using scale and rounding mode.
+     * <p>
+     * Scale is 2 to match USD
+     * </p>
+     * <p>
+     * Scale is used to express BigDecimal with a defined number of decimal places
+     * </p>
+     * <p>
+     *      ex: setScale(1, RoundingMode.CEILING)
+     *          31452678569.24321 -> 31452678569.3
+     * </p>
+     * <p>
+     * Uses HALF_UP rounding mode defined as static final variable
+     * </p>
+     * @param amount1 the first number to be added
+     * @param amount2 the second number to be added
+     * @return the added amount for USD currency
      */
-    public double calculateAddedAmountForUsd(double num1, double num2) {
-        return calculateAddedAmount(num1, num2, USD_DECIMAL_SCALE, RoundingMode.HALF_UP);
+    public double calculateAddedAmountForUsd(double amount1, double amount2) {
+        return calculateAddedAmount(amount1, amount2, USD_DECIMAL_SCALE, roundingMode);
     }
 
     /**
-     *
+     * Calculates the added amount between two amounts using scale and rounding mode.
+     * <p>
+     * Scale is used to express BigDecimal with a defined number of decimal places
+     * </p>
+     * <p>
+     *      ex: setScale(1, RoundingMode.CEILING)
+     *          31452678569.24321 -> 31452678569.3
+     * </p>
+     * <p>
+     * Uses HALF_UP rounding mode defined as static final variable
+     * </p>
+     * @param amount1          the first number
+     * @param amount2          the second number
+     * @param scale         the number of decimal places to round to
+     * @param roundingMode  the rounding mode to be used
+     * @return the added amount of the two numbers, rounded to the specified scale using the specified rounding mode
      */
-    public double calculateAddedAmount(double num1, double num2, int scale, RoundingMode roundingMode) {
-        BigDecimal total = new BigDecimal(num1).add(new BigDecimal(num2));
+    public double calculateAddedAmount(double amount1, double amount2, int scale, RoundingMode roundingMode) {
+        BigDecimal total = new BigDecimal(amount1).add(new BigDecimal(amount2));
         return total.setScale(scale, roundingMode).doubleValue();
     }
 
     /**
-     *
+     * Calculates the subtracted amount between two amounts using scale and rounding mode.
+     * <p>
+     * Scale is 2 to match USD
+     * </p>
+     * <p>
+     * Scale is used to express BigDecimal with a defined number of decimal places
+     * </p>
+     * <p>
+     *      ex: setScale(1, RoundingMode.CEILING)
+     *          31452678569.24321 -> 31452678569.3
+     * </p>
+     * <p>
+     * Uses HALF_UP rounding mode defined as static final variable
+     * </p>
+     * @param amount1 the first number
+     * @param amount2 the second number
+     * @return the subtracted amount
      */
-    public double calculateSubtractedAmountForUsd(double num1, double num2) {
-        return calculateSubtractedAmount(num1, num2, USD_DECIMAL_SCALE, RoundingMode.HALF_UP);
+    public double calculateSubtractedAmountForUsd(double amount1, double amount2) {
+        return calculateSubtractedAmount(amount1, amount2, USD_DECIMAL_SCALE, roundingMode);
     }
 
     /**
-     *
-     */
-    public double calculateSubtractedAmount(double num1, double num2, int scale, RoundingMode roundingMode) {
-        BigDecimal total = new BigDecimal(num1).subtract(new BigDecimal(num2));
+     * Calculates the subtracted amount between two amounts using scale and rounding mode.
+     * <p>
+     * Scale is used to express BigDecimal with a defined number of decimal places
+     * </p>
+     * <p>
+     *      ex: setScale(1, RoundingMode.CEILING)
+     *          31452678569.24321 -> 31452678569.3
+     * </p>
+     * <p>
+     * Uses HALF_UP rounding mode defined as static final variable
+     * </p>
+     * @param amount1         the first input number
+     * @param amount2         the second input number
+     * @param scale
+     **/
+    public double calculateSubtractedAmount(double amount1, double amount2, int scale, RoundingMode roundingMode) {
+        BigDecimal total = new BigDecimal(amount1).subtract(new BigDecimal(amount2));
         return total.setScale(scale, roundingMode).doubleValue();
     }
 
     /**
-     *
+     * Calculates the multiplied amount using the provided rate, amount, scale and rounding mode.
+     * <p>
+     * Scale is 2 to match USD
+     * </p>
+     * <p>
+     * Scale is used to express BigDecimal with a defined number of decimal places
+     * </p>
+     * <p>
+     *      ex: setScale(1, RoundingMode.CEILING)
+     *          31452678569.24321 -> 31452678569.3
+     * </p>
+     * <p>
+     * Uses HALF_UP rounding mode defined as static final variable
+     * </p>
+     * @param amount1 The first number to be subtracted
+     * @param amount2 The second number to subtract from the first
+     * @return The subtracted amount, rounded to the nearest USD amount and never negative
      */
-    public double calculateSubtractedAmountMinimumZeroForUsd(double num1, double num2) {
-        return calculateSubtractedAmountMinimumZero(num1, num2, USD_DECIMAL_SCALE, RoundingMode.HALF_UP);
+    public double calculateSubtractedAmountMinimumZeroForUsd(double amount1, double amount2) {
+        return calculateSubtractedAmountMinimumZero(amount1, amount2, USD_DECIMAL_SCALE, roundingMode);
     }
 
     /**
-     *
+     * Calculates the multiplied amount using the provided rate, amount, scale and rounding mode.
+     * Scale is 2 to match USD
+     * Scale is used to express BigDecimal with a defined number of decimal places
+     * <p>
+     *      ex: setScale(1, RoundingMode.CEILING)
+     *          31452678569.24321 -> 31452678569.3
+     * </p>
+     * <p>
+     * Uses HALF_UP rounding mode defined as static final variable
+     * </p>
+     * @param amount1 the first number
+     * @param amount2 the second number
+     * @param scale the scale used for rounding the result
+     * @param roundingMode the rounding mode used for rounding the result
+     * @return the subtracted amount between amount1 and amount2, with a minimum of zero,
+     *         rounded to the specified scale and rounding mode
      */
-    public double calculateSubtractedAmountMinimumZero(double num1, double num2, int scale, RoundingMode roundingMode) {
-        BigDecimal total = new BigDecimal(num1).subtract(new BigDecimal(num2));
+    public double calculateSubtractedAmountMinimumZero(double amount1, double amount2, int scale, RoundingMode roundingMode) {
+        BigDecimal total = new BigDecimal(amount1).subtract(new BigDecimal(amount2));
         if (total.doubleValue() < 0) {
             return 0;
         } else {
@@ -2545,33 +3317,54 @@ public class BasePage {
     }
 
     /**
-     * Calculates the multiplied amount in USD based on the given rate and number.
+     * Calculates the multiplied amount using the provided rate, amount, scale and rounding mode.
+     * Scale is 2 to match USD
+     * Scale is used to express BigDecimal with a defined number of decimal places
+     * <p>
+     *      ex: setScale(1, RoundingMode.CEILING)
+     *          31452678569.24321 -> 31452678569.3
+     * </p>
+     * <p>
+     * Uses HALF_UP rounding mode defined as static final variable
+     * </p>
      *
-     * @param rate the exchange rate for USD
-     * @param num1 the number to be multiplied with the rate
+     * @param rate to be used for multiplication
+     * @param amount1 the number to be multiplied with the rate
      * @return the multiplied amount in USD
      */
-    public double calculateMultipliedAmountForUsd(double rate, double num1) {
-        return calculateMultipliedAmount(rate, num1, USD_DECIMAL_SCALE, RoundingMode.HALF_UP);
+    public double calculateMultipliedAmountForUsd(double rate, double amount1) {
+        return calculateMultipliedAmount(rate, amount1, USD_DECIMAL_SCALE, roundingMode);
     }
 
     /**
-     * Calculates the multiplied amount using the provided rate, number, scale and rounding mode.
+     * Calculates the multiplied amount using the provided rate, amount, scale and rounding mode.
+     * Scale is used to express BigDecimal with a defined number of decimal places
+     * <p>
+     *      ex: setScale(1, RoundingMode.CEILING)
+     *          31452678569.24321 -> 31452678569.3
+     * </p>
+     * <p>
+     * Uses HALF_UP rounding mode defined as static final variable
+     * </p>
      *
      * @param rate The rate to be used for multiplication
-     * @param num1 The number to be multiplied
+     * @param amount1 The number to be multiplied
      * @param scale The scale of the result
      * @param roundingMode The rounding mode to be applied
      * @return The multiplied amount with the specified scale and rounding mode
      */
-    public double calculateMultipliedAmount(double rate, double num1, int scale, RoundingMode roundingMode) {
-        BigDecimal total = new BigDecimal(rate).multiply(new BigDecimal(num1))
-                .divide(new BigDecimal(100), currencyRoundingType).setScale(scale, roundingMode);
+    public double calculateMultipliedAmount(double rate, double amount1, int scale, RoundingMode roundingMode) {
+        BigDecimal total = new BigDecimal(rate).multiply(new BigDecimal(amount1))
+                .divide(new BigDecimal(100), BasePage.roundingMode).setScale(scale, roundingMode);
         return total.setScale(scale, roundingMode).doubleValue();
     }
 
     /**
+     * Truncates the decimal places of a double value.
      *
+     * @param value   the double value to be truncated
+     * @param places  the number of decimal places to truncate
+     * @return the truncated double value
      */
     public double truncateDoubleNumber(double value, int places) {
         double multiplier = Math.pow(10, places);
@@ -2580,17 +3373,21 @@ public class BasePage {
 
     /**
      * Rounds a Double value to the specified number of decimal places.
+     * Uses HALF_UP rounding mode defined as static final variable
      *
      * @param val    the Double value to be rounded.
      * @param digit  the number of decimal places to round to.
      * @return the rounded Double value.
      */
     public double doubleRound(Double val, int digit) {
-        return new BigDecimal(val.toString()).setScale(digit, RoundingMode.HALF_UP).doubleValue();
+        return new BigDecimal(val.toString()).setScale(digit, roundingMode).doubleValue();
     }
 
     /**
+     * Verifies the values of a dropdown against the given array of values.
      *
+     * @param array          The array containing the expected values of the dropdown.
+     * @param locator        The locator to identify the dropdown element.
      */
     public void verifyDropDownValues(JsonArray array, By locator) {
         Select select = new Select(getElement(locator));
@@ -2600,7 +3397,7 @@ public class BasePage {
             Assert.assertEquals(dropDownValues.get(i).getText(), array.get(i).getAsString());
         }
     }
-
+// TODO update or remove
 //    public void validateDropDownOptionSelected(By optionLocator, String dropDownOption) {
 //        LOG.info("Waiting for element to be Selected: {}", optionLocator.toString());
 //        WebElement element = getElement(optionLocator);
@@ -2608,7 +3405,9 @@ public class BasePage {
 //    }
 
     /**
+     * Verifies that the given text does not exist on the current page.
      *
+     * @param text the text to be verified
      */
     public void verifyTextDoesNotExistsOnPage(String text) {
         LOG.info("Verifying that {} does not exists", text);
@@ -2616,7 +3415,16 @@ public class BasePage {
     }
 
     /**
+     * Screens the webpage for Section 508 violations.
+     * <p>
+     * Section 508 refers to the requirements that federal agencies to make their electronic and information technology accessible to people with disabilities.
+     * </p>
+     * <p>
+     * Uses the Axe java library for analyzing the webpage for violations against the WCAG 2.0-AA standard to achieve Section 508 compliance.
+     * </p>
+     * It logs the violations and passes found, and takes a screenshot if any violations are found.
      *
+     * @throws AssertionError if any enforced violations are found
      */
     public void screenFor508Violations() {
         // As of 2018, Section 508 matches the WCAG 2.0 AA standard
@@ -2652,15 +3460,20 @@ public class BasePage {
     }
 
     /**
+     * Retrieves the text of the specified WebElement.
      *
+     * @param element the WebElement whose text needs to be retrieved
+     * @return the text of the WebElement
      */
-    public String getText(WebElement we) {
-        return getText(we, TIME_OUT_SECONDS);
+    public String getText(WebElement element) {
+        return getText(element, TIME_OUT_SECONDS);
     }
 
     /**
      * Retrieves the text of a given web element after scrolling it into view.
-     *
+     * <p>
+     * Uses JS executor to execute JS scrollIntoView method
+     * </p>
      * @param we             the web element to retrieve the text from
      * @param timeOutInSecs  the maximum amount of time (in seconds) to wait for the WebElement to be scrolled into view
      * @return the text of the web element
@@ -2671,7 +3484,7 @@ public class BasePage {
     }
 
     /**
-     * Returns a list of text values from the WebElements located by the given By object.
+     * Returns a list of text values from the WebElements located by single locator.
      *
      * @param by the By object defining the WebElements to retrieve text values from
      * @return a list of text values
@@ -2681,7 +3494,7 @@ public class BasePage {
     }
 
     /**
-     * Retrieves the texts of the visible WebElements identified by the specified By locator.
+     * Retrieves the texts of the visible WebElements identified by single locator.
      *
      * @param by              the By locator used to identify the WebElements.
      * @param timeOutInSeconds the maximum amount of time to wait for the WebElements to become visible.
