@@ -173,6 +173,15 @@ public class ApiUtil {
     }
 
     // TODO update method
+
+    /**
+     * Login and set the authentication token for the given user.
+     * Uses API call to retrieve token data for specific user
+     * Calls setToken() which saves the token String for user as jsonObject to globalData jsonObject
+     *
+     * @param userName username of the user to login
+     */
+
     private static void loginAndSetToken(String userName) {
         TestContext.logToScenario(String.format("POST login started for [%s]", userName));
         var loginObject = Login.builder().username(userName).passwd(System.getenv(envPasswd)).build();

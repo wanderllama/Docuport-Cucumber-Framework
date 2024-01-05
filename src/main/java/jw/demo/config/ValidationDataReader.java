@@ -15,7 +15,9 @@ import java.util.Map;
 
 /**
  * Manages validation files for text/field validations, if needed
- * Can be used to deserialize data from json files to Map<String, JsonNode>
+ * Can be used to deserialize scenario data from json files to Map<String, JsonNode>
+ * Better alternatives available with Scenario Outline
+ * Would need to update Map<> pages to be thread safe for parallel testing
  *
  */
 public class ValidationDataReader {

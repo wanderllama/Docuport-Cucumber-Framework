@@ -9,13 +9,20 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+/**
+ * Enum for API endpoints.
+ * Save payloads in 'src/test/resources/data/payloads'
+ *
+ * @ApiMethod http methods located in ApiMethod enum.
+ * @String endpoint     String with out preceding '/'.
+ * @String payloadPath  path to payload used by endpoint
+ */
 
 @Getter
 public enum ApiEndpoint {
 
     AUTH(ApiMethod.POST, "authorize", null);
 
-    @Getter
     private final ApiMethod method;
     private final String endpoint;
     private JsonObject payload;
@@ -29,7 +36,7 @@ public enum ApiEndpoint {
             try {
                 payload = DocumentUtil.getJsonObjectFromFile(payloadPath);
             } catch (IOException e) {
-                LOG.error("Failed to get payload from file for endpoint: [{}]", endpoint));
+                LOG.error("Failed to get payload from file for endpoint: [{}]", endpoint);
             }
         }
     }
