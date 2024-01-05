@@ -2,7 +2,6 @@ package jw.demo.enums;
 
 import com.google.gson.JsonObject;
 import jw.demo.utils.DocumentUtil;
-import jw.demo.utils.LogException;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +29,7 @@ public enum ApiEndpoint {
             try {
                 payload = DocumentUtil.getJsonObjectFromFile(payloadPath);
             } catch (IOException e) {
-                LOG.error(LogException.errorMessage(ApiEndpoint.class, e));
+                LOG.error("Failed to get payload from file for endpoint: [{}]", endpoint));
             }
         }
     }

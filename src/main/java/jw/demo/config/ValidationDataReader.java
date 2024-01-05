@@ -3,7 +3,6 @@ package jw.demo.config;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jw.demo.utils.LogException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.Resource;
@@ -16,8 +15,8 @@ import java.util.Map;
 
 /**
  * Manages validation files for text/field validations, if needed
+ * Can be used to deserialize data from json files to Map<String, JsonNode>
  *
- * @author mchoi
  */
 public class ValidationDataReader {
 
@@ -40,7 +39,8 @@ public class ValidationDataReader {
                 pages.putAll(jsonMap);
             }
         } catch (IOException e) {
-            LOG.error(LogException.errorMessage(e));
+            LOG.error("failed to load resources for ValidationReader");
+            e.printStackTrace();
         }
         LOG.info("Validation Data loaded");
     }

@@ -27,7 +27,7 @@ public class RetrySetup implements IRetryAnalyzer {
         return maxRetry;
     }
 
-    public ResultStatus getResultStatusName(int status) {
+    ResultStatus getResultStatusName(int status) {
         return (switch (status) {
             case 1 -> ResultStatus.SUCCESS;
             case 2 -> ResultStatus.FAILURE;
@@ -58,18 +58,18 @@ public class RetrySetup implements IRetryAnalyzer {
     }
 
     private int getNumScenarioPreviouslyAppears(String currentScenarioName) {
-        StringBuilder failedScnearioNameFormatted = new StringBuilder("\n\nfailed scenarios list:");
+        StringBuilder failedScenarioNameFormatted = new StringBuilder("\n\nfailed scenarios list:");
         int numScenarioPreviouslyAppears = 0;
         List<String> previouslyFailedScenarios = new ArrayList<>(scenariosFailedNames);
         for (String previouslyFailedScenario : previouslyFailedScenarios) {
-            failedScnearioNameFormatted.append("\n -").append(previouslyFailedScenario);
+            failedScenarioNameFormatted.append("\n -").append(previouslyFailedScenario);
             if (previouslyFailedScenario.equals(currentScenarioName)) {
                 numScenarioPreviouslyAppears++;
             }
         }
         scenariosFailedNames.add(currentScenarioName);
-        failedScnearioNameFormatted.append("\n -").append(currentScenarioName);
-        LOG.warn("{}\n", failedScnearioNameFormatted.toString());
+        failedScenarioNameFormatted.append("\n -").append(currentScenarioName);
+        LOG.warn("{}\n", failedScenarioNameFormatted.toString());
         return numScenarioPreviouslyAppears;
     }
 
