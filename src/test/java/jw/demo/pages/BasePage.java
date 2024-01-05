@@ -119,8 +119,8 @@ public class BasePage {
      * A default timeout of 10 seconds is provided and a
      * TimeoutException/ConditionTimeoutException will be thrown once the time out
      * is passed.
-     *
-     * @param by - locator used to find the element
+     *</p>
+     * @param by  locator used to find the element
      */
     public void expectElementToBeVisible(By by) {
         expectElementToBeVisible(by, TIME_OUT_SECONDS);
@@ -133,8 +133,8 @@ public class BasePage {
      * A default timeout of 10 seconds is provided and a
      * TimeoutException/ConditionTimeoutException will be thrown once the time out
      * is passed.
-     *
-     * @param by - locator used to find the element
+     *</p>
+     * @param by   locator used to find the element
      */
     public void expectElementToBeInvisible(By by) {
         expectElementToBeInvisible(by, TIME_OUT_SECONDS);
@@ -148,7 +148,7 @@ public class BasePage {
      * TimeoutException/ConditionTimeoutException will be thrown once the time out
      * is passed.
      *
-     * @param by - locator used to find the element
+     * @param by   locator used to find the element
      */
     public void expectElementToBeClickable(By by) {
         expectElementToBeClickable(by, TIME_OUT_SECONDS);
@@ -162,7 +162,7 @@ public class BasePage {
      * A TimeoutException/ConditionTimeoutException will be thrown once the time out
      * is passed.
      *
-     * @param by            - locator used to find the element
+     * @param by              locator used to find the element
      * @param timeOutInSecs - time limit to wait before throwing an Exception
      */
     public void expectElementToBeVisible(By by, int timeOutInSecs) {
@@ -177,7 +177,7 @@ public class BasePage {
      * A TimeoutException/ConditionTimeoutException will be thrown once the time out
      * is passed.
      *
-     * @param by            - locator used to find the element
+     * @param by              locator used to find the element
      * @param timeOutInSecs - time limit to wait before throwing an Exception
      */
     public void expectElementToBeInvisible(By by, int timeOutInSecs) {
@@ -192,7 +192,7 @@ public class BasePage {
      * A TimeoutException/ConditionTimeoutException will be thrown once the time out
      * is passed.
      *
-     * @param by            - locator used to find the element
+     * @param by              locator used to find the element
      * @param timeOutInSecs - time limit to wait before throwing an Exception
      */
     public void expectElementToBeClickable(By by, int timeOutInSecs) {
@@ -359,7 +359,7 @@ public class BasePage {
      * and visible. Visibility means that the element is not only displayed but also
      * has a height and width that is greater than 0.
      *
-     * @param by - locator used to find the element
+     * @param by   locator used to find the element
      * @returns The result is returned or false is returned if 10 seconds passes
      */
     public boolean checkIfVisible(By by) {
@@ -371,7 +371,7 @@ public class BasePage {
      * and visible. Visibility means that the element is not only displayed but also
      * has a height and width that is greater than 0.
      *
-     * @param by            - locator used to find the element
+     * @param by              locator used to find the element
      * @param timeOutInSecs - time limit to wait before throwing an Exception
      * @returns The result is returned or false is returned if the time out passes
      */
@@ -418,7 +418,7 @@ public class BasePage {
      * An expectation for checking that an element is either invisible or not
      * present on the DOM.
      *
-     * @param by - locator used to find the element
+     * @param by   locator used to find the element
      * @returns The result is returned or false is returned if 10 seconds passes
      */
     public boolean checkIfInvisible(By by) {
@@ -429,7 +429,7 @@ public class BasePage {
      * An expectation for checking that an element is either invisible or not
      * present on the DOM.
      *
-     * @param by            - locator used to find the element
+     * @param by              locator used to find the element
      * @param timeOutInSecs - time limit to wait before throwing an Exception
      * @returns The result is returned or false is returned if the time out passes
      */
@@ -844,8 +844,9 @@ public class BasePage {
     }
 
     /**
-     * Enhanced click, waits for element to be visible, click, then wait for
-     * document readystate is complete. Refreshes if errorModal is detected
+     * Enhanced click, waits for WebElement to be visible, then clicks.
+     * Will check document.readyState using JS executor until timeout or readyState is complete
+     * Refreshes if errorModal is detected, Default timeout of 30 seconds is provided
      *
      * @param by      - A By element, usually By.xpath(xpathString)
      * @param timeOut - Time limit method will retry the click until
@@ -887,8 +888,9 @@ public class BasePage {
     }
 
     /**
-     * Enhanced click, waits for element to be visible, click, then wait for
-     * document readystate is complete. Refreshes if errorModal is detected
+     * Enhanced click, waits for WebElement to be visible, then clicks.
+     * Will check document.readyState using JS executor until timeout or readyState is complete
+     * Refreshes if errorModal is detected, Default timeout of 30 seconds is provided
      *
      * @param element - A WebElement
      * @param timeOut - Time limit method will retry the click until
@@ -928,9 +930,9 @@ public class BasePage {
     }
 
     /**
-     * Enhanced click, waits for element to be visible, click, then wait for
-     * document readystate is complete. Refreshes if errorModal is detected. Default
-     * timeout of 30 seconds will be provided
+     * Enhanced click, waits for WebElement to be visible, then clicks.
+     * Will check document.readyState using JS executor until timeout or readyState is complete
+     * Refreshes if errorModal is detected, Default timeout of 30 seconds is provided
      *
      * @param by - A By element, usually By.xpath(xpathString)
      */
@@ -939,9 +941,9 @@ public class BasePage {
     }
 
     /**
-     * Enhanced click, waits for element to be visible, click, then wait for
-     * document readystate is complete. Refreshes if errorModal is detected. Default
-     * timeout of 30 seconds will be provided
+     * Enhanced click, waits for WebElement to be visible, then clicks.
+     * Will check document.readyState using JS executor until timeout or readyState is complete
+     * Refreshes if errorModal is detected, Default timeout of 30 seconds is provided
      *
      * @param element - A WebElement
      */
@@ -949,12 +951,23 @@ public class BasePage {
         click(element, TIME_OUT_FOR_PAGE_LOAD);
     }
 
+    /**
+     * Clicks on the element specified by the {@code By} locator if it is displayed within the specified timeout.
+     *
+     * @param by      The {@code By} locator used to locate the element.
+     * @param timeOut The maximum time, in seconds, to wait for the element to be displayed.
+     */
     public void clickIfDisplayed(By by, int timeOut) {
         if (checkIfDisplayed(by, timeOut)) {
             click(by, timeOut);
         }
     }
 
+    /**
+     * Clicks on an element identified by the given locator if it is displayed on the page.
+     *
+     * @param by The locator used to identify the element.
+     */
     public void clickIfDisplayed(By by) {
         clickIfDisplayed(by, TIME_OUT_FOR_PAGE_LOAD);
     }
@@ -969,30 +982,64 @@ public class BasePage {
         }
     }
 
+    /**
+     * Refreshes the page if the element identified by the given locator is not visible.
+     *
+     * @param locator the locator used to identify the element
+     */
     public void refreshIfLocatorNotVisible(By locator) {
         refreshIfLocatorNotVisible(locator, TIME_OUT_FOR_PAGE_LOAD);
     }
 
+    /**
+     * Refreshes the page if the given locator is not visible within the specified timeout period.
+     *
+     * @param locator The locator to check for visibility.
+     * @param timeOutInSecs The timeout period in seconds.
+     */
     public void refreshIfLocatorNotVisible(By locator, int timeOutInSecs) {
         if (!checkIfVisible(locator, timeOutInSecs)) {
             getDriver().navigate().refresh();
         }
     }
 
+    /**
+     * Retrieves the JavaScript executor for the current driver.
+     *
+     * @return The JavaScript executor.
+     */
     public JavascriptExecutor getJSExecutor() {
         return getJSExecutor(getDriver());
     }
 
+    /**
+     * Returns a JavascriptExecutor object for executing JavaScript in the given WebDriver.
+     *
+     * @param driver the WebDriver instance
+     */
     public JavascriptExecutor getJSExecutor(WebDriver driver) {
         return (JavascriptExecutor) driver;
     }
 
+    /**
+     * Waits until the element identified by the given locator is enabled.
+     *
+     * @param by           the locator used to find the element
+     * @param maxTime      the maximum time to wait for the element to be enabled, in seconds
+     * @param pollInterval the polling interval,*/
     protected void waitUntilEnabled(By by, int maxTime, int pollInterval) {
         expectElementToBeVisible(by, maxTime);
         WebElement element = getDriver().findElement(by);
         waitUntilEnabled(element, maxTime, pollInterval);
     }
 
+
+    /**
+     * Waits until the given WebElement is enabled or until a maximum wait time is reached.
+     *
+     * @param element      the WebElement to wait for
+     * @param maxTime      the maximum time to wait in seconds
+     * @param pollInterval the interval between checking the enabled status in seconds*/
     protected void waitUntilEnabled(WebElement element, long maxTime, long pollInterval) {
         Awaitility.await(element.toString() + " is not enabled").atMost(maxTime, TimeUnit.SECONDS).with()
                 .pollDelay(POLL_NO_INIT_DELAY, TimeUnit.SECONDS).pollInterval(pollInterval, TimeUnit.SECONDS)
@@ -1000,23 +1047,23 @@ public class BasePage {
     }
 
     /**
-     * An expectation for checking an element is visible and enabled such that you
-     * can click it.
+     * An expectation for checking an element is visible and enabled
+     * Designed to return true if a WebElement is clickable
      *
-     * @param by - by used to find the element
-     * @returns The result is returned or false is returned if 10 seconds passes
+     * @param by The By object representing the element to be checked.
+     * @return true if the element is clickable, false otherwise.
      */
     public boolean checkIfClickable(By by) {
         return checkIfClickable(by, TIME_OUT_SECONDS);
     }
 
     /**
-     * An expectation for checking an element is visible and enabled such that you
-     * can click it.
+     * An expectation for checking an element is visible and enabled
+     * Designed to return true if a WebElement is clickable
      *
-     * @param by            - locator used to find the element
-     * @param timeOutInSecs - time limit to wait before throwing an Exception
-     * @returns The result is returned or false is returned if the time out passes
+     * @param by locator used to find the element
+     * @param timeOutInSecs time limit to wait before throwing an Exception
+     * @return boolean The result is returned or false is returned if the time-out passes
      */
     public boolean checkIfClickable(By by, int timeOutInSecs) {
         try {
@@ -1029,14 +1076,13 @@ public class BasePage {
     }
 
     /**
-     * An expectation for checking an element is visible and enabled such that you
-     * can click it.
+     * An expectation for checking an element is visible and enabled
+     * Designed to return true if a WebElement is clickable
      *
-     * @param by            - locator used to find the element
-     * @param index         - index of the element to be clicked (useful when
-     *                      locator returns multiple elements)
-     * @param timeOutInSecs - time limit to wait before throwing an Exception
-     * @returns The result is returned or false is returned if the time out passes
+     * @param by locator used to find the element
+     * @param index index of the element to be clicked (useful when
+     * @param timeOutInSecs time limit to wait before throwing an Exception
+     * @return The result is returned or false is returned if the time-out passes
      */
     public boolean checkIfClickable(By by, int index, int timeOutInSecs) {
         LOG.info("Checking if Element {} is clickable", by);

@@ -7,6 +7,14 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class represents the configuration for the application.
+ * It contains various properties that are set using the @Value annotation from Spring Framework.
+ * The values are captured from the path defined in @Value from src/test/resources/driver.properties
+ * Used to configure the execution of scenarios.
+ * If a required property is not found or is empty, a RuntimeException is thrown.
+ */
+
 @SuppressWarnings("CommentedOutCode")
 @Getter
 @Component
