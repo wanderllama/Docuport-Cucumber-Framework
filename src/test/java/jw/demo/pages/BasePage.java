@@ -314,7 +314,7 @@ public class BasePage {
             LOG.info("Parent Div is clicked as expected for [{}]", subDivLocator);
             return Boolean.TRUE;
         } catch (TimeoutException | ConditionTimeoutException | NoSuchElementException e) {
-            LOG.error("Parent Div is not clicked as expected for [{}]", subDivLocator);
+            LOG.error(LOG"Parent Div is not clicked as expected for [{}]", subDivLocator);
             return Boolean.FALSE;
         }
     }
