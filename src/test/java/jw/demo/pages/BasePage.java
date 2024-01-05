@@ -89,6 +89,9 @@ public class BasePage {
     protected static final int POLL_NO_INIT_DELAY = 0;
     protected final String attachmentTableCommon = "";
 
+    // TODO adjust rounding mode depending on project AC if currency is involved otherwise remove
+    protected static final RoundingMode currencyRoundingType = RoundingMode.HALF_EVEN;
+
     // LOCATORS
     protected final By inactiveContinueButton = By.xpath("");
     protected final By errorModalMessage = By.xpath("");
@@ -216,8 +219,8 @@ public class BasePage {
      * An expectation for checking that an element is either invisible or not
      * present on the DOM.
      * <p>
-     * A default timeout of 10 seconds is provided and a
-     * TimeoutException/ConditionTimeoutException will be thrown once the time out
+     * A default timeout of 10 seconds is provided
+     * TimeoutException/ConditionTimeoutException will be thrown once the time-out
      * is passed.
      *
      * @param element - element the WebElement
@@ -314,7 +317,7 @@ public class BasePage {
             LOG.info("Parent Div is clicked as expected for [{}]", subDivLocator);
             return Boolean.TRUE;
         } catch (TimeoutException | ConditionTimeoutException | NoSuchElementException e) {
-            LOG.error(LOG"Parent Div is not clicked as expected for [{}]", subDivLocator);
+            LOG.error("Parent Div is not clicked as expected for [{}]", subDivLocator);
             return Boolean.FALSE;
         }
     }
@@ -1127,6 +1130,7 @@ public class BasePage {
         mouseOver(by, TIME_OUT_SECONDS);
     }
 
+    @SuppressWarnings("SameParameterValue")
     protected void mouseOver(By by, int timeOutInSeconds) {
         ExpectedCondition<Boolean> mousedOver = new ExpectedCondition<>() {
             @Override
@@ -1825,8 +1829,8 @@ public class BasePage {
     }
 
     public double calculateMultipliedAmount(double rate, double num1, int scale, RoundingMode roundingMode) {
-        BigDecimal total = new BigDecimal(rate).multiply(new BigDecimal(num1)).divide(new BigDecimal(100))
-                .setScale(scale, roundingMode);
+        BigDecimal total = new BigDecimal(rate).multiply(new BigDecimal(num1))
+                .divide(new BigDecimal(100), currencyRoundingType).setScale(scale, roundingMode);
         return total.setScale(scale, roundingMode).doubleValue();
     }
 
