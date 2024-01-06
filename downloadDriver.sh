@@ -12,7 +12,7 @@ DOWNLOAD_EXTENSION=".zip"
 FILE_EXTENSION=""
 
 exitTO() {
-  printf "10 second timeout occurred on line: %d in function: %s" "${1}" "${funcstack[2]}"
+  printf "20 second timeout occurred on line: %d in function: %s" "${1}" "${funcstack[2]}"
   exit 1
 }
 
@@ -29,13 +29,14 @@ getOS() {
 
 download() {
   ls=LATEST_STABLE
-  to=50
+  to=100
   poll=0.2
   case $1 in
   edge)
     curl -L -k --output "$ls" $EDGE_VERSION_URL --ssl-no-revoke
     echo "$EDGE_VERSION_URL"
-    while [[ ! -f "${ls}.json" ]]; do
+    sleep 1
+    while [[ ! -f "${ls}" ]]; do
       sleep "$poll"
       if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${LINENO}"; fi
     done
@@ -48,7 +49,7 @@ download() {
     ;;
   chrome)
     curl -L -k --output "$ls" "$CHROME_VERSION_URL" --ssl-no-revoke
-    while [[ ! -f "${ls}.json" ]]; do
+    while [[ ! -f "${ls}" ]]; do
       sleep "$poll"
       if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${LINENO}"; fi
     done
