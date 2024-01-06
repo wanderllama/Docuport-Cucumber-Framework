@@ -37,3 +37,7 @@ build/
 ### Mac OS ###
 .DS_Store
 /.idea/
+/LATEST_STABLE
+/t.sh
+/src/test/resources/webDriver/mac/msedgedriver
+/src/test/resources/webDriver/
