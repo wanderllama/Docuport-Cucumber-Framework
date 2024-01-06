@@ -18,20 +18,25 @@
 # https://github.com/mozilla/geckodriver/releases/download/v0.34.0/geckodriver-v0.34.0-linux64.tar.gz
 
 download() {
+  ls=LATEST_STABLE
   case $1 in
   edge)
-    ls=LATEST_STABLE
     curl -L -k --output "$ls" "https://msedgewebdriverstorage.blob.core.windows.net/edgewebdriver/LATEST_STABLE" --ssl-no-revoke
     while [[ ! -f "${ls}" ]]; do sleep .2; done
+    # ms is annoying with the encodings.....
     v=$(iconv -f CP1252 -t UTF8 "$ls" | sed 's/[^0-9.]//g')
+    rm "$ls"
     if [[ $OS == mac ]]; then OSD="${OS}64_m1"; else OSD=$OS; fi
     URL="https://msedgedriver.azureedge.net/${v}/edgedriver_${OSD}.zip"
     WEBDRIVER="msedgedriver"
     ;;
   chrome)
-    echo chrome
+    curl -L -k --output "$ls" "https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE" --ssl-no-revoke
+    while [[ ! -f "${ls}" ]]; do sleep .2; done
+    v=$(awk '{print $1}' "$ls")
+    rm "$ls"
     if [[ $OS == mac ]]; then OSD="${OS}-arm64"; else OSD=$OS; fi
-    URL="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/mac-arm64/chromedriver-${OSD}.zip"
+    URL="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${v}/${OSD}/chromedriver-${OSD}.zip"
     WEBDRIVER="chromedriver"
     ;;
   firefox)
