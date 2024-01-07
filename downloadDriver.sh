@@ -45,7 +45,7 @@ getVersion() {
   poll=0.2
   case $1 in
   edge)
-    curl -L -k --output "$ls" $EDGE_VERSION_URL --ssl-no-revoke
+    curl -L -k --output "$ls" "$EDGE_VERSION_URL" --ssl-no-revoke
     echo "$EDGE_VERSION_URL"
     sleep 1
     while [[ ! -f "${ls}" ]]; do
@@ -57,7 +57,6 @@ getVersion() {
     rm "$ls"
     if [[ $OS == mac ]]; then OSD="${OS}64_m1"; else OSD=$OS; fi
     WEBDRIVER="edgedriver_"
-#    base="${EDGE_BASE}"
     #    URL="https://msedgedriver.azureedge.net/${v}/edgedriver_${OSD}.zip"
     ;;
   chrome)
@@ -133,7 +132,7 @@ start() {
   getVersion "$BROWSER"
 
   # checks to see if driver exists in project path or exists as defined in pom.xml property
-  if [[ (! -f ${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}) && (! -f "${2}") ]]; then
+  if [[ (! -f "${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}") && (! -f "${2}") ]]; then
     if [[ $BROWSER != firefox ]]; then chromeEdgeExtraSetup; fi
     downloadWebDriver
     moveFile
