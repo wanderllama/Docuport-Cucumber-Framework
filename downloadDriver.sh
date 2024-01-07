@@ -23,7 +23,7 @@ exitTO() {
   cd /etc/.. && cd "${PROJECT_DIR}"
   if [[ -f $ls ]]; then rm "${ls}"; fi
   if [[ -f "${ls}.json" ]]; then rm "${ls}.json"; fi
-  if [[ -d "${TEST_RESOURCES}temp" ]];  then rm "${TEST_RESOURCES}temp"; fi
+  if [[ -d "${TEST_RESOURCES}/temp" ]];  then rm "${TEST_RESOURCES}/temp"; fi
   printf "20 second timeout occurred on line: %d in function: %s" "${1}" "${funcstack[2]}"
   exit 1
 }
