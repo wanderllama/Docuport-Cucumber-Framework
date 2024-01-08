@@ -4,8 +4,9 @@ PROJECT_DIR="${PWD}"                           # update if script is not located
 TEST_RESOURCES="/src/test/resources/webDriver" # path to WebDriver folder
 AP="${PROJECT_DIR}${TEST_RESOURCES}"           # complete path to the projects webDriver folder in src/test/resources
 DOWNLOAD_EXTENSION="zip"
-to=150                                        # to=150 => 30 time-out period => $to * poll = time-out in seconds
 poll=$( bc <<< 'scale=1; 1/5' )               # sleep delay used to controlling iterations in while loops
+timeOut=30                                    # in seconds
+to=0                                          # $to * poll = timeOut value created in timeOut() leave set to 0
 
 # URL for getting the LTS version number.
 # The edge and chrome links download a simple file containing only the LTS version id
@@ -21,12 +22,17 @@ EDGE_URL="https://msedgedriver.azureedge.net/"
 CHROME_URL="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/"
 
 exitTO() {
-  t=$( bc <<< "scale=1; $to * $poll" )
-  printf "%s second timeout occurred during %s" "${t}" "${1}"
+  printf "%s second timeout occurred during %s" "${timeOut}" "${1}"
   exit 1
 }
 
+timeOut() {
+  if [[ $to == 0 ]]; then to=$( bc <<< "scale=1; $timeOut / $poll" ); fi
+  to=$( printf "%.0f\n" "${to}")
+}
+
 getOS() {
+  timeOut
   case "$OSTYPE" in
   solaris*) echo "$OSTYPE not supported" ;;
   darwin*) OS='mac' ;;
@@ -41,15 +47,13 @@ downloadVersion() {
   curl -L -k --output "$ls" "${1}" --ssl-no-revoke
   while [[ ! -f "${ls}" ]]; do
     sleep "$poll"
-    if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${2}"; fi
+    if [[ $to -gt 0 ]]; then to=$( bc <<< "scale=1; $to - 1" ); else exitTO "${2}"; fi
   done
 }
 
-download() {
+downloadSetup() {
   ls=LATEST_STABLE
-  msg="url used to get ${1} LTS version number: %s" ""
-  errorMsg="download function while attempting to download ${1}"
-  VERSION_URL=""
+  errorMsg="downloadSetup function while attempting to download ${1}"
   case $1 in
   edge)
     VERSION_URL="${EDGE_VERSION_URL}"
@@ -72,14 +76,15 @@ download() {
     ;;
   firefox)
     VERSION_URL="${FIREFOX_VERSION_URL}"
-    curl -L -k --output "${ls}.json" "${VERSION_URL}" --ssl-no-revoke
+    downloadVersion "${VERSION_URL}" "${errorMsg}"
+#    && mv "file" "file.json"
     if [[ $OS == mac ]]; then
       OSD="${OS}os-aarch64"
     else OSD=$OS; fi
     if [[ $OS == linux64 || $OS == mac ]]; then DOWNLOAD_EXTENSION="tar.gz"; fi
     while [[ ! -f "${ls}.json" ]]; do
       sleep "$poll"
-      if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${errorMsg}"; fi
+      if [ $to -gt 0 ]; then to=$( bc <<< "scale=1; $to - 1" ); else exitTO "${errorMsg}"; fi
     done
     URL=$(grep "${OSD}.${DOWNLOAD_EXTENSION}\"$" "${ls}.json" | awk '{print $2}' | sed 's:^.\(.*\).$:\1:')
     rm "${ls}.json"
@@ -106,7 +111,7 @@ downloadWebDriver() {
   while [ ! -f "${FILE}" ]; do
     sleep "$poll"
     echo "t"
-    if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "downloadWebDriver function while waiting for ${WEBDRIVER}.${DOWNLOAD_EXTENSION} to download"; fi
+    if [ $to -gt 0 ]; then to=$( bc <<< "scale=1; $to - 1" ); else exitTO "downloadWebDriver function while waiting for ${WEBDRIVER}.${DOWNLOAD_EXTENSION} to download"; fi
   done
   if [[ $DOWNLOAD_EXTENSION == *zip ]]; then unzip "$FILE"; else tar xzf "$FILE"; fi
 }
@@ -115,7 +120,7 @@ function moveFile() {
   echo $WEBDRIVER
   while [ ! -f "${UNZPPDFILE}" ]; do
     sleep "$poll"
-    if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "moveFile function while waiting for ${FILE} to unzip"; fi
+    if [ $to -gt 0 ]; then to=$( bc <<< "scale=1; $to - 1" ); else exitTO "moveFile function while waiting for ${FILE} to unzip"; fi
   done
   cd /etc/.. && cd "${AP}"
   ls
@@ -128,7 +133,7 @@ function moveFile() {
 start() {
   BROWSER=$1
   getOS
-  download "$BROWSER"
+  downloadSetup "$BROWSER"
 
   # checks to see if driver exists in project path or exists as defined in pom.xml property
   if [[ (! -f ${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}) && (! -f "${2}") ]]; then
@@ -138,7 +143,7 @@ start() {
 
   while [ ! -f "${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}" ]; do
     sleep "$poll"
-    if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "start function when checking ${WEBDRIVER} in correct filepath"; fi
+    if [ $to -gt 0 ]; then to=$( bc <<< "scale=1; $to - 1" ); else exitTO "start function when checking ${WEBDRIVER} in correct filepath"; fi
   done
   echo "$WEBDRIVER downloaded"
   echo "$WEBDRIVER filepath: ${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}"
