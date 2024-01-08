@@ -3,9 +3,9 @@
 PROJECT_DIR="${PWD}"                           # update if script is not located in root folder of project
 TEST_RESOURCES="/src/test/resources/webDriver" # path to WebDriver folder
 AP="${PROJECT_DIR}${TEST_RESOURCES}"           # complete path to the projects webDriver folder in src/test/resources
-DOWNLOAD_EXTENSION=".zip"
-FILE_EXTENSION=""
-UNZPPDFILE=""
+DOWNLOAD_EXTENSION="zip"
+to=150                                        # to=150 => 30 time-out period => $to * poll = time-out in seconds
+poll=$( bc <<< 'scale=1; 1/5' )               # sleep delay used to controlling iterations in while loops
 
 # URL for getting the LTS version number.
 # The edge and chrome links download a simple file containing only the LTS version id
@@ -15,16 +15,14 @@ CHROME_VERSION_URL="https://googlechromelabs.github.io/chrome-for-testing/LATEST
 FIREFOX_VERSION_URL="https://api.github.com/repos/mozilla/geckodriver/releases/latest"
 
 # These URLS contain special symbols used for sed substitution to generate the correct URL
-EDGE_BASE="https://msedgedriver.azureedge.net/<^${DOWNLOAD_EXTENSION}"
-CHROME_BASE="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/<>^${DOWNLOAD_EXTENSION}"
+#EDGE_BASE="https://msedgedriver.azureedge.net/<^${DOWNLOAD_EXTENSION}"
+EDGE_URL="https://msedgedriver.azureedge.net/"
+#CHROME_BASE="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/<>^${DOWNLOAD_EXTENSION}"
+CHROME_URL="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/"
 
 exitTO() {
-  ls=LATEST_STABLE
-  cd /etc/.. && cd "${PROJECT_DIR}"
-  if [[ -f $ls ]]; then rm "${ls}"; fi
-  if [[ -f "${ls}.json" ]]; then rm "${ls}.json"; fi
-  if [[ -d "${TEST_RESOURCES}/temp" ]];  then rm "${TEST_RESOURCES}/temp"; fi
-  printf "20 second timeout occurred on line: %d in function: %s" "${1}" "${funcstack[2]}"
+  t=$( bc <<< "scale=1; $to * $poll" )
+  printf "%s second timeout occurred during %s" "${t}" "${1}"
   exit 1
 }
 
@@ -39,49 +37,51 @@ getOS() {
   esac
 }
 
-getVersion() {
+downloadVersion() {
+  curl -L -k --output "$ls" "${1}" --ssl-no-revoke
+  while [[ ! -f "${ls}" ]]; do
+    sleep "$poll"
+    if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${2}"; fi
+  done
+}
+
+download() {
   ls=LATEST_STABLE
-  to=125
-  poll=0.2
+  msg="url used to get ${1} LTS version number: %s" ""
+  errorMsg="download function while attempting to download ${1}"
+  VERSION_URL=""
   case $1 in
   edge)
-    curl -L -k --output "$ls" "$EDGE_VERSION_URL" --ssl-no-revoke
-    echo "$EDGE_VERSION_URL"
-    sleep 1
-    while [[ ! -f "${ls}" ]]; do
-      sleep "$poll"
-      if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${LINENO}"; fi
-    done
+    VERSION_URL="${EDGE_VERSION_URL}"
+    downloadVersion ${VERSION_URL} "${errorMsg}"
     # ms is annoying with the encodings.....
     v=$(iconv -f CP1252 -t UTF8 "$ls" | sed 's/[^0-9.]//g')
     rm "$ls"
     if [[ $OS == mac ]]; then OSD="${OS}64_m1"; else OSD=$OS; fi
-    WEBDRIVER="edgedriver_"
-    #    URL="https://msedgedriver.azureedge.net/${v}/edgedriver_${OSD}.zip"
+    URL="$EDGE_URL${v}/edgedriver_${OSD}.zip"
+    WEBDRIVER="msedgedriver"
     ;;
   chrome)
-    curl -L -k --output "$ls" "$CHROME_VERSION_URL" --ssl-no-revoke
-    while [[ ! -f "${ls}" ]]; do
-      sleep "$poll"
-      if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${LINENO}"; fi
-    done
+    VERSION_URL="${CHROME_VERSION_URL}"
+    downloadVersion "${VERSION_URL}" "${errorMsg}"
     v=$(awk '{print $1}' "$ls")
     rm "$ls"
     if [[ $OS == mac ]]; then OSD="${OS}-arm64"; else OSD=$OS; fi
-    WEBDRIVER="chromedriver-"
-    #    URL="https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${v}/${OSD}/chromedriver-${OSD}.zip"
+    URL="$CHROME_URL${v}/${OSD}/chromedriver-${OSD}.zip"
+    WEBDRIVER="chromedriver"
     ;;
   firefox)
-    curl -L -k --output "${ls}.json" "$FIREFOX_VERSION_URL" --ssl-no-revoke
+    VERSION_URL="${FIREFOX_VERSION_URL}"
+    curl -L -k --output "${ls}.json" "${VERSION_URL}" --ssl-no-revoke
     if [[ $OS == mac ]]; then
       OSD="${OS}os-aarch64"
     else OSD=$OS; fi
-    if [[ $OS == linux64 || $OS == mac ]]; then DOWNLOAD_EXTENSION=".tar.gz"; fi
+    if [[ $OS == linux64 || $OS == mac ]]; then DOWNLOAD_EXTENSION="tar.gz"; fi
     while [[ ! -f "${ls}.json" ]]; do
       sleep "$poll"
-      if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${LINENO}"; fi
+      if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${errorMsg}"; fi
     done
-    URL=$(grep "${OSD}${DOWNLOAD_EXTENSION}\"$" "${ls}.json" | awk '{print $2}' | sed 's:^.\(.*\).$:\1:')
+    URL=$(grep "${OSD}.${DOWNLOAD_EXTENSION}\"$" "${ls}.json" | awk '{print $2}' | sed 's:^.\(.*\).$:\1:')
     rm "${ls}.json"
     WEBDRIVER="geckodriver"
     ;;
@@ -89,39 +89,38 @@ getVersion() {
     echo invalid
     ;;
   esac
+  printf "URL used to get LTS version number: %s\nURL used to download ${WEBDRIVER}: %s" "${VERSION_URL}" "${URL}"
 
-}
-
-chromeEdgeExtraSetup() {
-  WDOS=${WEBDRIVER}${OSD}
-  UNZPPDFILE=${WEBDRIVER}${FILE_EXTENSION}
-  if [[ $WEBDRIVER == chromedriver- ]]; then
-    base="${CHROME_BASE}"
-    UNZPPDFILE="${WEBDRIVER}${OSD}/${UNZPPDFILE}"
-    WEBDRIVER=chromedriver
-  elif [ $WEBDRIVER == edgedriver_ ]; then
-    base="${EDGE_BASE}"
-    WEBDRIVER=msedgedriver
-    UNZPPDFILE=${WEBDRIVER}${FILE_EXTENSION}
-  fi
-  URL=$(echo $base | sed "s/</${v}\//" | sed "s/\^/${WDOS}/" | sed "s/>/${OSD}\//")
 }
 
 downloadWebDriver() {
-  UNZPPDFILE=${WEBDRIVER}${FILE_EXTENSION}
-  FILE="driver${DOWNLOAD_EXTENSION}"
-
+  if [[ $WEBDRIVER == chromedriver ]]; then
+    UNZPPDFILE="${WEBDRIVER}-${OSD}/${WEBDRIVER}${FILE_EXTENSION}"
+  else UNZPPDFILE=${WEBDRIVER}${FILE_EXTENSION}; fi
+  FILE="driver.${DOWNLOAD_EXTENSION}"
+  echo "$URL"
   cd /etc/.. && cd "${AP}" &&
     mkdir -p "${AP}/temp" &&
     cd "temp" &&
     curl -L -k --output "$FILE" "$URL" --ssl-no-revoke
-  if [[ $DOWNLOAD_EXTENSION == *.zip ]]; then unzip "$FILE"; else tar xzf "$FILE"; fi
+  while [ ! -f "${FILE}" ]; do
+    sleep "$poll"
+    echo "t"
+    if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "downloadWebDriver function while waiting for ${WEBDRIVER}.${DOWNLOAD_EXTENSION} to download"; fi
+  done
+  if [[ $DOWNLOAD_EXTENSION == *zip ]]; then unzip "$FILE"; else tar xzf "$FILE"; fi
 }
 
 function moveFile() {
-  mkdir -p "${AP}/${OS}" && cp "${UNZPPDFILE}" "$_" && cd "${AP}/${OS}"
-  chmod "u=rwx,go=" "${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}" &&
-    cd /etc/.. && cd "${AP}" &&
+  echo $WEBDRIVER
+  while [ ! -f "${UNZPPDFILE}" ]; do
+    sleep "$poll"
+    if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "moveFile function while waiting for ${FILE} to unzip"; fi
+  done
+  cd /etc/.. && cd "${AP}"
+  ls
+  mkdir -p "${AP}/${OS}" && cp "temp/${UNZPPDFILE}" "$_" &&
+    chmod "u=rwx,go=" "${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}" &&
     rm -rf "temp" &&
     cd "$PROJECT_DIR" || exit
 }
@@ -129,19 +128,18 @@ function moveFile() {
 start() {
   BROWSER=$1
   getOS
-  getVersion "$BROWSER"
+  download "$BROWSER"
 
   # checks to see if driver exists in project path or exists as defined in pom.xml property
-  if [[ (! -f "${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}") && (! -f "${2}") ]]; then
-    if [[ $BROWSER != firefox ]]; then chromeEdgeExtraSetup; fi
+  if [[ (! -f ${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}) && (! -f "${2}") ]]; then
     downloadWebDriver
     moveFile
   fi
 
-  echo "$WEBDRIVER downloaded"
-  echo "$WEBDRIVER filepath: ${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}"
   while [ ! -f "${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}" ]; do
     sleep "$poll"
-    if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "${LINENO}"; fi
+    if [ $to -gt 0 ]; then to=$((to - 1)); else exitTO "start function when checking ${WEBDRIVER} in correct filepath"; fi
   done
+  echo "$WEBDRIVER downloaded"
+  echo "$WEBDRIVER filepath: ${AP}/${OS}/${WEBDRIVER}${FILE_EXTENSION}"
 }

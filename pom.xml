@@ -21,7 +21,7 @@
         <surefire.v>3.0.0-M9</surefire.v>
         <maven.compiler.v>3.11.0</maven.compiler.v>
         <browser>edge</browser>
-        <driver.path>src/test/resources/msedgedriver</driver.path>
+        <driver.path>src/test/resources/webDriver/mac/msedgedriver</driver.path>
     </properties>
 
     <dependencies>
