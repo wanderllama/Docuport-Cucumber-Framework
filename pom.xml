@@ -20,7 +20,7 @@
         <log4j.v>2.21.1</log4j.v>
         <surefire.v>3.0.0-M9</surefire.v>
         <maven.compiler.v>3.11.0</maven.compiler.v>
-        <browser>edge</browser>
+        <browser>chrome</browser>
         <driver.path>src/test/resources/webDriver/mac/msedgedriver</driver.path>
     </properties>
 
@@ -169,8 +169,8 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefire.v}</version>
                     <configuration>
-                        <!--                        <parallel>methods</parallel>-->
-                        <!--                        <threadCount>4</threadCount>-->
+                                                <parallel>methods</parallel>
+                                                <threadCount>1</threadCount>
                         <testFailureIgnore>false</testFailureIgnore>
                         <properties>
                             <property>
@@ -263,7 +263,7 @@
             <!--                </executions>-->
             <!--                <configuration>-->
             <!--                    <executable>bash</executable>-->
-            <!--                    <commandlineArgs>${project.build.directory}/downloadDriver.sh</commandlineArgs>-->
+            <!--                    <commandlineArgs>${project.build.directory}/downloadWebDriver.sh</commandlineArgs>-->
             <!--                </configuration>-->
             <!--            </plugin>-->
         </plugins>

@@ -13,10 +13,11 @@ import org.testng.annotations.DataProvider;
         , "jw.demo.Listeners.CucumberReportListener"
         , "timeline:target/logs"
 }
-        , features = {"src/test/resources/cucumberspringboot/features/"}
+        , features = {"src/test/resources/cucumberspringboot/"}
         , glue = {"jw.demo"}
         , monochrome = false
         , dryRun = false
+        , tags = "@login"
 )
 public class CucumberRunner extends BaseCucumberRunner {
 

@@ -1,8 +1,9 @@
-package jw.demo.stepDefinition;
+package jw.demo.stepDefinition.docuportStepDefs;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import jw.demo.managers.DriverManager;
 import jw.demo.utils.TestContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,11 +23,16 @@ public class Hooks extends BaseStep {
 
     @Before(order = 2)
     public static void beforeScenario(Scenario scenario) {
+        boolean creatingDriver = true;
+        while (creatingDriver) {
+            DriverManager.createDriver();
+            creatingDriver = (DriverManager.getDriver() == null);
+        }
         TestContext.initScenario(scenario);
     }
 
     @After(order = 1)
     public static void afterScenario(Scenario scenario) {
-
+        DriverManager.shutdownDriver();
     }
 }

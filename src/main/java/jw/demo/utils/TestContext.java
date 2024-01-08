@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import io.cucumber.java.Scenario;
 import jw.demo.constants.Constants;
+import jw.demo.enums.WebDriverBrowser;
+import jw.demo.enums.WebDriverRunLocation;
 import jw.demo.managers.FileReaderManager;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +40,12 @@ public final class TestContext {
     private static String envPasswd;
     @Getter
     private static String userPassword;
+    @Getter
+    private static String group;
+    @Getter
+    private static WebDriverBrowser webDriverBrowser;
+    @Getter
+    private static WebDriverRunLocation webDriverRunLocation;
     private static JsonObject globalData;
     private static ThreadLocal<Scenario> scenario = new ThreadLocal<>();
     private static ThreadLocal<ScenarioContext> scenarioCtx = new ThreadLocal<>();
@@ -73,11 +81,17 @@ public final class TestContext {
 //            System.setProperty("javax.net.ssl.trustStorePassword",
 //                    FileReaderManager.getInstance().getConfigReader().getTrustStorePasswd());
 //        }
+        group = FileReaderManager.getInstance().getConfigReader().getGroup();
+        LOG.info("Using group as: {}", group);
+        webDriverBrowser = FileReaderManager.getInstance().getConfigReader().getWebDriverBrowser();
+        LOG.info("Using driver.browser as: {}", webDriverBrowser);
+        webDriverRunLocation = FileReaderManager.getInstance().getConfigReader().getWebDriverRunLocation();
+        LOG.info("Using driver.location as: {}", webDriverRunLocation);
         baseUrl = FileReaderManager.getInstance().getConfigReader().getBaseUrl();
-        LOG.info("Using env.pass as: {}", baseUrl);
-        envPasswd = FileReaderManager.getInstance().getConfigReader().getEnvPasswd();
+        LOG.info("Using base.url as: {}", baseUrl);
+        envPasswd = FileReaderManager.getInstance().getConfigReader().getEnvPasswd() + group.charAt(3);
         LOG.info("Using env.pass as: {}", envPasswd);
-        userPassword = System.getenv(envPasswd);
+        userPassword = envPasswd;
         String datafile = System.getProperty("datafile");
         if (StringUtils.isBlank(datafile))
             datafile = FileReaderManager.getInstance().getConfigReader().getDataFile();
@@ -115,24 +129,24 @@ public final class TestContext {
         scenario.set(currentScenario);
         scenarioCtx.set(new ScenarioContext());
         getScenarioCtx().setScenarioData(getInitScenarioData(getScenario().getName()));
-        getScenarioCtx().setOrganizations(new ArrayList<>());
         getScenarioCtx().setSoftAssert(new SoftAssert());
-        if (SCENARIO_NAME_MATCHER.matcher(currentScenario.getName()).matches()) {
-            // TODO check if you need to handle parameterization in scenario name
-            var variable = currentScenario.getName().substring(currentScenario.getName().indexOf('<') + 1,
-                    currentScenario.getName().indexOf('>'));
-            // TODO update to capture scenarios that require special setup based on defined scenario nomenclature
-            //  or has other parameterized values to capture and assign to ScenarioCtx
-            if (currentScenario.getName().contains("scenarioIdentifier")) {
-                // do these steps
-                var anotherVariable = currentScenario.getName().substring(currentScenario.getName().indexOf('<') + 1,
-                        currentScenario.getName().indexOf('>'));
-                getScenarioCtx().setOrgName(anotherVariable);
-                LOG.debug("extra setup complete");
-            } else {
-                LOG.debug("no extra setup required");
-            }
-        }
+
+//        if (SCENARIO_NAME_MATCHER.matcher(currentScenario.getName()).matches()) {
+//            // TODO check if you need to handle parameterization in scenario name
+//            var variable = currentScenario.getName().substring(currentScenario.getName().indexOf('<') + 1,
+//                    currentScenario.getName().indexOf('>'));
+//            // TODO update to capture scenarios that require special setup based on defined scenario nomenclature
+//            //  or has other parameterized values to capture and assign to ScenarioCtx
+//            if (currentScenario.getName().contains("scenarioIdentifier")) {
+//                // do these steps
+//                var anotherVariable = currentScenario.getName().substring(currentScenario.getName().indexOf('<') + 1,
+//                        currentScenario.getName().indexOf('>'));
+//                getScenarioCtx().setOrgName(anotherVariable);
+//                LOG.debug("extra setup complete");
+//            } else {
+//                LOG.debug("no extra setup required");
+//            }
+//        }
         LOG.info("Starting Scenario [{}]", TestContext.getScenario().getName());
     }
 

@@ -13,7 +13,7 @@ import java.util.Properties;
 public class ConfigReader {
 
     private static final Logger LOG = LogManager.getLogger(ConfigReader.class);
-    private static final String DRIVER_PROPERTY_FILE_PATH = "/Users/james/Downloads/Industry-Cucumber-Framework/src/test/resources/driver.properties";
+    private static final String DRIVER_PROPERTY_FILE_PATH = "src/test/resources/driver.properties";
     private static Properties properties;
     public static boolean isReady;
     private static FileInputStream file;
@@ -122,7 +122,7 @@ public class ConfigReader {
     }
 
     public WebDriverRunLocation getWebDriverRunLocation() {
-        String webDriverRunLocationProp = getProperty("driver.location");
+        String webDriverRunLocationProp = getProperty("webDriver.run.location");
         if (webDriverRunLocationProp == null)
             throw new RuntimeException("driver.location has not been assigned a value in driver.properties");
         else if (webDriverRunLocationProp.trim().equalsIgnoreCase("remote"))
@@ -202,4 +202,12 @@ public class ConfigReader {
             throw new RuntimeException("driver.resolution has not be assigned a value in driver.properties");
         return driverResolution;
     }
+
+    public String getGroup() {
+        String group = getProperty("group");
+        if (group == null)
+            throw new RuntimeException("group has not be assigned a value in driver.properties");
+        return group;
+    }
 }
+

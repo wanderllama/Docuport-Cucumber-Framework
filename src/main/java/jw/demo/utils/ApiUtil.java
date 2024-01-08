@@ -129,7 +129,7 @@ public class ApiUtil {
      * Get Token with valid credentials
      *
      * @param userName
-     * @return token used access application
+     * @return token-used to access application
      */
     // TODO implement methods
     public static String getTokens(String userName) {
@@ -149,9 +149,9 @@ public class ApiUtil {
         }
         if (Boolean.TRUE.equals(needNewToken)) {
             try {
-                Awaitility.await().atMost(Wait.EXTRA_LONG.waitTime()).with()
-                        .pollInterval(Wait.forThisAmount.ofMillis(2000))
-                        .pollDelay(Wait.forThisAmount.waitTime()).untilTrue(tryLoginAndSetToken(userName));
+                Awaitility.await().atMost(Wait.THIRTY.secondsDuration()).with()
+                        .pollInterval(Wait.FOR.millisDuration(2000))
+                        .pollDelay(Wait.FOR.secondsDuration()).untilTrue(tryLoginAndSetToken(userName));
             } catch (ConditionTimeoutException e) {
                 LOG.debug(e);
                 loginAndSetToken(userName);

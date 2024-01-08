@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.bonigarcia.wdm.config.DriverManagerType;
 import jw.demo.enums.WebDriverBrowser;
 import jw.demo.enums.WebDriverRunLocation;
+import jw.demo.utils.TestContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,15 +52,14 @@ public final class DriverManager {
     public static void init() {
         final var RESOLUTION_DIMENSIONS = 2;
         LOG.info("Initializing Driver Manager");
-        webDriverBrowser = FileReaderManager.getInstance().getConfigReader().getWebDriverBrowser();
-        LOG.info("Using driver.browser as: {}", webDriverBrowser);
-        webDriverRunLocation = FileReaderManager.getInstance().getConfigReader().getWebDriverRunLocation();
+        webDriverBrowser = TestContext.getWebDriverBrowser();
+        webDriverRunLocation = TestContext.getWebDriverRunLocation();
         LOG.info("Using driver.location as: {}", webDriverRunLocation);
         String driverResolution = FileReaderManager.getInstance().getConfigReader().getDriverResolution();
         if (StringUtils.isNotBlank(driverResolution)) {
             String[] resolutions = driverResolution.split("x");
             if (resolutions.length == RESOLUTION_DIMENSIONS) {
-                LOG.info("Usering driver.resolution as: {}", driverResolution);
+                LOG.info("Using driver.resolution as: {}", driverResolution);
                 resolutionX = Integer.parseInt(resolutions[0]);
                 resolutionY = Integer.parseInt(resolutions[1]);
             } else {
@@ -125,6 +125,8 @@ public final class DriverManager {
             shutdownDriver();
         }
         defaultDownload.set(setUpDownloadLocation());
+        webDriverRunLocation = TestContext.getWebDriverRunLocation();
+        webDriverBrowser = TestContext.getWebDriverBrowser();
         if (webDriverRunLocation != WebDriverRunLocation.REMOTE &&
                 webDriverRunLocation != WebDriverRunLocation.LOCAL) {
             LOG.error("{} is not a supported run location", webDriverRunLocation);
@@ -132,7 +134,7 @@ public final class DriverManager {
             webDriver.set(
                     switch (webDriverRunLocation) {
                         case REMOTE -> createRemoteDriver();
-                        case LOCAL -> createLocalDriver();
+                        case LOCAL  -> createLocalDriver();
                     }
             );
         }
@@ -174,9 +176,9 @@ public final class DriverManager {
         HashMap<String, Object> prefs = new HashMap<>();
         var logPreferences = new LoggingPreferences();
         var proxy = new Proxy();
-        prefs.put("plugins.always_open_pdf_externally", Boolean.TRUE);
-        prefs.put("download.default_directory", defaultDownload.get().getPath());
-        prefs.put("download.prompt_for_download", Boolean.FALSE);
+//        prefs.put("plugins.always_open_pdf_externally", Boolean.TRUE);
+//        prefs.put("download.default_directory", defaultDownload.get().getPath());
+//        prefs.put("download.prompt_for_download", Boolean.FALSE);
 
         if (StringUtils.isNotBlank(driverProxyUrl)) {
             proxy.setHttpProxy(driverProxyUrl);
@@ -189,17 +191,19 @@ public final class DriverManager {
         logPreferences.enable(LogType.BROWSER, Level.ALL);
         options.setExperimentalOption("prefs", prefs);
         options.setCapability(EdgeOptions.LOGGING_PREFS, logPreferences);
+//        options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, Boolean.TRUE);
         options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-        options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, Boolean.TRUE);
-        options.addArguments("ignoreProtectedModeSettings");
-        options.addArguments("ignoreZoomSetting");
-        options.addArguments("takesScreenshot");
-        options.addArguments("ensureCleanSession");
+//        options.addArguments("ignoreProtectedModeSettings");
+//        options.addArguments("ignoreZoomSetting");
+//        options.addArguments("takesScreenshot");
+//        options.addArguments("ensureCleanSession");
         if (Boolean.TRUE.equals(headless)) {
             // using "--headless=new" causes artifacts and high CPU usage
             options.addArguments("headless");
         }
-        options.setCapability("ms:inPrivate", Boolean.TRUE);
+        options.addArguments("--guest");
+//        options.addArguments("disable-dev-shm-usage");
+//        options.setCapability("ms:inPrivate", Boolean.TRUE);
         return options;
     }
 
@@ -344,8 +348,10 @@ public final class DriverManager {
         options.setAcceptInsecureCerts(Boolean.TRUE);
         options.setUnhandledPromptBehaviour(UnexpectedAlertBehaviour.ACCEPT);
         options.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+        System.setProperty("webdriver.chrome.whitelistedIps", "");
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("start-maximized");
+        options.addArguments("incognito");
         // TODO change if unsigned certs are not used to access application
         options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, Boolean.TRUE);
         options.addArguments("incognito");

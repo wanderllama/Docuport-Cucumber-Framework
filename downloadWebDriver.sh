@@ -27,8 +27,7 @@ exitTO() {
 }
 
 timeOut() {
-  if [[ $to == 0 ]]; then to=$( bc <<< "scale=1; $timeOut / $poll" ); fi
-  to=$( printf "%.0f\n" "${to}")
+  if [[ $to == 0 ]]; then to=$( printf "%.0f\n" """$( bc <<< "scale=1; $timeOut / $poll" )""" ); fi
 }
 
 getOS() {

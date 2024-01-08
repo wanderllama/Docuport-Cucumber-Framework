@@ -5,7 +5,10 @@ import com.google.gson.JsonObject;
 import io.cucumber.messages.types.Attachment;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import jw.demo.enums.User;
 import lombok.Data;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.asserts.SoftAssert;
 
 import java.util.HashMap;
@@ -15,10 +18,13 @@ import java.util.Map;
 @Data
 public class ScenarioContext {
 
+    private static final Logger LOG = LogManager.getLogger(ScenarioContext.class);
+
     private String scenarioName;
 
     // TODO replace demo data
-    private String userName;
+    private String userEmail;
+    private User user;
     private int orgId;
     private String strOrgId;
     private String orgName;
@@ -61,6 +67,12 @@ public class ScenarioContext {
         Map<String, Attachment> mutableMap = new HashMap<>(attachments);
         mutableMap.put(name, attachment);
         this.attachments = mutableMap;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        this.userEmail = user.email();
+        LOG.info(String.format("setting %s to username", userEmail));
     }
 }
 

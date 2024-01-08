@@ -1,4 +1,4 @@
-package jw.demo.stepDefinition;
+package jw.demo.stepDefinition.docuportStepDefs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
@@ -10,7 +10,7 @@ import jw.demo.enums.Wait;
 import jw.demo.enums.WebDriverRunLocation;
 import jw.demo.managers.DriverManager;
 import jw.demo.managers.FileReaderManager;
-import jw.demo.pages.POM;
+import jw.demo.pages.docuportPages.POM;
 import jw.demo.utils.DocumentUtil;
 import jw.demo.utils.HttpDownloadUtility;
 import jw.demo.utils.TestContext;
@@ -107,7 +107,7 @@ public class BaseStep extends AbstractTestNGSpringContextTests {
     protected static final String EST = "EST";
     protected static final String UTC = "UTC";
     private final ObjectMapper objectMapper = new ObjectMapper();
-    protected POM pom = new POM();
+    protected POM access = new POM();
 
     // Locators
     @FindBy
@@ -213,7 +213,7 @@ public class BaseStep extends AbstractTestNGSpringContextTests {
     }
 
     protected String getCookie(String cookieName) {
-        new WebDriverWait(getDriver(), Wait.REGULAR.waitTime())
+        new WebDriverWait(getDriver(), Wait.TEN.secondsDuration())
                 .until(new ExpectedCondition<Cookie>() {
                     public Cookie apply(WebDriver driver) {
                         return driver.manage().getCookieNamed(cookieName);
@@ -528,7 +528,7 @@ public class BaseStep extends AbstractTestNGSpringContextTests {
             scrollIntoViewByText(fileName);
             if (!attachmentTableRowText.contains(currentDateEastern)) {
                 Assert.assertTrue(attachmentTableRowText.contains(currentDateUtc),
-                        "Attachment table doesn't contain or contains different dates that the expected: Eastern: ["
+                        "Attachment table doesn'jw.demo.MyApplication.t contain or contains different dates that the expected: Eastern: ["
                                 + currentDateEastern + "] || " + DateTimeZone.UTC + ": [" + currentDateUtc + "]\nCurrent Row Data: "
                                 + attachmentTableRowText);
             }

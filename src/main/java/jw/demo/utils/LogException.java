@@ -50,13 +50,13 @@ public class LogException {
     public static String errorMessage(Exception e, Wait given, By element) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
-        return prettyError(format("\nError: Thrown after %s seconds\nLocator Used: %s", given.amountOfSeconds(), element), lines);
+        return prettyError(format("\nError: Thrown after %s seconds\nLocator Used: %s", given.seconds(), element), lines);
     }
 
     public static String errorMessage(String customMsg, Exception e, Wait given, By element) {
         e.printStackTrace();
         ArrayList<String> lines = new ArrayList<>();
-        return prettyError("\nError: " + customMsg + format("\nthrown after %s seconds\nLocator Used: %s", given.amountOfSeconds(), element), lines);
+        return prettyError("\nError: " + customMsg + format("\nthrown after %s seconds\nLocator Used: %s", given.seconds(), element), lines);
     }
 
     // not the best but working

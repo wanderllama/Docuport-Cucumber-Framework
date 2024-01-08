@@ -1,4 +1,4 @@
-package jw.demo.stepDefinition;
+package jw.demo.stepDefinition.testStepDefs;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;

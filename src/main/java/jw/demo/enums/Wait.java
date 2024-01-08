@@ -4,12 +4,12 @@ import java.time.Duration;
 
 public enum Wait {
 
-    EXTRA_SHORT(2500),
-    SHORT(5000),
-    REGULAR(10000),
-    LONG(15000),
-    EXTRA_LONG(30000),
-    forThisAmount(0);
+    TWO(2000),
+    FIVE(5000),
+    TEN(10000),
+    FIFTEEN(15000),
+    THIRTY(30000),
+    FOR(0);
 
     private final Integer millis;
 
@@ -17,19 +17,19 @@ public enum Wait {
         millis = milliseconds;
     }
 
-    public Duration waitTime() {
+    public Duration secondsDuration() {
         return Duration.ofMillis(millis);
     }
 
-    public int amountOfSeconds() {
+    public int seconds() {
         return millis == 0 ? 0 : (millis / 1000);
     }
 
-    public Duration ofMillis(int millis) {
+    public Duration millisDuration(int millis) {
         return Duration.ofMillis(millis);
     }
 
-    public Duration ofSeconds(int seconds) {
+    public Duration secondsDuration(int seconds) {
         return Duration.ofSeconds(seconds);
     }
 

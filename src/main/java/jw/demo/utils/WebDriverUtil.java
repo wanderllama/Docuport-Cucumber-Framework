@@ -26,7 +26,7 @@ public class WebDriverUtil {
 
     public static void selectByValue(WebDriver driver, String name, String option, int duration) {
         LOG.info("select by value: name='{}', option='{}'", name, option);
-        WebElement selector = new WebDriverWait(driver, Wait.forThisAmount.ofMillis(duration))
+        WebElement selector = new WebDriverWait(driver, Wait.FOR.millisDuration(duration))
                 .until(ExpectedConditions.visibilityOfElementLocated(By.name(name)));
         Select select = new Select(selector);
         select.selectByValue(option);
@@ -38,7 +38,7 @@ public class WebDriverUtil {
             char dunsChar = valueStr.charAt(i);
             charStr = new StringBuilder().append(dunsChar).toString();
             valueElement.sendKeys(charStr);
-            WebDriverWait wait = new WebDriverWait(driver, Wait.REGULAR.waitTime());
+            WebDriverWait wait = new WebDriverWait(driver, Wait.TEN.secondsDuration());
             wait.until(ExpectedConditions.elementToBeClickable(By.linkText(linkToCheck)));
         }
     }
@@ -75,7 +75,7 @@ public class WebDriverUtil {
      * @element element         element to select
      */
     public static void replaceKeys(WebDriver driver, By element, String keysToSend, int timeout) {
-        WebDriverWait wait = new WebDriverWait(driver, Wait.forThisAmount.ofSeconds(timeout));
+        WebDriverWait wait = new WebDriverWait(driver, Wait.FOR.secondsDuration(timeout));
         wait.until(ExpectedConditions.visibilityOfElementLocated(element));
         List<WebElement> cells = driver.findElements(element);
         for (WebElement textBox : cells) {

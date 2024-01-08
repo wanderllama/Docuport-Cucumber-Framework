@@ -38,7 +38,7 @@ build/
 .DS_Store
 /.idea/
 /LATEST_STABLE
-/t.sh
+/jw.demo.MyApplication.t.sh
 /src/test/resources/webDriver/mac/msedgedriver
 /src/test/resources/webDriver/
 /tt.sh

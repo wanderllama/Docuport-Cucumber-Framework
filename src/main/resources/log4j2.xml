@@ -18,7 +18,7 @@
         <Async name="async">
             <AppenderRef ref="appLog"/>
             <!--        </Async>-->
-            <!--        don't know if I need to async tags here or just one with both appenderRef inside????-->
+            <!--        don'jw.demo.MyApplication.t know if I need to async tags here or just one with both appenderRef inside????-->
             <!--        <Async name="async">-->
             <AppenderRef ref="uiConsoleLog"/>
         </Async>

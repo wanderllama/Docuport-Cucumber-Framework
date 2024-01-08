@@ -18,5 +18,5 @@ run from CLI using:
 
 * bash -c "source mvnFlags.sh; start -h" (requires assigning value to variables line 2-8)
   * will show you flag options and arguments to trigger a maven execution
-  * ex:  bash -c "source mvnFlags.sh; start -t 2 -r 1 -env dev -m test -tag @jw"
+  * ex:  bash -c "source mvnFlags.sh; start -jw.demo.MyApplication.t 2 -r 1 -env dev -m test -tag @jw"
     * will trigger parrallel execution with 2 threads, will retry failed test once, testing will occur in dev env, the scenarios with @jw tag will run using mvn test

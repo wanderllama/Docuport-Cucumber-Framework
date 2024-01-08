@@ -5,6 +5,7 @@ public class Constants {
     // Dynamic Data Redux Scripts
     public static final String VERSION_ID = "versionId";
     public static final String DYNAMIC_COMPONENT = "return window.store.getState().dynamicComponent";
+    public static final String LOG_OUT = "return window.axios.post(\"/authentication/account/logout\");";
     public static final String CURRENT_TASK_VERSION_ID = DYNAMIC_COMPONENT + ".data.versionId";
     public static final String RFI_VERSION_ID = DYNAMIC_COMPONENT + ".context.rfi.versionId";
     public static final String RFI_0_VERSION_ID = DYNAMIC_COMPONENT + ".context.rfis.0.versionId";
@@ -21,7 +22,6 @@ public class Constants {
     public static final String TIMESTAMP = "timestamp";
     public static final String UTC = "UTC";
     public static final String DATE_FORMAT = "dd-MM-yyyy";
-
     // CONSTANT
     public static final String DATA = "data";
     public static final String COMPLETE = "complete";
