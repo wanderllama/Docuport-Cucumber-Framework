@@ -4,7 +4,6 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import jw.demo.config.ConfigReader;
 import jw.demo.managers.DriverManager;
 import jw.demo.managers.ExtentManager;
-import jw.demo.utils.TestContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.AfterSuite;
@@ -20,7 +19,7 @@ public class BaseCucumberRunner extends AbstractTestNGCucumberTests {
         ConfigReader ready = new ConfigReader();
         DriverManager.init();
         ExtentManager.init();
-        TestContext.initGlobal();
+//        TestContext.initGlobal();
     }
 
     @AfterSuite(alwaysRun = true)

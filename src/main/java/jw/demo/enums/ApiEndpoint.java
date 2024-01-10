@@ -14,7 +14,7 @@ import java.io.IOException;
  * Save payloads in 'src/test/resources/data/payloads'
  *
  * @ApiMethod http methods located in ApiMethod enum.
- * @String endpoint     String with out preceding '/'.
+ * @String endpoint     String without preceding '/'.
  * @String payloadPath  path to payload used by endpoint
  */
 

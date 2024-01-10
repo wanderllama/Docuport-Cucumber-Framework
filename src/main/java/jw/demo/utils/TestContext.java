@@ -33,8 +33,6 @@ public final class TestContext {
     @Getter
     private static boolean globalSetupComplete;
     @Getter
-    private static int[] scenarioOutcome;
-    @Getter
     private static String baseUrl;
     @Getter
     private static String envPasswd;
@@ -104,7 +102,6 @@ public final class TestContext {
         }
         LOG.debug("Test data scenario count [{}]", globalData.size());
         globalData.add(ApiUtil.TOKENS, new JsonObject());
-        scenarioOutcome = new int[3];
         globalSetupComplete = true;
     }
 
@@ -273,5 +270,8 @@ public final class TestContext {
      */
     public static boolean globalSetupComplete() {
         return globalSetupComplete;
+    }
+
+    public static void setScenarioName() {
     }
 }

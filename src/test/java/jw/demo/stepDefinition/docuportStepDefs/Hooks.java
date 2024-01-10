@@ -33,6 +33,8 @@ public class Hooks extends BaseStep {
 
     @After(order = 1)
     public static void afterScenario(Scenario scenario) {
+
+        TestContext.setScenarioName();
         DriverManager.shutdownDriver();
     }
 }

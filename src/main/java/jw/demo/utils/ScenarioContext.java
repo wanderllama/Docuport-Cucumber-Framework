@@ -6,7 +6,8 @@ import io.cucumber.messages.types.Attachment;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import jw.demo.enums.User;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.asserts.SoftAssert;
@@ -15,12 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
 public class ScenarioContext {
 
     private static final Logger LOG = LogManager.getLogger(ScenarioContext.class);
 
     private String scenarioName;
+//    private int[] scenarioOutcome;
 
     // TODO replace demo data
     private String userEmail;

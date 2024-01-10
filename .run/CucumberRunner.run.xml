@@ -1,0 +1,32 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="CucumberRunner" type="TestNG" nameIsGenerated="true">
+        <module name="Industry-Cucumber-Framework"/>
+        <shortenClasspath name="NONE"/>
+        <useClassPathOnly/>
+        <extension name="coverage">
+            <pattern>
+                <option name="PATTERN" value="jw.demo.Runner.*"/>
+                <option name="ENABLED" value="true"/>
+            </pattern>
+        </extension>
+        <option name="SUITE_NAME" value=""/>
+        <option name="PACKAGE_NAME" value="jw.demo.Runner"/>
+        <option name="MAIN_CLASS_NAME" value="jw.demo.Runner.CucumberRunner"/>
+        <option name="GROUP_NAME" value=""/>
+        <option name="TEST_OBJECT" value="CLASS"/>
+        <option name="PARAMETERS" value=""/>
+        <option name="OUTPUT_DIRECTORY" value=""/>
+        <option name="TEST_SEARCH_SCOPE">
+            <value defaultName="moduleWithDependencies"/>
+        </option>
+        <option name="PROPERTIES_FILE" value=""/>
+        <properties/>
+        <listeners>
+            <listener class="jw.demo.Listeners.TestListener"/>
+            <!--      <listener class="jw.demo.Listeners.RetryListener" />-->
+        </listeners>
+        <method v="2">
+            <option name="Make" enabled="true"/>
+        </method>
+    </configuration>
+</component>

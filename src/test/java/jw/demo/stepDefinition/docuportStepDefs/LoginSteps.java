@@ -3,7 +3,6 @@ package jw.demo.stepDefinition.docuportStepDefs;
 import io.cucumber.core.exception.CucumberException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import jw.demo.enums.User;
 import jw.demo.utils.TestContext;
@@ -16,7 +15,7 @@ public class LoginSteps extends BaseStep {
 
     private static final Logger log = LogManager.getLogger(LoginSteps.class);
 
-    @When("^user (.*) enters (.*) in text field$")
+    @When("^user (.*) enters (email|password) in text field$")
     public void userUserEntersInTextField(User user, String dataType) {
         TestContext.getScenarioCtx().setUser(user);
         switch (dataType) {
@@ -26,18 +25,12 @@ public class LoginSteps extends BaseStep {
         }
     }
 
-    @And("^user clicks (.*) button$")
+    @And("user clicks {string} button")
     public void userClicksLoginButton(String btn) {
         access.loginPage().userClicksBtn(btn);
     }
 
-    @Then("user type (.*) should see correct home page")
-    public void userTypeUserShouldSeeCorrectHomePage(User user) {
-        TestContext.getScenarioCtx().setUser(user);
-        access.loginPage().userOnCorrectHomePage();
-    }
-
-    @Given("^the (.*) is on Docuport (.*) page$")
+    @Given("^the (.*) is on Docuport (login|home) page$")
     public void theUserIsOnDocuportLoginPage(User user, String page) {
         System.out.println(Arrays.asList(getDriver().getClass().getFields()));
 //        Thread.sleep(50000);
