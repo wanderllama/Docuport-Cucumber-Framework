@@ -23,7 +23,7 @@
         <browser>chrome</browser>
         <driver.path>src/test/resources/webDriver/mac/msedgedriver</driver.path>
     </properties>
-
+    <!---->
     <dependencies>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -169,8 +169,8 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefire.v}</version>
                     <configuration>
-                                                <parallel>methods</parallel>
-                                                <threadCount>4</threadCount>
+                        <parallel>methods</parallel>
+                        <threadCount>4</threadCount>
                         <testFailureIgnore>false</testFailureIgnore>
                         <properties>
                             <property>
@@ -217,54 +217,42 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>download-WebDriver</id>
-                        <phase>initialize</phase>
-<!--                         <configuration>
-                            <target>
-                                <exec executable="bash">
-                                    <arg value="-c"/>
-                                    <arg value="source downloadDriver.sh; downloadWebDriver ${browser} ${driver.path}"
-                                    />
-                                </exec>
-                            </target>
-                        </configuration> -->
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-antrun-plugin -->
-                    <dependency>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>3.1.0</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
+            <!-- NOTES -->
+            <!-- was using the ant plugin to execute bash scripts at maven lifecycle initiation.
+                 can define point in the lifecycle to initiate scripts by creating an execution,
+                 adding lifecycle stage to phase tag and defining the script in configuration tag
+                  and update the phase
+                  -->
             <!--            <plugin>-->
-            <!--                <groupId>org.codehaus.mojo</groupId>-->
-            <!--                <artifactId>exec-maven-plugin</artifactId>-->
-            <!--                <version>3.1.1</version>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-antrun-plugin</artifactId>-->
+            <!--                <version>3.1.0</version>-->
             <!--                <executions>-->
             <!--                    <execution>-->
-            <!--                        <id>my-exec</id>-->
-            <!--                        <phase>pre-integration-test</phase>-->
+            <!--                        <id>download-WebDriver</id>-->
+            <!--                        <phase>initialize</phase>-->
+            <!--                        <configuration>-->
+            <!--                            <target>-->
+            <!--                                <exec executable="bash">-->
+            <!--                                    <arg value="-c"/>-->
+            <!--                                    <arg value="source downloadDriver.sh; downloadWebDriver ${browser} ${driver.path}"-->
+            <!--                                    />-->
+            <!--                                </exec>-->
+            <!--                            </target>-->
+            <!--                        </configuration>-->
             <!--                        <goals>-->
-            <!--                            <goal>exec</goal>-->
+            <!--                            <goal>run</goal>-->
             <!--                        </goals>-->
             <!--                    </execution>-->
             <!--                </executions>-->
-            <!--                <configuration>-->
-            <!--                    <executable>bash</executable>-->
-            <!--                    <commandlineArgs>${project.build.directory}/downloadWebDriver.sh</commandlineArgs>-->
-            <!--                </configuration>-->
+            <!--                <dependencies>-->
+            <!--                    &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-antrun-plugin &ndash;&gt;-->
+            <!--                    <dependency>-->
+            <!--                        <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                        <artifactId>maven-antrun-plugin</artifactId>-->
+            <!--                        <version>3.1.0</version>-->
+            <!--                    </dependency>-->
+            <!--                </dependencies>-->
             <!--            </plugin>-->
         </plugins>
     </build>
