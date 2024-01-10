@@ -23,10 +23,10 @@ run from CLI using:
 
 Template branch is a stripped down version without steps/pages/features there are redundent implimentations such as glabalJsonObject for scenario data and CucumberContextConfiguration for passing data directly from scenario to steps.  
 
-###There are a couple bash scripts###   
-####downloadWebDriver.sh#### 
-will download the latest LTS WebDriver for chrome, edge, and firefox. It will use the OS of the system that runs the script to determine correct WebDriver.  
+### bash scripts ###   
+#### downloadWebDriver.sh #### 
+will download the latest LTS WebDriver for chrome, edge, and firefox. It will use the OS of the system that runs the script to determine correct WebDriver. probably more complicated than it needs to be though. 
   
-####mvnFlags.sh#### 
+#### mvnFlags.sh #### 
 is a script to help with running mvn project from CLI and allows you pass custom flags and arguments. Can define multiple environments if you need to run the test cases agains different URLs. 
 is 
