@@ -36,7 +36,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@SuppressWarnings({"Convert2Lambda", "CallToPrintStackTrace"})
+@SuppressWarnings({"Convert2Lambda", "CallToPrintStackTrace", "JavadocReference"})
 public class BasePage {
 
     private final static Logger LOG = LogManager.getLogger(BasePage.class);
@@ -172,10 +172,10 @@ public class BasePage {
      * </p>
      *
      * @param by              locator used to find the WebElement
-     * @param timeOutInSecs   time limit to wait before throwing an Exception
+     * @param timeOut   time limit to wait before throwing an Exception
      */
-    public void expectElementToBeVisible(By by, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs))
+    public void expectElementToBeVisible(By by, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut))
                 .until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
@@ -188,10 +188,10 @@ public class BasePage {
      * </p>
      *
      * @param by              locator used to find the WebElement
-     * @param timeOutInSecs   time limit to wait before throwing an Exception
+     * @param timeOut   time limit to wait before throwing an Exception
      */
-    public void expectElementToBeInvisible(By by, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs))
+    public void expectElementToBeInvisible(By by, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut))
                 .until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
 
@@ -204,10 +204,10 @@ public class BasePage {
      * </p>
      *
      * @param by              locator used to find the WebElement
-     * @param timeOutInSecs   time limit to wait before throwing an Exception
+     * @param timeOut   time limit to wait before throwing an Exception
      */
-    public void expectElementToBeClickable(By by, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs))
+    public void expectElementToBeClickable(By by, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut))
                 .until(ExpectedConditions.elementToBeClickable(by));
     }
 
@@ -266,10 +266,10 @@ public class BasePage {
      * </p>
      *
      * @param element       element the WebElement
-     * @param timeOutInSecs time limit to wait before throwing an Exception
+     * @param timeOut time limit to wait before throwing an Exception
      */
-    public void expectElementToBeVisible(WebElement element, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs))
+    public void expectElementToBeVisible(WebElement element, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut))
                 .until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -282,10 +282,10 @@ public class BasePage {
      * </p>
      *
      * @param element       element the WebElement
-     * @param timeOutInSecs time limit to wait before throwing an Exception
+     * @param timeOut time limit to wait before throwing an Exception
      */
-    public void expectElementToBeInvisible(WebElement element, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs))
+    public void expectElementToBeInvisible(WebElement element, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut))
                 .until(ExpectedConditions.invisibilityOf(element));
     }
 
@@ -297,10 +297,10 @@ public class BasePage {
      * is passed.
      * </p>
      * @param element       - element the WebElement
-     * @param timeOutInSecs - time limit to wait before throwing an Exception
+     * @param timeOut - time limit to wait before throwing an Exception
      */
-    public void expectElementToBeClickable(WebElement element, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs))
+    public void expectElementToBeClickable(WebElement element, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut))
                 .until(ExpectedConditions.elementToBeClickable(element));
     }
 
@@ -324,16 +324,16 @@ public class BasePage {
      * @param element        the {@link WebElement} to check
      * @param attribute      the name of the attribute to check
      * @param attributeValue the expected attribute value
-     * @param timeOutInSecs  the maximum time to wait for the attribute to contain the attribute value, in seconds
+     * @param timeOut  the maximum time to wait for the attribute to contain the attribute value, in seconds
      */
     public void expectElementToContainAttribute(WebElement element, String attribute, String attributeValue,
-                                                int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs), Duration.ofMillis(POLL_WAIT_MS))
+                                                int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(POLL_WAIT_MS))
                 .until(new ExpectedCondition<Boolean>() {
                     @Override
                     public Boolean apply(WebDriver driver) {
                         try {
-                            expectElementToBeVisible(element, timeOutInSecs);
+                            expectElementToBeVisible(element, timeOut);
                             return element.getAttribute(attribute).contains(attributeValue);
                         } catch (StaleElementReferenceException e) {
                             return Boolean.FALSE;
@@ -377,10 +377,10 @@ public class BasePage {
      * Scrolls the web page to bring the element matching the given locator into view.
      *
      * @param by            the locator to find the element to scroll into view
-     * @param timeOutInSecs the maximum time in seconds to wait for the element to be visible before scrolling
+     * @param timeOut the maximum time in seconds to wait for the element to be visible before scrolling
      */
-    public void scrollIntoView(By by, int timeOutInSecs) {
-        expectElementToBeVisible(by, timeOutInSecs);
+    public void scrollIntoView(By by, int timeOut) {
+        expectElementToBeVisible(by, timeOut);
         getJSExecutor().executeScript(Constants.SCROLL_INTO_VIEW, getDriver().findElement(by));
     }
 
@@ -400,10 +400,10 @@ public class BasePage {
      * Scrolls the web page until an element containing the specified text is in view.
      *
      * @param element The {@link WebElement} to scroll into view.
-     * @param timeOutInSecs The timeout in seconds for waiting for the element to be visible.
+     * @param timeOut The timeout in seconds for waiting for the element to be visible.
      */
-    public void scrollIntoView(WebElement element, int timeOutInSecs) {
-        expectElementToBeVisible(element, timeOutInSecs);
+    public void scrollIntoView(WebElement element, int timeOut) {
+        expectElementToBeVisible(element, timeOut);
         getJSExecutor().executeScript(
                 "arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'nearest'});", element);
     }
@@ -421,13 +421,13 @@ public class BasePage {
      * Scrolls the web page until an element containing the specified text is in view.
      *
      * @param text          the text to be searched for in the web page
-     * @param timeOutInSecs the maximum time in seconds to wait for the element to become visible
+     * @param timeOut the maximum time in seconds to wait for the element to become visible
      */
-    public void scrollIntoViewByText(String text, int timeOutInSecs) {
+    public void scrollIntoViewByText(String text, int timeOut) {
         List<WebElement> multipleGenericTextLocators = getElements(By.xpath("//*[contains(text(),'" + text + "')]"));
         multipleGenericTextLocators.forEach(currentWebElement -> {
             if (checkIfVisible(currentWebElement)) {
-                scrollIntoView(currentWebElement, timeOutInSecs);
+                scrollIntoView(currentWebElement, timeOut);
             }
         });
     }
@@ -453,12 +453,12 @@ public class BasePage {
      * has a height and width that is greater than 0.
      *
      * @param by              locator used to find the WebElement
-     * @param timeOutInSecs - time limit to wait before throwing an Exception
+     * @param timeOut - time limit to wait before throwing an Exception
      * @return The result is returned or false is returned if the time-out passes
      */
-    public boolean checkIfVisible(By by, int timeOutInSecs) {
+    public boolean checkIfVisible(By by, int timeOut) {
         try {
-            expectElementToBeVisible(by, timeOutInSecs);
+            expectElementToBeVisible(by, timeOut);
             return Boolean.TRUE;
         } catch (Exception ex) {
             return Boolean.FALSE;
@@ -486,12 +486,12 @@ public class BasePage {
      * has a height and width that is greater than 0.
      *
      * @param element         element the WebElement
-     * @param timeOutInSecs   time limit to wait before throwing an Exception
+     * @param timeOut   time limit to wait before throwing an Exception
      * @return The result is returned or false is returned if the time-out passes
      */
-    public boolean checkIfVisible(WebElement element, int timeOutInSecs) {
+    public boolean checkIfVisible(WebElement element, int timeOut) {
         try {
-            expectElementToBeVisible(element, timeOutInSecs);
+            expectElementToBeVisible(element, timeOut);
             return Boolean.TRUE;
         } catch (Exception ex) {
             return Boolean.FALSE;
@@ -517,12 +517,12 @@ public class BasePage {
      * present on the DOM.
      *
      * @param by              locator used to find the WebElement
-     * @param timeOutInSecs   time limit to wait before throwing an Exception
+     * @param timeOut   time limit to wait before throwing an Exception
      * @return The result is returned or false is returned if the time-out passes
      */
-    public boolean checkIfInvisible(By by, int timeOutInSecs) {
+    public boolean checkIfInvisible(By by, int timeOut) {
         try {
-            expectElementToBeInvisible(by, timeOutInSecs);
+            expectElementToBeInvisible(by, timeOut);
             return Boolean.TRUE;
         } catch (Exception ex) {
             return Boolean.FALSE;
@@ -548,12 +548,12 @@ public class BasePage {
      * present on the DOM.
      *
      * @param element         element the WebElement
-     * @param timeOutInSecs   time limit to wait before throwing an Exception
+     * @param timeOut   time limit to wait before throwing an Exception
      * @return The result is returned or false is returned if the time-out passes
      */
-    public boolean checkIfInvisible(WebElement element, int timeOutInSecs) {
+    public boolean checkIfInvisible(WebElement element, int timeOut) {
         try {
-            expectElementToBeInvisible(element, timeOutInSecs);
+            expectElementToBeInvisible(element, timeOut);
             return Boolean.TRUE;
         } catch (Exception ex) {
             return Boolean.FALSE;
@@ -586,12 +586,12 @@ public class BasePage {
      * goes further and checks for getDriver().findElement(by).isDisplayed()
      *
      * @param by              element the WebElement
-     * @param timeOutInSecs   time limit to wait before throwing an Exception
+     * @param timeOut   time limit to wait before throwing an Exception
      * @return The result is returned or false is returned if the time-out passes
      */
-    public boolean checkIfDisplayed(By by, int timeOutInSecs) {
+    public boolean checkIfDisplayed(By by, int timeOut) {
         try {
-            expectElementToBeVisible(by, timeOutInSecs);
+            expectElementToBeVisible(by, timeOut);
             return getDriver().findElement(by).isDisplayed();
         } catch (Exception ex) {
             return Boolean.FALSE;
@@ -602,7 +602,7 @@ public class BasePage {
      * Enhanced isEnabled check
      *
      * @param by              element the WebElement
-     * @param timeOutInSecs   time limit to wait before throwing an Exception
+     * @param timeOut   time limit to wait before throwing an Exception
      */
     public boolean checkIfEnabled(By by, int timeOut) {
         try {
@@ -643,11 +643,11 @@ public class BasePage {
      * Returns a WebElement using By locator
      *
      * @param by            The locator used to find the WebElement.
-     * @param timeOutInSecs The maximum time to wait for the WebElement to be visible, in seconds.
+     * @param timeOut The maximum time to wait for the WebElement to be visible, in seconds.
      * @return The WebElement found using the specified locator.
      */
-    public WebElement getElement(By by, int timeOutInSecs) {
-        expectElementToBeVisible(by, timeOutInSecs);
+    public WebElement getElement(By by, int timeOut) {
+        expectElementToBeVisible(by, timeOut);
         LOG.info("Getting Element {}", by);
         return getDriver().findElement(by);
     }
@@ -669,11 +669,11 @@ public class BasePage {
      * Retrieves a list of web elements based on the provided locator.
      *
      * @param by the locator to find the WebElements
-     * @param timeOutInSecs the maximum time in seconds to wait for the WebElements to be present
+     * @param timeOut the maximum time in seconds to wait for the WebElements to be present
      * @return a list of web elements matching the locator
      */
-    public List<WebElement> getElements(By by, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs))
+    public List<WebElement> getElements(By by, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut))
                 .until(ExpectedConditions.presenceOfElementLocated(by));
         LOG.info("Getting Elements {}", by);
         return getDriver().findElements(by);
@@ -695,10 +695,10 @@ public class BasePage {
      * Clear a WebElement identified by the given {@link By} locator, after ensuring it is visible.
      *
      * @param by The {@link By} locator used to identify the WebElement.
-     * @param timeOutInSecs The timeout in seconds to wait for the WebElement to be visible.
+     * @param timeOut The timeout in seconds to wait for the WebElement to be visible.
      */
-    public void clear(By by, int timeOutInSecs) {
-        expectElementToBeVisible(by, timeOutInSecs);
+    public void clear(By by, int timeOut) {
+        expectElementToBeVisible(by, timeOut);
         LOG.info("Clearing Element {}", by);
         getDriver().findElement(by).clear();
     }
@@ -722,10 +722,10 @@ public class BasePage {
      *
      * @param by The locator representing the web element.
      * @param input The input string to be sent.
-     * @param timeOutInSecs The maximum time to wait for the WebElement to become available for interaction
+     * @param timeOut The maximum time to wait for the WebElement to become available for interaction
      */
-    public void sendKeys(By by, String input, int timeOutInSecs) {
-        scrollIntoView(by, timeOutInSecs);
+    public void sendKeys(By by, String input, int timeOut) {
+        scrollIntoView(by, timeOut);
         LOG.info("Sending Keys to Element {} with values {}", by, input);
         getDriver().findElement(by).sendKeys(input);
     }
@@ -754,11 +754,11 @@ public class BasePage {
      * 
      * @param by            the locator of the WebElement
      * @param input         the string to send to the WebElement
-     * @param timeOutInSecs the maximum amount of time to wait for the WebElement to become available for interaction
+     * @param timeOut the maximum amount of time to wait for the WebElement to become available for interaction
      */
-    public void sendKeysBlur(By by, String input, int timeOutInSecs) {
+    public void sendKeysBlur(By by, String input, int timeOut) {
         try {
-            new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs), Duration.ofMillis(POLL_WAIT_MS))
+            new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(POLL_WAIT_MS))
                     .until(new ExpectedCondition<Boolean>() {
                         @Override
                         public Boolean apply(WebDriver driver) {
@@ -785,7 +785,7 @@ public class BasePage {
                     });
         } catch (TimeoutException e) {
             refreshOnErrorMessage();
-            sendKeysBlur(getDriver().findElement(by), input, timeOutInSecs);
+            sendKeysBlur(getDriver().findElement(by), input, timeOut);
         }
     }
 
@@ -808,10 +808,10 @@ public class BasePage {
      * </p>
      * @param element The WebElement to send the input to.
      * @param input The input to be sent.
-     * @param timeOutInSecs The maximum time in seconds to wait for the WebElement to be available for interaction
+     * @param timeOut The maximum time in seconds to wait for the WebElement to be available for interaction
      */
-    public void sendKeysBlur(WebElement element, String input, int timeOutInSecs) {
-        scrollIntoView(element, timeOutInSecs);
+    public void sendKeysBlur(WebElement element, String input, int timeOut) {
+        scrollIntoView(element, timeOut);
         element.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         element.sendKeys(input);
         getJSExecutor().executeScript(Constants.BLUR_ACTIVE_ELEMENT);
@@ -834,10 +834,10 @@ public class BasePage {
      *
      * @param by              the locator strategy to find the WebElement
      * @param input           the input value to send
-     * @param timeOutInSecs   the maximum time in seconds to wait for the WebElement to be present and visible
+     * @param timeOut   the maximum time in seconds to wait for the WebElement to be present and visible
      */
-    public void sendKeysEnter(By by, String input, int timeOutInSecs) {
-        sendKeysEnter(getDriver().findElement(by), input, timeOutInSecs);
+    public void sendKeysEnter(By by, String input, int timeOut) {
+        sendKeysEnter(getDriver().findElement(by), input, timeOut);
     }
 
     /**
@@ -858,10 +858,10 @@ public class BasePage {
      * 
      * @param element The WebElement to type into.
      * @param input The input text to be sent.
-     * @param timeOutInSecs The maximum time to wait for the WebElement to be visible before sending the keys.
+     * @param timeOut The maximum time to wait for the WebElement to be visible before sending the keys.
      */
-    public void sendKeysEnter(WebElement element, String input, int timeOutInSecs) {
-        scrollIntoView(element, timeOutInSecs);
+    public void sendKeysEnter(WebElement element, String input, int timeOut) {
+        scrollIntoView(element, timeOut);
         element.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         element.sendKeys(input);
         element.sendKeys(Keys.ENTER);
@@ -908,10 +908,10 @@ public class BasePage {
      *
      * @param by            the locator strategy to identify the drop-down element
      * @param text          the visible text of the option to select
-     * @param timeOutInSecs the maximum time to wait in seconds for the drop-down WebElement to be available
+     * @param timeOut the maximum time to wait in seconds for the drop-down WebElement to be available
      */
-    public void selectByText(By by, String text, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs), Duration.ofMillis(POLL_WAIT_MS))
+    public void selectByText(By by, String text, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(POLL_WAIT_MS))
                 .until(new ExpectedCondition<Boolean>() {
                     @Override
                     public Boolean apply(WebDriver driver) {
@@ -956,10 +956,10 @@ public class BasePage {
      *
      * @param by The locator strategy to identify the dropdown menu.
      * @param index The index of the option to be selected.
-     * @param timeoutInSecs The maximum time to wait for the WebElement to be visible
+     * @param timeOut The maximum time to wait for the WebElement to be visible
      **/
-    public void selectByIndex(By by, Integer index, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs), Duration.ofMillis(POLL_WAIT_MS))
+    public void selectByIndex(By by, Integer index, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(POLL_WAIT_MS))
                 .until(new ExpectedCondition<Boolean>() {
                     @Override
                     public Boolean apply(WebDriver driver) {
@@ -1004,8 +1004,8 @@ public class BasePage {
      * 
      * @param by The locator strategy to identify the dropdown.
      * @param value The value of the*/
-    public void selectByValue(By by, String value, int timeOutInSecs) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs), Duration.ofMillis(POLL_WAIT_MS))
+    public void selectByValue(By by, String value, int timeOut) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(POLL_WAIT_MS))
                 .until(new ExpectedCondition<Boolean>() {
                     @Override
                     public Boolean apply(WebDriver driver) {
@@ -1066,18 +1066,18 @@ public class BasePage {
      * Retrieves the text of a WebElement identified by the given locator.
      *
      * @param locator The locator used to identify the WebElement.
-     * @param timeoutInSecs The maximum time to wait for the WebElement to be visible
-     */                      
-                           
-    public String getText(By locator, int timeoutInSecs) {
+     * @param timeOut The maximum time to wait for the WebElement to be visible
+     */
+
+    public String getText(By locator, int timeOut) {
         try {
-            scrollIntoView(locator, timeoutInSecs);
+            scrollIntoView(locator, timeOut);
             LOG.info("Getting text for element {}", locator);
             return getDriver().findElement(locator).getText();
         } catch (UnhandledAlertException e) {
             getDriver().navigate().refresh();
             expectLoaderIconToDisappear();
-            scrollIntoView(locator, timeoutInSecs);
+            scrollIntoView(locator, timeOut);
             LOG.info("Getting text for element {}", locator);
             return getDriver().findElement(locator).getText();
         }
@@ -1088,11 +1088,11 @@ public class BasePage {
      *
      * @param locator  the locator strategy to identify the WebElement
      * @param index  the position of the WebElement in the list of matching elements
-     * @param timeoutInSecs  the maximum time to wait for the WebElement to be visible (in seconds)
+     * @param timeOut  the maximum time to wait for the WebElement to be visible (in seconds)
      * @return the text of the WebElement at the given index
      */
-    public String getText(By locator, int index, int timeoutInSecs) {
-        scrollIntoView(locator, timeoutInSecs);
+    public String getText(By locator, int index, int timeOut) {
+        scrollIntoView(locator, timeOut);
         return getDriver().findElements(locator).get(index).getText();
     }
 
@@ -1126,12 +1126,12 @@ public class BasePage {
      * Waits for a given time limit, uses Fluent
      * </p>
      * @param by              the locator strategy to find the WebElements
-     * @param timeOutInSecs   the maximum time to wait for the WebElements to be populated, in seconds
-     * @param pollAwaitSecs   the interval between each check for the WebElements, in seconds
+     * @param timeOut   the maximum time to wait for the WebElements to be populated, in seconds
+     * @param pollAwaitSeconds   the interval between each check for the WebElements, in seconds
      * @param size            the expected size of the WebElements list
      */
-    public void expectElementsToBePopulated(By by, int timeOutInSecs, int pollAwaitSeconds, int size) {
-        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)).until(new ExpectedCondition<Boolean>() {
+    public void expectElementsToBePopulated(By by, int timeOut, int pollAwaitSeconds, int size) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut)).until(new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 return driver.findElements(by).size() > size;
@@ -1370,10 +1370,10 @@ public class BasePage {
      * Refreshes the page if the given WebElement is not visible within the specified timeout period.
      *
      * @param locator The locator to check for visibility.
-     * @param timeOutInSecs The timeout period in seconds.
+     * @param timeOut The timeout period in seconds.
      */
-    public void refreshIfLocatorNotVisible(By locator, int timeOutInSecs) {
-        if (!checkIfVisible(locator, timeOutInSecs)) {
+    public void refreshIfLocatorNotVisible(By locator, int timeOut) {
+        if (!checkIfVisible(locator, timeOut)) {
             getDriver().navigate().refresh();
         }
     }
@@ -1437,12 +1437,12 @@ public class BasePage {
      * Designed to return true if a WebElement is clickable
      *
      * @param by locator used to find the WebElement
-     * @param timeOutInSecs time limit to wait before throwing an Exception
+     * @param timeOut time limit to wait before throwing an Exception
      * @return boolean The result is returned or false is returned if the time-out passes
      */
-    public boolean checkIfClickable(By by, int timeOutInSecs) {
+    public boolean checkIfClickable(By by, int timeOut) {
         try {
-            (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
+            (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut)))
                     .until(ExpectedConditions.elementToBeClickable(by));
             return Boolean.TRUE;
         } catch (Exception ex) {
@@ -1456,13 +1456,13 @@ public class BasePage {
      *
      * @param by locator used to find the WebElement
      * @param index index of the WebElement to be clicked (useful when
-     * @param timeOutInSecs time limit to wait before throwing an Exception
+     * @param timeOut time limit to wait before throwing an Exception
      * @return The result is returned or false is returned if the time-out passes
      */
-    public boolean checkIfClickable(By by, int index, int timeOutInSecs) {
+    public boolean checkIfClickable(By by, int index, int timeOut) {
         LOG.info("Checking if Element {} is clickable", by);
         try {
-            (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
+            (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut)))
                     .until(ExpectedConditions.elementToBeClickable(getDriver().findElements(by).get(index)));
             return Boolean.TRUE;
         } catch (Exception ex) {
@@ -1509,11 +1509,11 @@ public class BasePage {
      *
      * @param locator       The WebElement to check for text.
      * @param text          The text to search for within the web element.
-     * @param timeOutInSecs The timeout period in seconds for WebElement visibility.
+     * @param timeOut The timeout period in seconds for WebElement visibility.
      * @return {@code true} if the web element's text contains the specified text; otherwise, {@code false}.
      */
-    public boolean getTextContainsToVerify(WebElement locator, String text, int timeOutInSecs) {
-        (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
+    public boolean getTextContainsToVerify(WebElement locator, String text, int timeOut) {
+        (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut)))
                 .until(ExpectedConditions.visibilityOfAllElements(locator));
         return locator.getText().contains(text);
     }
@@ -1534,11 +1534,11 @@ public class BasePage {
      *
      * @param locator the locator used to find the WebElement
      * @param text the text to search for within the WebElement's text
-     * @param timeOutInSecs the maximum time to wait for the WebElement to become visible
+     * @param timeOut the maximum time to wait for the WebElement to become visible
      * @return true if the WebElement's text contains the specified text, false otherwise
      */
-    public boolean getTextContainsToVerify(By locator, String text, int timeOutInSecs) {
-        (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
+    public boolean getTextContainsToVerify(By locator, String text, int timeOut) {
+        (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut)))
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
         return getDriver().findElement(locator).getText().contains(text);
     }
@@ -1566,11 +1566,11 @@ public class BasePage {
      *
      * @param locator          the locator of the text elements to verify
      * @param text             the text to search for
-     * @param timeOutInSecs    the maximum time in seconds to wait for the text elements to be visible
+     * @param timeOut    the maximum time in seconds to wait for the text elements to be visible
      * @return true if at least one of the text elements contains the specified text, otherwise false
      */
-    public boolean getAllTextContainsToVerify(By locator, String text, int timeOutInSecs) {
-        (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
+    public boolean getAllTextContainsToVerify(By locator, String text, int timeOut) {
+        (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut)))
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
         List<String> allText = getDriver().findElements(locator).stream().map(WebElement::getText)
                 .collect(Collectors.toList());
@@ -1590,11 +1590,11 @@ public class BasePage {
      * @param locator the locator used to identify the WebElement
      * @param index the index of the WebElement to check
      * @param text the text to search for
-     * @param timeOutInSecs the maximum time to wait for the WebElement to be visible
+     * @param timeOut the maximum time to wait for the WebElement to be visible
      * @return true if the text at the specified index of the WebElement contains the specified text, false otherwise
      */
-    public boolean getTextContainsToVerify(By locator, int index, String text, int timeOutInSecs) {
-        (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs)))
+    public boolean getTextContainsToVerify(By locator, int index, String text, int timeOut) {
+        (new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut)))
                 .until(ExpectedConditions.visibilityOfElementLocated(locator));
         return getDriver().findElements(locator).get(index).getText().contains(text);
     }
@@ -1901,12 +1901,12 @@ public class BasePage {
      * Waits for the version ID update to be completed.
      *
      * @param origVersionId   The original version ID.
-     * @param timeOutInSecs   The time-out duration in seconds.
+     * @param timeOut   The time-out duration in seconds.
      * @return                {@code true} if the version ID update is completed within the specified time-out duration,
      *                        {@code false} otherwise.
      */
-    public Boolean waitForVersionIdUpdate(String origVersionId, int timeOutInSecs) {
-        return waitForVersionIdUpdate(origVersionId, timeOutInSecs, Constants.CURRENT_TASK_VERSION_ID);
+    public Boolean waitForVersionIdUpdate(String origVersionId, int timeOut) {
+        return waitForVersionIdUpdate(origVersionId, timeOut, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
@@ -1919,14 +1919,14 @@ public class BasePage {
      * </p>
      *
      * @param origVersionId   The original version ID before waiting for an update.
-     * @param timeOutInSecs   The maximum time to wait in seconds for the version ID to be updated.
+     * @param timeOut   The maximum time to wait in seconds for the version ID to be updated.
      * @param script          The script to be executed for retrieving the current version ID.
      * @return True if the version ID was successfully updated within the specified time limit, false otherwise.
      */
-    public Boolean waitForVersionIdUpdate(String origVersionId, int timeOutInSecs, String script) {
+    public Boolean waitForVersionIdUpdate(String origVersionId, int timeOut, String script) {
         LOG.info("Waiting for versionId Update [{}]", script);
         try {
-            new WebDriverWait(getDriver(), Duration.ofSeconds(timeOutInSecs), Duration.ofMillis(POLL_WAIT_MS))
+            new WebDriverWait(getDriver(), Duration.ofSeconds(timeOut), Duration.ofMillis(POLL_WAIT_MS))
                     .until(new ExpectedCondition<Boolean>() {
                         @Override
                         public Boolean apply(WebDriver driver) {
@@ -1941,7 +1941,7 @@ public class BasePage {
                     });
             return Boolean.TRUE;
         } catch (Exception e) {
-            LOG.warn("Waited {} seconds for versionId Update, continuing... [{}]", timeOutInSecs, script);
+            LOG.warn("Waited {} seconds for versionId Update, continuing... [{}]", timeOut, script);
             return Boolean.FALSE;
         }
     }
@@ -2014,10 +2014,10 @@ public class BasePage {
      * </p>
      *
      * @param by           the locator strategy (By) used to find the WebElement
-     * @param timeOutInSecs the maximum time to wait for the WebElement to be clickable
+     * @param timeOut the maximum time to wait for the WebElement to be clickable
      */
-    public void ddClick(By by, int timeOutInSecs) {
-        ddClick(by, timeOutInSecs, Constants.CURRENT_TASK_VERSION_ID);
+    public void ddClick(By by, int timeOut) {
+        ddClick(by, timeOut, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
@@ -2037,15 +2037,15 @@ public class BasePage {
      * </p>
      *
      * @param by the locator strategy to find the web element
-     * @param timeOutInSecs the maximum time in seconds to wait for version ID update
+     * @param timeOut the maximum time in seconds to wait for version ID update
      * @param script the script associated with the version ID
      */
-    public void ddClick(By by, int timeOutInSecs, String script) {
+    public void ddClick(By by, int timeOut, String script) {
         String origVersionId = getVersionId(getDriver(), script);
         LOG.info("origVersionId: {} [{}]", origVersionId, script);
         click(by);
         getJSExecutor().executeScript(Constants.BLUR_ACTIVE_ELEMENT);
-        if (!waitForVersionIdUpdate(origVersionId, timeOutInSecs, script))
+        if (!waitForVersionIdUpdate(origVersionId, timeOut, script))
             TestContext.logToScenario(
                     String.format("DynamicData version update check has failed for %s [%s]", by.toString(), script));
     }
@@ -2118,11 +2118,11 @@ public class BasePage {
      * </p>
      *
      * @param elem           the WebElement to click on
-     * @param timeOutInSecs  the timeout in seconds for the click operation
+     * @param timeOut  the timeout in seconds for the click operation
      * @since 1.0
      */
-    public void ddClick(WebElement elem, int timeOutInSecs) {
-        ddClick(elem, timeOutInSecs, Constants.CURRENT_TASK_VERSION_ID);
+    public void ddClick(WebElement elem, int timeOut) {
+        ddClick(elem, timeOut, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
@@ -2142,7 +2142,7 @@ public class BasePage {
      * </p>
      *
      * @param elem           The WebElement on which the double click action should be performed.
-     * @param timeOutInSecs  The timeout in seconds to wait for a version ID update after the double click action.
+     * @param timeOut  The timeout in seconds to wait for a version ID update after the double click action.
      * @param script         The script to execute to obtain the original version ID.
      * @see #getVersionId(WebDriver, String)
      * @see #click(WebElement)
@@ -2151,12 +2151,12 @@ public class BasePage {
      * @see #waitForVersionIdUpdate(String, int, String)
      * @see TestContext#logToScenario(String)
      */
-    public void ddClick(WebElement elem, int timeOutInSecs, String script) {
+    public void ddClick(WebElement elem, int timeOut, String script) {
         String origVersionId = getVersionId(getDriver(), script);
         LOG.info("origVersionId: {} [{}]", origVersionId, script);
         click(elem);
         getJSExecutor().executeScript(Constants.BLUR_ACTIVE_ELEMENT);
-        if (!waitForVersionIdUpdate(origVersionId, timeOutInSecs, script))
+        if (!waitForVersionIdUpdate(origVersionId, timeOut, script))
             TestContext.logToScenario(
                     String.format("DynamicData version update check has failed for %s [%s]", elem.toString(), script));
     }
@@ -2229,10 +2229,10 @@ public class BasePage {
      *
      * @param by The locator strategy to find the WebElement.
      * @param input The keys to be sent to the WebElement.
-     * @param timeOutInSecs The timeout in seconds for waiting.
+     * @param timeOut The timeout in seconds for waiting.
      */
-    public void ddSendKeysBlur(By by, String input, int timeOutInSecs) {
-        ddSendKeysBlur(by, input, timeOutInSecs, Constants.CURRENT_TASK_VERSION_ID);
+    public void ddSendKeysBlur(By by, String input, int timeOut) {
+        ddSendKeysBlur(by, input, timeOut, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
@@ -2252,16 +2252,16 @@ public class BasePage {
      *
      * @param by            The WebElement to send keys to.
      * @param input         The input value to send to the WebElement.
-     * @param timeOutInSecs The timeout in seconds for waiting for version ID update.
+     * @param timeOut The timeout in seconds for waiting for version ID update.
      * @param script        The script to get the original version ID from.
      */
-    public void ddSendKeysBlur(By by, String input, int timeOutInSecs, String script) {
+    public void ddSendKeysBlur(By by, String input, int timeOut, String script) {
         LOG.info("Clearing and ddSending Keys to Element {} with values {} [{}] and then refocusing by sending Blur",
                 by, input, script);
         String origVersionId = getVersionId(getDriver(), script);
         LOG.info("origVersionId: {} [{}]", origVersionId, script);
         sendKeysBlur(by, input);
-        if (!waitForVersionIdUpdate(origVersionId, timeOutInSecs, script))
+        if (!waitForVersionIdUpdate(origVersionId, timeOut, script))
             TestContext.logToScenario(
                     String.format("DynamicData version update check has failed for %s [%s]", by.toString(), script));
     }
@@ -2313,7 +2313,7 @@ public class BasePage {
      * @param input The keys or text to be sent to the WebElement.
      * @param script The JavaScript code to trigger the blur event on the WebElement.
      *
-     * @see ddSendKeysBlur(WebElement element, String input, int timeout, String script)
+     * @see  ddSendKeysBlur(WebElement element, String input, int timeout, String script)
      */
     public void ddSendKeysBlur(WebElement element, String input, String script) {
         ddSendKeysBlur(element, input, TIME_OUT_DD_SECONDS, script);
@@ -2336,10 +2336,10 @@ public class BasePage {
      *
      * @param element       the WebElement to send keys to
      * @param input         the keys to send to the web element
-     * @param timeOutInSecs the maximum time to wait for the blur event to be triggered
+     * @param timeOut the maximum time to wait for the blur event to be triggered
      */
-    public void ddSendKeysBlur(WebElement element, String input, int timeOutInSecs) {
-        ddSendKeysBlur(element, input, timeOutInSecs, Constants.CURRENT_TASK_VERSION_ID);
+    public void ddSendKeysBlur(WebElement element, String input, int timeOut) {
+        ddSendKeysBlur(element, input, timeOut, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
@@ -2359,16 +2359,16 @@ public class BasePage {
      *
      * @param element       The WebElement to send keys to.
      * @param input         The input value to send to the WebElement.
-     * @param timeOutInSecs The timeout in seconds for waiting for version ID update.
+     * @param timeOut The timeout in seconds for waiting for version ID update.
      * @param script        The script to get the original version ID from.
      */
-    public void ddSendKeysBlur(WebElement element, String input, int timeOutInSecs, String script) {
+    public void ddSendKeysBlur(WebElement element, String input, int timeOut, String script) {
         LOG.info("Clearing and ddSending Keys to Element {} with values {} [{}] and then remove focus by sending Blur",
                 element, input, script);
         String origVersionId = getVersionId(getDriver(), script);
         LOG.info("origVersionId: {} [{}]", origVersionId, script);
-        sendKeysBlur(element, input, timeOutInSecs);
-        if (!waitForVersionIdUpdate(origVersionId, timeOutInSecs, script))
+        sendKeysBlur(element, input, timeOut);
+        if (!waitForVersionIdUpdate(origVersionId, timeOut, script))
             TestContext.logToScenario(String.format("DynamicData version update check has failed for %s [%s]",
                     element.toString(), script));
     }
@@ -2497,10 +2497,10 @@ public class BasePage {
      *
      * @param by The locator used to identify the dropdown element.
      * @param text The value of the option to be selected.
-     * @param timeOutInSecs The maximum time to wait for the version ID update.
+     * @param timeOut The maximum time to wait for the version ID update.
      */
-    public void ddSelectByText(By by, String text, int timeOutInSecs) {
-        ddSelectByText(by, text, timeOutInSecs, Constants.CURRENT_TASK_VERSION_ID);
+    public void ddSelectByText(By by, String text, int timeOut) {
+        ddSelectByText(by, text, timeOut, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
@@ -2520,14 +2520,14 @@ public class BasePage {
      *
      * @param by The locator used to identify the dropdown element.
      * @param text The value of the option to be selected.
-     * @param timeOutInSecs The maximum time to wait for the version ID update.
+     * @param timeOut The maximum time to wait for the version ID update.
      * @param script The JavaScript script to execute.
      */
-    public void ddSelectByText(By by, String text, int timeOutInSecs, String script) {
+    public void ddSelectByText(By by, String text, int timeOut, String script) {
         String origVersionId = getVersionId(getDriver(), script);
         selectByText(by, text);
         getJSExecutor().executeScript(Constants.BLUR_ACTIVE_ELEMENT);
-        if (!waitForVersionIdUpdate(origVersionId, timeOutInSecs, script))
+        if (!waitForVersionIdUpdate(origVersionId, timeOut, script))
             TestContext.logToScenario(
                     String.format("DynamicData version update check has failed for %s [%s]", by.toString(), script));
     }
@@ -2600,10 +2600,10 @@ public class BasePage {
      *
      * @param by The locator of the dropdown element.
      * @param text The value of the option to be selected.
-     * @param timeOutInSecs The maximum time to wait for the option to be selectable, in seconds.
+     * @param timeOut The maximum time to wait for the option to be selectable, in seconds.
      */
-    public void ddSelectByValue(By by, String text, int timeOutInSecs) {
-        ddSelectByValue(by, text, timeOutInSecs, Constants.CURRENT_TASK_VERSION_ID);
+    public void ddSelectByValue(By by, String text, int timeOut) {
+        ddSelectByValue(by, text, timeOut, Constants.CURRENT_TASK_VERSION_ID);
     }
 
     /**
@@ -2622,14 +2622,14 @@ public class BasePage {
      * </p>
      * @param by The locator used to identify the dropdown element.
      * @param text The value of the option to be selected.
-     * @param timeOutInSecs The maximum time to wait for the version ID update.
+     * @param timeOut The maximum time to wait for the version ID update.
      * @param script The JavaScript script to execute.
      */
-    public void ddSelectByValue(By by, String text, int timeOutInSecs, String script) {
+    public void ddSelectByValue(By by, String text, int timeOut, String script) {
         String origVersionId = getVersionId(getDriver(), script);
         selectByValue(by, text);
         getJSExecutor().executeScript(Constants.BLUR_ACTIVE_ELEMENT);
-        if (!waitForVersionIdUpdate(origVersionId, timeOutInSecs, script))
+        if (!waitForVersionIdUpdate(origVersionId, timeOut, script))
             TestContext.logToScenario(
                     String.format("DynamicData version update check has failed for %s [%s]", by.toString(), script));
     }
@@ -2987,14 +2987,14 @@ public class BasePage {
      *
      * @param by            the locator of the WebElement to send keys to
      * @param input         the text to be sent to the element
-     * @param timeOutInSecs the maximum time to wait for the WebElement to be visible before sending keys
+     * @param timeOut the maximum time to wait for the WebElement to be visible before sending keys
      * @param delayInterval the delay interval in milliseconds before sending keys
      */
-    public void delaySendKeys(By by, String input, int timeOutInSecs, int delayInterval) {
+    public void delaySendKeys(By by, String input, int timeOut, int delayInterval) {
         awaitDelay(delayInterval);
         LOG.info("Sending Keys to Element {} with values {}", by, input);
         WebElement element = getElement(by);
-        scrollIntoView(element, timeOutInSecs);
+        scrollIntoView(element, timeOut);
         element.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         element.sendKeys(input);
     }
@@ -3024,12 +3024,12 @@ public class BasePage {
      *
      * @param element          The WebElement to send keys to.
      * @param input            The input (keys) to be sent.
-     * @param timeOutInSecs    The maximum time (in seconds) to wait for the WebElement to become available for interaction
+     * @param timeOut    The maximum time (in seconds) to wait for the WebElement to become available for interaction
      * @param delayInterval    The delay interval (in milliseconds) before sending the keys and triggering the blur event.
      */
-    public void delaySendKeysBlur(By by, String input, int timeOutInSecs, int delayInterval) {
+    public void delaySendKeysBlur(By by, String input, int timeOut, int delayInterval) {
         awaitDelay(delayInterval);
-        sendKeysBlur(by, input, timeOutInSecs);
+        sendKeysBlur(by, input, timeOut);
     }
 
     /**
@@ -3057,12 +3057,12 @@ public class BasePage {
      *
      * @param element          The WebElement to send keys to.
      * @param input            The input (keys) to be sent.
-     * @param timeOutInSecs    The maximum time (in seconds) to wait for the WebElement to become available for interaction
+     * @param timeOut    The maximum time (in seconds) to wait for the WebElement to become available for interaction
      * @param delayInterval    The delay interval (in milliseconds) before sending the keys and triggering the blur event.
      */
-    public void delaySendKeysBlur(WebElement element, String input, int timeOutInSecs, int delayInterval) {
+    public void delaySendKeysBlur(WebElement element, String input, int timeOut, int delayInterval) {
         awaitDelay(delayInterval);
-        sendKeysBlur(element, input, timeOutInSecs);
+        sendKeysBlur(element, input, timeOut);
     }
 
     /**
@@ -3256,12 +3256,12 @@ public class BasePage {
      * Returns the specified attribute of a WebElement within a given time-out period.
      *
      * @param by the locator to locate the element
-     * @param timeOutInSecs the maximum time to wait for the WebElement to be visible, in seconds
+     * @param timeOut the maximum time to wait for the WebElement to be visible, in seconds
      * @param attribute the name of the attribute to retrieve
      * @return The value of the specified attribute as a string.
      */
-    public String getAttribute(By by, int timeOutInSecs, String attribute) {
-        expectElementToBeVisible(by, timeOutInSecs);
+    public String getAttribute(By by, int timeOut, String attribute) {
+        expectElementToBeVisible(by, timeOut);
         return getDriver().findElement(by).getAttribute(attribute);
     }
 
@@ -3283,13 +3283,13 @@ public class BasePage {
      * Returns the specified attribute of a WebElement within a given time-out period.
      *
      * @param element The WebElement from which to retrieve the attribute value.
-     * @param timeOutInSecs The maximum number of seconds to wait for the WebElement to be visible.
+     * @param timeOut The maximum number of seconds to wait for the WebElement to be visible.
      * @param attribute The name of the attribute whose value is to be retrieved.
      * @return The value of the specified attribute as a string.
      * @throws TimeoutException If the WebElement is not visible within the specified time-out duration.
      */
-    public String getAttribute(WebElement element, int timeOutInSecs, String attribute) {
-        expectElementToBeVisible(element, timeOutInSecs);
+    public String getAttribute(WebElement element, int timeOut, String attribute) {
+        expectElementToBeVisible(element, timeOut);
         return element.getAttribute(attribute);
     }
 
@@ -3310,12 +3310,12 @@ public class BasePage {
      * Checks if the WebElement has the specified attribute within a given time-out period.
      *
      * @param by The locator strategy to find the element.
-     * @param timeOutInSecs The maximum time in seconds to wait until the WebElement is visible.
+     * @param timeOut The maximum time in seconds to wait until the WebElement is visible.
      * @param attribute The attribute to check for.
      * @return true if the WebElement has the specified attribute, false otherwise.
      */
-    public boolean hasAttribute(By by, int timeOutInSecs, String attribute) {
-        expectElementToBeVisible(by, timeOutInSecs);
+    public boolean hasAttribute(By by, int timeOut, String attribute) {
+        expectElementToBeVisible(by, timeOut);
         return getDriver().findElement(by).getAttribute(attribute) != null;
     }
 
@@ -3337,12 +3337,12 @@ public class BasePage {
      * Checks if the given WebElement has the specified attribute within the given time-out period.
      *
      * @param element The WebElement to check the attribute for.
-     * @param timeOutInSecs The time-out period in seconds within which to wait for the WebElement to be visible.
+     * @param timeOut The time-out period in seconds within which to wait for the WebElement to be visible.
      * @param attribute The attribute to check for.
      * @return true if the WebElement has the specified attribute, false otherwise.
      */
-    public boolean hasAttribute(WebElement element, int timeOutInSecs, String attribute) {
-        expectElementToBeVisible(element, timeOutInSecs);
+    public boolean hasAttribute(WebElement element, int timeOut, String attribute) {
+        expectElementToBeVisible(element, timeOut);
         return element.getAttribute(attribute) != null;
     }
 
@@ -3645,11 +3645,11 @@ public class BasePage {
      * Uses JS executor to execute JS scrollIntoView method
      * </p>
      * @param element             the WebElement to retrieve the text from
-     * @param timeOutInSecs  the maximum amount of time (in seconds) to wait for the WebElement to be scrolled into view
+     * @param timeOut  the maximum amount of time (in seconds) to wait for the WebElement to be scrolled into view
      * @return the text of the web element
      */
-    public String getText(WebElement element, int timeOutInSecs) {
-        scrollIntoView(element, timeOutInSecs);
+    public String getText(WebElement element, int timeOut) {
+        scrollIntoView(element, timeOut);
         return element.getText();
     }
 
