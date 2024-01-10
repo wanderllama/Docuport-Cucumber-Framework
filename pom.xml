@@ -170,7 +170,7 @@
                     <version>${surefire.v}</version>
                     <configuration>
                                                 <parallel>methods</parallel>
-                                                <threadCount>1</threadCount>
+                                                <threadCount>4</threadCount>
                         <testFailureIgnore>false</testFailureIgnore>
                         <properties>
                             <property>
@@ -225,7 +225,7 @@
                     <execution>
                         <id>download-WebDriver</id>
                         <phase>initialize</phase>
-                        <configuration>
+<!--                         <configuration>
                             <target>
                                 <exec executable="bash">
                                     <arg value="-c"/>
@@ -233,7 +233,7 @@
                                     />
                                 </exec>
                             </target>
-                        </configuration>
+                        </configuration> -->
                         <goals>
                             <goal>run</goal>
                         </goals>
