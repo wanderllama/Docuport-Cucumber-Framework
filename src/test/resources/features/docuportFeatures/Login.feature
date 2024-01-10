@@ -7,11 +7,11 @@ Feature: Docuport Login Logout Feature
     Given the <user> is on Docuport login page
     When user <user> enters email in text field
     And user <user> enters password in text field
-    And user clicks login button
-    And user clicks continue button
+    And user clicks "login" button
+    And user clicks "continue" button
     Then the <user> is on Docuport home page
-    When user clicks settings button
-    And user clicks log out button
+    When user clicks "settings" button
+    And user clicks "log out" button
     Then the <user> is on Docuport login page
 
     Examples:

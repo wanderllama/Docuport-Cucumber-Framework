@@ -13,7 +13,7 @@ import org.testng.annotations.DataProvider;
         , "jw.demo.Listeners.CucumberReportListener"
         , "timeline:target/logs"
 }
-        , features = {"src/test/resources/cucumberspringboot/"}
+        , features = {"src/test/resources/features/"}
         , glue = {"jw.demo"}
         , monochrome = false
         , dryRun = false

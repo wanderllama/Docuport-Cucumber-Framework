@@ -2,6 +2,7 @@ package jw.demo.stepDefinition.testStepDefs;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import jw.demo.utils.TestContext;
 
 public class MyStepdefs {
@@ -22,4 +23,16 @@ public class MyStepdefs {
         }
     }
 
+//    @Given("get token test")
+//    public void getTokenTest() {
+//
+//    }
+
+    @Then("token as jsonobject in test context")
+    public void tokenAsJsonobjectInTestContext() {
+    }
+
+    @Given("^the (.*) logs in to docuport$")
+    public void theUserLogsInToDocuport() {
+    }
 }

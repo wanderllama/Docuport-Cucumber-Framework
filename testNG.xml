@@ -1,7 +1,7 @@
 <suite name="All Scenarios">
     <listeners>
         <listener class-name="jw.demo.Listeners.TestListener"/>
-        <listener class-name="jw.demo.Listeners.RetryListener"/>
+        <!--        <listener class-name="jw.demo.Listeners.RetryListener"/>-->
         <!--        <listener class-name="jw.demo.Listeners.CucumberReportListener"/>-->
     </listeners>
     <test name="all">
