@@ -20,3 +20,13 @@ run from CLI using:
   * will show you flag options and arguments to trigger a maven execution
   * ex:  bash -c "source mvnFlags.sh; start -jw.demo.MyApplication.t 2 -r 1 -env dev -m test -tag @jw"
     * will trigger parrallel execution with 2 threads, will retry failed test once, testing will occur in dev env, the scenarios with @jw tag will run using mvn test
+
+Template branch is a stripped down version without steps/pages/features there are redundent implimentations such as glabalJsonObject for scenario data and CucumberContextConfiguration for passing data directly from scenario to steps.  
+
+###There are a couple bash scripts###   
+####downloadWebDriver.sh#### 
+will download the latest LTS WebDriver for chrome, edge, and firefox. It will use the OS of the system that runs the script to determine correct WebDriver.  
+  
+####mvnFlags.sh#### 
+is a script to help with running mvn project from CLI and allows you pass custom flags and arguments. Can define multiple environments if you need to run the test cases agains different URLs. 
+is 
