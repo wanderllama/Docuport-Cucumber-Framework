@@ -1,12 +1,12 @@
 TODO throughout the project that would need to be updated for a specific application  
 
 ### run from CLI using: ###
+* _downloadWebDriver.sh script will run before build and download WebdDiver if ant plugin is uncommented out_
 
 #### * mvn test #### 
   * change pom.xml property to pick WebDriver (edge, chrome, firefox)
   * change driver.path property in pom.xml to define your own WebDriver and script will not download
   * will run based of testNG.xml (all scenarios)
-  * _this will cause the downloadDriver.sh script to run before build and download WebdDiver if ant plugin is uncommented out_
 
 #### * mvn -Ddataproviderthreadcount=<thread count<l>> -DmaxRetryCount=<retry count<l>> -Dcucumber.filter.tags="(@<tagname<l>> #### 
   or @<another tag name<l>>) and not @wip and not @defect and not @closed" clean verify
