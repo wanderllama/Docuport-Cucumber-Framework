@@ -1,6 +1,6 @@
 package jw.demo.pages.docuportPages;
 
-import io.cucumber.core.exception.CucumberException;
+import jw.demo.constants.Constants;
 import jw.demo.enums.Wait;
 import jw.demo.utils.TestContext;
 import lombok.Getter;
@@ -39,38 +39,6 @@ public class HomePage extends BasePage {
         sendKeysBlur(userNameField, TestContext.getScenarioCtx().getUserEmail());
     }
 
-    public void userClicksBtn(String btn) {
-        expectLoaderIconToDisappear();
-        switch (btn) {
-            case "login"    -> loggingIn(logInBtn);
-            case "continue" -> clickContinueAfterLogin();
-            case "settings" -> click(userSettings);
-            case "log out", "profile" -> clickUserSettingsOption(btn);
-            default -> throw new CucumberException(btn + " is an invalid button type");
-        }
-        log.info(String.format("successfully clicked the %s button", btn));
-    }
-
-    private void clickContinueAfterLogin() {
-        if (checkIfDisplayed(continueBtn, Wait.TEN.seconds())) {
-            click(continueBtn, Wait.TEN.seconds());
-        }
-    }
-
-    private void loggingIn(By logInBtn) {
-        simpleClick(logInBtn);
-        int i = doElementsExist(loginErrorMessage) ? 6 : 0;
-        while (i-- > 0) {
-            userEntersEmail();
-            userEntersPassword();
-            i = doElementsExist(loginErrorMessage) ? i - 1 : 0;
-            simpleClick(logInBtn);
-        }
-        if (i == 0) {
-            Assert.fail("timeout");
-        }
-    }
-
     public void userOnCorrectHomePage() {
         String[] batchGroupNum = TestContext.getGroup()
                 .replaceAll("[a-z A-Z]", "").split("");
@@ -80,5 +48,42 @@ public class HomePage extends BasePage {
 
         Assert.assertEquals(actualUser, expectedUser,
                 String.format("\nactual user: %s\nexpected user: %s\n", actualUser, expectedUser));
+    }
+
+    public void clickLogInBtn() {
+        click(logInBtn, Wait.FIFTEEN.seconds());
+        if (doElementsExist(loginErrorMessage)) {
+            access.homePage().userEntersEmail();
+            access.homePage().userEntersPassword();
+            simpleClick(logInBtn);
+        }
+    }
+
+    public void clickUserSettingsOption(String option) {
+        click(userSettings);
+        switch (option) {
+            case "profile"  -> click(profileBtn);
+            case "log out"  -> logOut();
+            case "settings" -> click(userSettings);
+//            case "accounts" -> click();
+//            case "change password" -> click();
+            default        -> throw new RuntimeException(option + " is not a valid option in user settings dropdown");
+        }
+    }
+
+    public void userClicksBtn(String btn) {
+
+    }
+
+    private void logOut() {
+        getJSExecutor().executeScript(Constants.LOG_OUT);
+        log.info("user has logged out");
+    }
+
+    public void clickContinueAfterLogin() {
+        click(continueBtn, Wait.FIFTEEN.seconds());
+        if (checkIfDisplayed(continueBtn)) {
+            
+        }
     }
 }

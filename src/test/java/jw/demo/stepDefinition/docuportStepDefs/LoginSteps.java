@@ -19,28 +19,36 @@ public class LoginSteps extends BaseStep {
     public void userUserEntersInTextField(User user, String dataType) {
         TestContext.getScenarioCtx().setUser(user);
         switch (dataType) {
-            case "email" -> access.loginPage().userEntersEmail();
-            case "password" -> access.loginPage().userEntersPassword();
-            default -> throw new CucumberException(dataType + " is an invalid dataType");
+            case "email"    -> access.homePage().userEntersEmail();
+            case "password" -> access.homePage().userEntersPassword();
+            default         -> throw new CucumberException(dataType + " is an invalid dataType");
         }
-    }
-
-    @And("user clicks {string} button")
-    public void userClicksLoginButton(String btn) {
-        access.loginPage().userClicksBtn(btn);
     }
 
     @Given("^the (.*) is on Docuport (login|home) page$")
     public void theUserIsOnDocuportLoginPage(User user, String page) {
         System.out.println(Arrays.asList(getDriver().getClass().getFields()));
-//        Thread.sleep(50000);
         TestContext.getScenarioCtx().setUser(user);
         switch (page) {
-            case "login" -> access.loginPage().userIsOnLoginPage();
-            case "home"  -> access.loginPage().userOnCorrectHomePage();
+            case "login" -> access.homePage().userIsOnLoginPage();
+            case "home"  -> access.homePage().userOnCorrectHomePage();
             default      -> throw new CucumberException(page + " is not a valid option");
         }
         log.info(String.format("%s is on the %s page", user.get(), page));
     }
+
+    @And("user clicks {string} button")
+    public void userClicksButton(String btn) {
+        access.homePage().expectLoaderIconToDisappear();
+        switch (btn) {
+            case "login"    -> access.homePage().clickLogInBtn();
+            case "continue" -> access.homePage().clickContinueAfterLogin();
+            case "log out", "profile", "settings" -> access.homePage().clickUserSettingsOption(btn);
+            default -> throw new CucumberException(btn + " is an invalid button type");
+        }
+        log.info(String.format("successfully clicked the %s button", btn));
+//        access.homePage().userClicksBtn(btn);
+    }
+
 
 }

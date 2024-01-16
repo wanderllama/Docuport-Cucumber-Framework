@@ -12,7 +12,7 @@ public class POM {
         return basePage;
     }
 
-    public HomePage loginPage() {
+    public HomePage homePage() {
         if (loginPage == null) {
             loginPage = new HomePage();
         }

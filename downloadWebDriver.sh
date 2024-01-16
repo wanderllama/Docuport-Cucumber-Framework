@@ -99,7 +99,7 @@ downloadSetup() {
 
 downloadWebDriver() {
   if [[ $WEBDRIVER == chromedriver ]]; then
-    UNZPPDFILE="${WEBDRIVER}-${OSD}/${WEBDRIVER}${FILE_EXTENSION}"
+  UNZPPDFILE="${WEBDRIVER}-${OSD}/${WEBDRIVER}${FILE_EXTENSION}"
   else UNZPPDFILE=${WEBDRIVER}${FILE_EXTENSION}; fi
   FILE="driver.${DOWNLOAD_EXTENSION}"
   echo "$URL"

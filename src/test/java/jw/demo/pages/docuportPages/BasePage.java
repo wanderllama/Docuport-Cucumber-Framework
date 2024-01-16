@@ -5,7 +5,9 @@ import com.deque.html.axecore.results.Rule;
 import com.deque.html.axecore.selenium.AxeBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import io.cucumber.core.exception.CucumberException;
 import jw.demo.constants.Constants;
+import jw.demo.enums.Wait;
 import jw.demo.managers.DriverManager;
 import jw.demo.managers.FileReaderManager;
 import jw.demo.utils.LogException;
@@ -41,7 +43,7 @@ import java.util.stream.Collectors;
 public class BasePage {
 
     private final static Logger LOG = LogManager.getLogger(BasePage.class);
-    protected POM pom = new POM();
+    protected POM access = new POM();
 
     protected static final String BASE_URL = FileReaderManager.getInstance().getConfigReader().getBaseUrl();
     protected static final String ENV_PASS = FileReaderManager.getInstance().getConfigReader().getEnvPasswd();
@@ -3701,21 +3703,9 @@ public class BasePage {
         return texts;
     }
 
-    public void clickUserSettingsOption(String option) {
-        click(userSettings);
-        switch (option) {
-            case "profile" -> click(profileBtn);
-            case "log out" -> logOut();
-//            case "accounts" -> click();
-//            case "change password" -> click();
-            default        -> throw new RuntimeException(option + " is not a valid option in user settings dropdown");
-        }
-    }
 
-    private void logOut() {
-        getJSExecutor().executeScript(Constants.LOG_OUT);
-        LOG.info("user has logged out");
-    }
+
+
 
     public void simpleClick(By by) {
         getDriver().findElement(by).click();
