@@ -16,7 +16,7 @@ public class LoginSteps extends BaseStep {
     private static final Logger log = LogManager.getLogger(LoginSteps.class);
 
     @When("^user (.*) enters (email|password) in text field$")
-    public void userUserEntersInTextField(User user, String dataType) {
+    public void userEntersIntoTextField(User user, String dataType) {
         TestContext.getScenarioCtx().setUser(user);
         switch (dataType) {
             case "email"    -> access.homePage().userEntersEmail();

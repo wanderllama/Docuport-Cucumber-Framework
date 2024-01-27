@@ -8,7 +8,7 @@ Feature: Docuport Login Logout Feature
     When user <user> enters email in text field
     And user <user> enters password in text field
     And user clicks "login" button
-    And user clicks "continue" button
+#    And user clicks "continue" button
     Then the <user> is on Docuport home page
     When user clicks "settings" button
     And user clicks "log out" button

@@ -23,17 +23,15 @@ public class Hooks extends BaseStep {
 
     @Before(order = 2)
     public static void beforeScenario(Scenario scenario) {
-        boolean creatingDriver = true;
-        while (creatingDriver) {
+        if (DriverManager.getDriver() == null) {
             DriverManager.createDriver();
-            creatingDriver = (DriverManager.getDriver() == null);
         }
+        DriverManager.getDriver().manage().window().maximize();
         TestContext.initScenario(scenario);
     }
 
     @After(order = 1)
     public static void afterScenario(Scenario scenario) {
-
         TestContext.setScenarioName();
         DriverManager.shutdownDriver();
     }
