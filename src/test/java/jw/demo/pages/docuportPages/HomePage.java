@@ -21,7 +21,7 @@ public class HomePage extends BasePage {
     //        "//label[text()='Password']/..//following-sibling::input");
     private final By passwordField = By.tagName("input");
     private final By login = By.xpath("//form//parent::div/h1");
-    private final By loginErrorMessage = By.xpath("//i[text()='Username or password is incorrect']");
+    private final By loginErrorMessage = By.xpath("//span[text()='Username or password is incorrect']");
 
     public void userIsOnLoginPage() {
         getDriver().get(TestContext.getBaseUrl());
@@ -51,7 +51,7 @@ public class HomePage extends BasePage {
     }
 
     public void clickLogInBtn() {
-        click(logInBtn, Wait.FIFTEEN.seconds());
+        simpleClick(logInBtn);
         if (doElementsExist(loginErrorMessage)) {
             access.homePage().userEntersEmail();
             access.homePage().userEntersPassword();
@@ -62,17 +62,13 @@ public class HomePage extends BasePage {
     public void clickUserSettingsOption(String option) {
         click(userSettings);
         switch (option) {
-            case "profile"  -> click(profileBtn);
-            case "log out"  -> logOut();
+            case "profile" -> click(profileBtn);
+            case "log out" -> logOut();
             case "settings" -> click(userSettings);
 //            case "accounts" -> click();
 //            case "change password" -> click();
-            default        -> throw new RuntimeException(option + " is not a valid option in user settings dropdown");
+            default -> throw new RuntimeException(option + " is not a valid option in user settings dropdown");
         }
-    }
-
-    public void userClicksBtn(String btn) {
-
     }
 
     private void logOut() {
@@ -83,7 +79,7 @@ public class HomePage extends BasePage {
     public void clickContinueAfterLogin() {
         click(continueBtn, Wait.FIFTEEN.seconds());
         if (checkIfDisplayed(continueBtn)) {
-            
+            simpleClick(continueBtn);
         }
     }
 }
