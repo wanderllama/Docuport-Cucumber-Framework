@@ -23,6 +23,8 @@ public class LoginSteps extends BaseStep {
             case "password" -> access.homePage().userEntersPassword();
             default         -> throw new CucumberException(dataType + " is an invalid dataType");
         }
+        log.info("successfully entered {} as email and {} as password",
+                TestContext.getScenarioCtx().getUserEmail(), TestContext.getUserPassword());
     }
 
     @Given("^the (.*) is on Docuport (login|home) page$")

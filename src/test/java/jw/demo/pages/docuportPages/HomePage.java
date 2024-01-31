@@ -32,11 +32,13 @@ public class HomePage extends BasePage {
         log.info("entering password: " + TestContext.getUserPassword());
         sendKeys(getDriver().findElement(with(userNameField)
                 .below(passwordField)), TestContext.getUserPassword(), Wait.TWO.seconds());
+        log.info("{} entered as the user password", TestContext.getUserPassword());
     }
 
     public void userEntersEmail() {
         log.info("entering username: " + TestContext.getScenarioCtx().getUserEmail());
         sendKeysBlur(userNameField, TestContext.getScenarioCtx().getUserEmail());
+        log.info("{} entered as the login email", TestContext.getScenarioCtx().getUserEmail());
     }
 
     public void userOnCorrectHomePage() {

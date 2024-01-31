@@ -51,8 +51,8 @@ import static org.awaitility.Awaitility.await;
 @ContextConfiguration(classes = MyApplication.class, loader = SpringBootContextLoader.class)
 public class BaseStep extends AbstractTestNGSpringContextTests {
 
-    // jdbc template can be used alongside spring repositories for DB testing
-    // can use @Autowired annotation or use CDI
+//     jdbc template can be used alongside spring repositories for DB testing
+//     can use @Autowired annotation or use CDI
 //    protected JdbcTemplate jdbcTemplate;
 //
 //    public BaseStep(JdbcTemplate jdbcTemplate) {
@@ -151,8 +151,7 @@ public class BaseStep extends AbstractTestNGSpringContextTests {
      * can click it.
      *
      * @param by            - locator used to find the element
-     * @param index         - index of the element to be clicked (useful when
-     *                      locator returns multiple elements)
+     * @param index         - index of the element to be clicked (useful when locator returns multiple elements)
      * @param timeOutInSecs - time limit to wait before throwing an Exception
      * @returns The result is returned or false is returned if the time-out passes
      */
@@ -435,10 +434,23 @@ public class BaseStep extends AbstractTestNGSpringContextTests {
                 .until(ExpectedConditions.elementToBeClickable(element));
     }
 
+    /**
+     * Waits for the specified element to contain the given attribute with the provided attribute value
+     * @param element           WebElement used to define wait based of when it contains specific attribute.
+     * @param attribute         attribute used to define end of wait.
+     * @param attributeValue    value used to define end of wait.
+     */
     public void waitForElementToContainAttribute(WebElement element, String attribute, String attributeValue) {
         waitForElementToContainAttribute(element, attribute, attributeValue, TIME_OUT_SECONDS);
     }
 
+    /**
+     * Waits for the specified element to contain the given attribute with the provided attribute value
+     * @param element           WebElement used to define wait based of when it contains specific attribute.
+     * @param attribute         attribute used to define end of wait.
+     * @param attributeValue    value used to define end of wait.
+     * @param timeOutInSecs     maximum length of time to wait for attribute to be specific value for provided WebElement
+     */
     public void waitForElementToContainAttribute(WebElement element, String attribute, String attributeValue,
                                                  int timeOutInSecs) {
         ExpectedCondition<Boolean> attributeContains = new ExpectedCondition<>() {
@@ -469,14 +481,31 @@ public class BaseStep extends AbstractTestNGSpringContextTests {
         }
     }
 
+    /**
+     * Scrolls the given WebElement into view using JavaScript Executor.
+     *
+     * @param by The locator to be scrolled into view.
+     */
     public void scrollIntoView(By by) {
         scrollIntoView(by, TIME_OUT_SECONDS);
     }
 
+    /**
+     * Scrolls the given WebElement into view using JavaScript Executor.
+     *
+     * @param by The locator to be scrolled into view.
+     * @param duration The maximum time in seconds to wait for the element to be visible before scrolling.
+     */
     public void scrollIntoView(By by, Duration duration) {
         scrollIntoView(by, (int) duration.getSeconds());
     }
 
+    /**
+     * Scrolls the given WebElement into view using JavaScript Executor.
+     *
+     * @param by            The locator to be scrolled into view.
+     * @param timeOutInSecs The maximum time in seconds to wait for the element to be visible before scrolling.
+     */
     public void scrollIntoView(By by, int timeOutInSecs) {
         waitForElementToBeVisible(by, timeOutInSecs);
         getJSExecutor().executeScript(
@@ -484,29 +513,47 @@ public class BaseStep extends AbstractTestNGSpringContextTests {
                 getDriver().findElement(by));
     }
 
+    /**
+     * Scrolls the given WebElement into view using JavaScript Executor.
+     *
+     * @param element The WebElement to be scrolled into view.
+     */
     public void scrollIntoView(WebElement element) {
-        scrollIntoView(element, TIME_OUT_SECONDS);
+        scrollIntoView((By) element, TIME_OUT_SECONDS);
     }
 
-    public void scrollIntoView(WebElement element, int timeOutInSecs) {
-        waitForElementToBeVisible(element, timeOutInSecs);
-        getJSExecutor().executeScript(
-                "arguments[0].scrollIntoView({behavior: 'auto', block: 'center', inline: 'nearest'});", element);
-    }
-
+     /**
+     * Scrolls the given WebElement into view using JavaScript Executor.
+     *
+     * @param text  text used to locate WebElment to scroll into view
+     */
     public void scrollIntoViewByText(String text) {
         scrollIntoViewByText(text, TIME_OUT_SECONDS);
     }
 
+    /**
+     * This code scrolls into view of web element containing the provided text if they are visible.
+     * @param text The text to search for in the web elements.
+     * @param timeOutInSecs The time-out in seconds for the scroll to complete.
+     */
     public void scrollIntoViewByText(String text, int timeOutInSecs) {
         List<WebElement> multipleGenericTextLocators = getElements(By.xpath("//*[contains(text(),'" + text + "')]"));
         multipleGenericTextLocators.forEach(currentWebElement -> {
             if (isVisible(currentWebElement)) {
-                scrollIntoView(currentWebElement, timeOutInSecs);
+                scrollIntoView((By) currentWebElement, timeOutInSecs);
             }
         });
     }
 
+    /**
+     * This code is written in Java and is from the file BaseStep.java.
+     * It contains a method named validateAttachmentDetails that takes a JsonArray and a List of Strings as parameters.
+     * The method iterates over each element in the JsonArray and for each element, it retrieves a JsonObject.
+     * It then iterates over each String in the attachmentTableRowsText list and calls the validateAttachmentDetail method passing the JsonObject and the current attachmentTableRowText.
+     * This method is used to validate attachment details by comparing them with the text in the attachmentTableRowsText list.
+     * @param attachmentList            list of attachments as a JsonArray
+     * @param attachmentTableRowsText   text found in the row of a table included in attachment
+     */
     public void validateAttachmentDetails(JsonArray attachmentList, List<String> attachmentTableRowsText) {
         attachmentList.forEach((JsonElement attachment) -> {
             JsonObject docObj = attachment.getAsJsonObject();
@@ -516,28 +563,45 @@ public class BaseStep extends AbstractTestNGSpringContextTests {
         });
     }
 
+        /**
+        * Validates the attachment details against the provided JsonObject.
+        *
+        * @param docObj                 The JsonObject containing the attachment details.
+        * @param attachmentTableRowText The text of the attachment table row.
+        */
     public void validateAttachmentDetail(JsonObject docObj, String attachmentTableRowText) {
+        // Check if the attachment table row text contains the file name
         if (attachmentTableRowText.contains(docObj.get(DocumentUtil.FILE_NAME).getAsString())) {
             String fileName = docObj.get(DocumentUtil.FILE_NAME).getAsString();
             String currentDateUtc = getCurrentDate(EST);
             String currentDateEastern = getCurrentDate(UTC);
+
+            // Assert that the file name matches
             Assert.assertTrue(attachmentTableRowText.contains(fileName),
                     "File name did not match! actual: " + attachmentTableRowText + " | expected: "
                             + docObj.get(DocumentUtil.FILE_NAME).getAsString() + "\nCurrent Row Data: "
                             + attachmentTableRowText);
+
+            // Scroll into view by the file name
             scrollIntoViewByText(fileName);
+
+            // Check if the attachment table row text contains the current date in Eastern time zone
             if (!attachmentTableRowText.contains(currentDateEastern)) {
                 Assert.assertTrue(attachmentTableRowText.contains(currentDateUtc),
-                        "Attachment table doesn'jw.demo.MyApplication.t contain or contains different dates that the expected: Eastern: ["
+                        "Attachment table doesn't contain or contains different dates than the expected: Eastern: ["
                                 + currentDateEastern + "] || " + DateTimeZone.UTC + ": [" + currentDateUtc + "]\nCurrent Row Data: "
                                 + attachmentTableRowText);
             }
+
+            // Check if the attachment table row text contains the uploaded by information
             if (docObj.has(DocumentUtil.UPLOADED_BY)) {
                 String uploadedBy = docObj.get(DocumentUtil.UPLOADED_BY).getAsString();
                 LOG.info("actual text: {} -- expected text: {}", attachmentTableRowText, uploadedBy);
                 Assert.assertTrue(attachmentTableRowText.contains(uploadedBy),
                         "'Uploaded by' expected to be " + uploadedBy + "\nCurrent Row Data: " + attachmentTableRowText);
             }
+
+            // Check if the attachment table row text contains the file size
             if (docObj.has(DocumentUtil.FILE_SIZE)) {
                 String fileSize = docObj.get(DocumentUtil.FILE_SIZE).getAsString();
                 Assert.assertTrue(attachmentTableRowText.contains(fileSize),
