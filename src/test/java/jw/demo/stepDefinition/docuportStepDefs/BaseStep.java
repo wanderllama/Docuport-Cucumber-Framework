@@ -468,6 +468,14 @@ public class BaseStep extends AbstractTestNGSpringContextTests {
                 .until(attributeContains);
     }
 
+    /**
+     * This method checks if the parent div element is clicked based on the provided subDivLocator.
+     * It retrieves the parent div element using JavaScriptExecutor and waits for it to contain the "checked" class attribute.
+     * If the parent div is clicked successfully, it returns true. Otherwise, it returns false.
+     *
+     * @param subDivLocator the locator of the sub div element
+     * @return true if the parent div is clicked successfully, false otherwise
+     */
     public Boolean parentDivElementIsClicked(By subDivLocator) {
         try {
             WebElement parentDivElement = (WebElement) ((JavascriptExecutor) getDriver())
